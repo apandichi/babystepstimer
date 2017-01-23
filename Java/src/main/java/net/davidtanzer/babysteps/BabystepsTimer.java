@@ -14,8 +14,6 @@
 package net.davidtanzer.babysteps;
 
 import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.text.DecimalFormat;
@@ -72,29 +70,7 @@ public class BabystepsTimer {
 				lastY = y;
 			}
 		});
-        timerPane.addHyperlinkListener(new HyperlinkListener() {
-			@Override
-			public void hyperlinkUpdate(final HyperlinkEvent e) {
-				if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-					if("command://start".equals(e.getDescription())) {
-						timerFrame.setAlwaysOnTop(true);
-						timerPane.setText(htmlCreator.createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, true));
-						timerFrame.repaint();
-						new TimerThread(BabystepsTimer.this).start();
-					} else if("command://stop".equals(e.getDescription())) {
-						timerRunning = false;
-						timerFrame.setAlwaysOnTop(false);
-						timerPane.setText(htmlCreator.createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, false));
-						timerFrame.repaint();
-					} else  if("command://reset".equals(e.getDescription())) {
-						currentCycleStartTime = System.currentTimeMillis();
-						bodyBackgroundColor=BACKGROUND_COLOR_PASSED;
-					} else  if("command://quit".equals(e.getDescription())) {
-						System.exit(0);
-					}
-				}
-			}
-		});
+        timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
 		timerFrame.getContentPane().add(timerPane);
 
 		timerFrame.setVisible(true);
@@ -146,5 +122,9 @@ public class BabystepsTimer {
 
     public void lastRemainingTime(String remainingTime) {
         lastRemainingTime = remainingTime;
+    }
+
+    public void setAlwaysOnTop(boolean onTop) {
+        timerFrame.setAlwaysOnTop(onTop);
     }
 }
