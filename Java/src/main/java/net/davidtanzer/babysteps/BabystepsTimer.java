@@ -99,6 +99,29 @@ public class BabystepsTimer {
         timerFrame.setAlwaysOnTop(onTop);
     }
 
+    public void start() {
+        setAlwaysOnTop(true);
+        setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, true));
+        repaint();
+        new TimerThread(this).start();
+    }
+
+    public void stop() {
+        timerRunning(false);
+        setAlwaysOnTop(false);
+        setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, false));
+        repaint();
+    }
+
+    public void reset() {
+        currentCycleStartTime(System.currentTimeMillis());
+        bodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
+    }
+
+    public void quit() {
+        System.exit(0);
+    }
+
     private class BabystepsMouseMotionListener implements MouseMotionListener {
         private int lastX;
         private int lastY;
