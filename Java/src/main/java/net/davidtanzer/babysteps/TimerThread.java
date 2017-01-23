@@ -30,9 +30,9 @@ final class TimerThread extends Thread {
             String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
             if(!remainingTime.equals(babystepsTimer.lastRemainingTime())) {
                 if(remainingTime.equals("00:10")) {
-                    soundPlayer.playSound("pluck.wav");
+                    soundPlayer.playSoundInNewThread("pluck.wav");
                 } else if(remainingTime.equals("00:00")) {
-                    soundPlayer.playSound("theetone.wav");
+                    soundPlayer.playSoundInNewThread("theetone.wav");
                     babystepsTimer.bodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_FAILED);
                 }
 
