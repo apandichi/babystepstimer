@@ -13,24 +13,19 @@
 
 package net.davidtanzer.babysteps;
 
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.text.DecimalFormat;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.swing.JFrame;
-import javax.swing.JTextPane;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 
 public class BabystepsTimer {
 	private static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
 	private static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
 	private static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
-	private static final long SECONDS_IN_CYCLE = 120;
+	private static final long SECONDS_IN_CYCLE = 20;
 
 	private static JFrame timerFrame;
 	private static JTextPane timerPane;
@@ -124,32 +119,17 @@ public class BabystepsTimer {
 		return timerHtml;
 	}
 
-	public static synchronized void playSound(final String url) {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Clip clip = AudioSystem.getClip();
-					AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-							BabystepsTimer.class.getResourceAsStream("/"+url));
-					clip.open(inputStream);
-					clip.start();
-				} catch (Exception e) {
-					System.err.println(e.getMessage());
-				}
-			}
-		}).start();
-	}
-
 	private static final class TimerThread extends Thread {
+        private SoundPlayer soundPlayer = new SoundPlayerImpl();
+
 		@Override
 		public void run() {
 			timerRunning = true;
 			currentCycleStartTime = System.currentTimeMillis();
-			
+
 			while(timerRunning) {
 				long elapsedTime = System.currentTimeMillis() - currentCycleStartTime;
-				
+
 				if(elapsedTime >= SECONDS_IN_CYCLE*1000+980) {
 					currentCycleStartTime = System.currentTimeMillis();
 					elapsedTime = System.currentTimeMillis() - currentCycleStartTime;
@@ -157,16 +137,16 @@ public class BabystepsTimer {
 				if(elapsedTime >= 5000 && elapsedTime < 6000 && !BACKGROUND_COLOR_NEUTRAL.equals(bodyBackgroundColor)) {
 					bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 				}
-				
+
 				String remainingTime = getRemainingTimeCaption(elapsedTime);
 				if(!remainingTime.equals(lastRemainingTime)) {
 					if(remainingTime.equals("00:10")) {
-						playSound("2166__suburban-grilla__bowl-struck.wav");
+						soundPlayer.playSound("2166__suburban-grilla__bowl-struck.wav");
 					} else if(remainingTime.equals("00:00")) {
-						playSound("32304__acclivity__shipsbell.wav");
+                        soundPlayer.playSound("32304__acclivity__shipsbell.wav");
 						bodyBackgroundColor=BACKGROUND_COLOR_FAILED;
 					}
-					
+
 					timerPane.setText(createTimerHtml(remainingTime, bodyBackgroundColor, true));
 					timerFrame.repaint();
 					lastRemainingTime = remainingTime;
