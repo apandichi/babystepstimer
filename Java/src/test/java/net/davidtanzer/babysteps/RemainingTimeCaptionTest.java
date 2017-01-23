@@ -33,4 +33,32 @@ public class RemainingTimeCaptionTest {
         String caption = remainingTimeCaption.getRemainingTimeCaption(2000L, secondsInCycle);
         Assert.assertEquals(caption, "00:18");
     }
+
+    @Test
+    public void when0MillisecondsElapsedOutOf59SecondsCaptionShouldBe59Seconds() {
+        long secondsInCycle = 59L;
+        String caption = remainingTimeCaption.getRemainingTimeCaption(0L, secondsInCycle);
+        Assert.assertEquals(caption, "00:59");
+    }
+
+    @Test
+    public void when0MillisecondsElapsedOutOf60SecondsCaptionShouldBe1Minute() {
+        long secondsInCycle = 60L;
+        String caption = remainingTimeCaption.getRemainingTimeCaption(0L, secondsInCycle);
+        Assert.assertEquals(caption, "01:00");
+    }
+
+    @Test
+    public void when2000MillisecondsElapsedOutOf55SecondsCaptionShouldBe53Seconds() {
+        long secondsInCycle = 55L;
+        String caption = remainingTimeCaption.getRemainingTimeCaption(2000L, secondsInCycle);
+        Assert.assertEquals(caption, "00:53");
+    }
+
+    @Test
+    public void when2000MillisecondsElapsedOutOf65SecondsCaptionShouldBe1MinuteAnd3Seconds() {
+        long secondsInCycle = 65L;
+        String caption = remainingTimeCaption.getRemainingTimeCaption(2000L, secondsInCycle);
+        Assert.assertEquals(caption, "01:03");
+    }
 }
