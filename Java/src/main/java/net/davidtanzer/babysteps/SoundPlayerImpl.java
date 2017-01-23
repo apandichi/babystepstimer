@@ -11,7 +11,7 @@ public class SoundPlayerImpl implements SoundPlayer {
             try {
                 Clip clip = AudioSystem.getClip();
                 AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                        BabystepsTimer.class.getResourceAsStream("/"+url));
+                        this.getClass().getResourceAsStream("/"+url));
                 clip.open(inputStream);
                 clip.start();
             } catch (Exception e) {
