@@ -35,6 +35,7 @@ public class BabystepsTimer {
 	private String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 	
 	private static DecimalFormat twoDigitsFormat = new DecimalFormat("00");
+    private HtmlCreator htmlCreator = new HtmlCreatorImpl();
 
 	public static void main(final String[] args) throws InterruptedException {
         new BabystepsTimer().init();
@@ -48,7 +49,7 @@ public class BabystepsTimer {
 		timerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		timerPane = new JTextPane();
 		timerPane.setContentType("text/html");
-		timerPane.setText(createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, false));
+		timerPane.setText(htmlCreator.createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, false));
 		timerPane.setEditable(false);
 		timerPane.addMouseMotionListener(new MouseMotionListener() {
 			private int lastX;
@@ -77,13 +78,13 @@ public class BabystepsTimer {
 				if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 					if("command://start".equals(e.getDescription())) {
 						timerFrame.setAlwaysOnTop(true);
-						timerPane.setText(createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, true));
+						timerPane.setText(htmlCreator.createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, true));
 						timerFrame.repaint();
 						new TimerThread(BabystepsTimer.this).start();
 					} else if("command://stop".equals(e.getDescription())) {
 						timerRunning = false;
 						timerFrame.setAlwaysOnTop(false);
-						timerPane.setText(createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, false));
+						timerPane.setText(htmlCreator.createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, false));
 						timerFrame.repaint();
 					} else  if("command://reset".equals(e.getDescription())) {
 						currentCycleStartTime = System.currentTimeMillis();
@@ -105,22 +106,6 @@ public class BabystepsTimer {
 		
 		long remainingMinutes = remainingSeconds/60;
 		return twoDigitsFormat.format(remainingMinutes)+":"+twoDigitsFormat.format(remainingSeconds-remainingMinutes*60);
-	}
-
-	public static String createTimerHtml(final String timerText, final String bodyColor, final boolean running) {
-		String timerHtml = "<html><body style=\"border: 3px solid #555555; background: "+bodyColor+"; margin: 0; padding: 0;\">" +
-				"<h1 style=\"text-align: center; font-size: 30px; color: #333333;\">"+timerText+"</h1>" +
-				"<div style=\"text-align: center\">";
-		if(running) {
-			timerHtml += "<a style=\"color: #555555;\" href=\"command://stop\">Stop</a> " +
-					"<a style=\"color: #555555;\" href=\"command://reset\">Reset</a> ";
-		} else {
-			timerHtml += "<a style=\"color: #555555;\" href=\"command://start\">Start</a> ";
-		}
-		timerHtml += "<a style=\"color: #555555;\" href=\"command://quit\">Quit</a> ";
-		timerHtml += "</div>" +
-				"</body></html>";
-		return timerHtml;
 	}
 
     public void timerRunning(boolean running) {

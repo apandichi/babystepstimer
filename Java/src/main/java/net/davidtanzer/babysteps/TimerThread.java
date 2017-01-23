@@ -3,6 +3,7 @@ package net.davidtanzer.babysteps;
 final class TimerThread extends Thread {
     
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
+    private HtmlCreator htmlCreator = new HtmlCreatorImpl();
     private BabystepsTimer babystepsTimer;
 
     public TimerThread(BabystepsTimer babystepsTimer) {
@@ -34,7 +35,7 @@ final class TimerThread extends Thread {
                     babystepsTimer.bodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_FAILED);
                 }
 
-                babystepsTimer.setText(babystepsTimer.createTimerHtml(remainingTime, babystepsTimer.bodyBackgroundColor(), true));
+                babystepsTimer.setText(htmlCreator.createTimerHtml(remainingTime, babystepsTimer.bodyBackgroundColor(), true));
                 babystepsTimer.repaint();
                 babystepsTimer.lastRemainingTime(remainingTime);
             }
