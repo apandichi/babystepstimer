@@ -27,7 +27,7 @@ final class TimerThread extends Thread {
                 babystepsTimer.bodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_NEUTRAL);
             }
 
-            String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime);
+            String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
             if(!remainingTime.equals(babystepsTimer.lastRemainingTime())) {
                 if(remainingTime.equals("00:10")) {
                     soundPlayer.playSound("2166__suburban-grilla__bowl-struck.wav");

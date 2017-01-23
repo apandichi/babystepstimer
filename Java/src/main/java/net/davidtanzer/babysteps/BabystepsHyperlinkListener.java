@@ -17,13 +17,13 @@ class BabystepsHyperlinkListener implements HyperlinkListener {
         if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
             if("command://start".equals(e.getDescription())) {
                 babystepsTimer.setAlwaysOnTop(true);
-                babystepsTimer.setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, true));
+                babystepsTimer.setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, true));
                 babystepsTimer.repaint();
                 new TimerThread(babystepsTimer).start();
             } else if("command://stop".equals(e.getDescription())) {
                 babystepsTimer.timerRunning(false);
                 babystepsTimer.setAlwaysOnTop(false);
-                babystepsTimer.setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, false));
+                babystepsTimer.setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, false));
                 babystepsTimer.repaint();
             } else  if("command://reset".equals(e.getDescription())) {
                 babystepsTimer.currentCycleStartTime(System.currentTimeMillis());
