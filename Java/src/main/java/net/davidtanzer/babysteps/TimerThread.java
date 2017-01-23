@@ -2,6 +2,7 @@ package net.davidtanzer.babysteps;
 
 final class TimerThread extends Thread {
     
+    private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
     private BabystepsTimer babystepsTimer;
@@ -26,7 +27,7 @@ final class TimerThread extends Thread {
                 babystepsTimer.bodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_NEUTRAL);
             }
 
-            String remainingTime = babystepsTimer.getRemainingTimeCaption(elapsedTime);
+            String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime);
             if(!remainingTime.equals(babystepsTimer.lastRemainingTime())) {
                 if(remainingTime.equals("00:10")) {
                     soundPlayer.playSound("2166__suburban-grilla__bowl-struck.wav");

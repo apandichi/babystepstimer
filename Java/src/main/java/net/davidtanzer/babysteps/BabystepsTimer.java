@@ -16,7 +16,6 @@ package net.davidtanzer.babysteps;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.text.DecimalFormat;
 
 public class BabystepsTimer {
 	public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
@@ -32,7 +31,7 @@ public class BabystepsTimer {
 	private String lastRemainingTime;
 	private String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 	
-	private static DecimalFormat twoDigitsFormat = new DecimalFormat("00");
+	private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
 
 	public static void main(final String[] args) throws InterruptedException {
@@ -47,41 +46,13 @@ public class BabystepsTimer {
 		timerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		timerPane = new JTextPane();
 		timerPane.setContentType("text/html");
-		timerPane.setText(htmlCreator.createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, false));
+		timerPane.setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, false));
 		timerPane.setEditable(false);
-		timerPane.addMouseMotionListener(new MouseMotionListener() {
-			private int lastX;
-			private int lastY;
-
-			@Override
-			public void mouseMoved(final MouseEvent e) {
-				lastX = e.getXOnScreen();
-				lastY = e.getYOnScreen();
-			}
-			
-			@Override
-			public void mouseDragged(final MouseEvent e) {
-				int x = e.getXOnScreen();
-				int y = e.getYOnScreen();
-				
-				timerFrame.setLocation(timerFrame.getLocation().x + (x-lastX), timerFrame.getLocation().y + (y-lastY));
-				
-				lastX = x;
-				lastY = y;
-			}
-		});
+		timerPane.addMouseMotionListener(new BabystepsMouseMotionListener());
         timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
 		timerFrame.getContentPane().add(timerPane);
 
 		timerFrame.setVisible(true);
-	}
-
-	public static String getRemainingTimeCaption(final long elapsedTime) {
-		long elapsedSeconds = elapsedTime/1000;
-		long remainingSeconds = SECONDS_IN_CYCLE - elapsedSeconds;
-		
-		long remainingMinutes = remainingSeconds/60;
-		return twoDigitsFormat.format(remainingMinutes)+":"+twoDigitsFormat.format(remainingSeconds-remainingMinutes*60);
 	}
 
     public void timerRunning(boolean running) {
@@ -126,5 +97,27 @@ public class BabystepsTimer {
 
     public void setAlwaysOnTop(boolean onTop) {
         timerFrame.setAlwaysOnTop(onTop);
+    }
+
+    private class BabystepsMouseMotionListener implements MouseMotionListener {
+        private int lastX;
+        private int lastY;
+
+        @Override
+        public void mouseMoved(final MouseEvent e) {
+            lastX = e.getXOnScreen();
+            lastY = e.getYOnScreen();
+        }
+
+        @Override
+        public void mouseDragged(final MouseEvent e) {
+            int x = e.getXOnScreen();
+            int y = e.getYOnScreen();
+
+            timerFrame.setLocation(timerFrame.getLocation().x + (x-lastX), timerFrame.getLocation().y + (y-lastY));
+
+            lastX = x;
+            lastY = y;
+        }
     }
 }
