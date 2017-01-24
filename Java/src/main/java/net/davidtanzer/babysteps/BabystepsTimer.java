@@ -71,11 +71,11 @@ public class BabystepsTimer {
         return currentCycleStartTime;
     }
 
-    public String bodyBackgroundColor() {
+    public String getBodyBackgroundColor() {
         return bodyBackgroundColor;
     }
 
-    public void bodyBackgroundColor(String color) {
+    public void setBodyBackgroundColor(String color) {
         bodyBackgroundColor = color;
     }
 
@@ -115,11 +115,17 @@ public class BabystepsTimer {
 
     public void reset() {
         currentCycleStartTime(System.currentTimeMillis());
-        bodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
+        setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
     }
 
     public void quit() {
         System.exit(0);
+    }
+
+    public void updateTimerCaption(String remainingTime) {
+        setText(htmlCreator.createTimerHtml(remainingTime, bodyBackgroundColor, true));
+        repaint();
+        lastRemainingTime(remainingTime);
     }
 
     private class BabystepsMouseMotionListener implements MouseMotionListener {

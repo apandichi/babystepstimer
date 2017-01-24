@@ -17,28 +17,28 @@ final class TimerThread extends Thread {
         babystepsTimer.currentCycleStartTime(System.currentTimeMillis());
 
         while (babystepsTimer.timerRunning()) {
-            long elapsedTime = System.currentTimeMillis() - babystepsTimer.currentCycleStartTime();
+            long elapsedTime = getElapsedTime();
 
-            if (elapsedTime >= babystepsTimer.SECONDS_IN_CYCLE * 1000 + 980) {
+            boolean timerCycleEnded = elapsedTime >= babystepsTimer.SECONDS_IN_CYCLE * 1000 + 980;
+            if (timerCycleEnded) {
                 babystepsTimer.currentCycleStartTime(System.currentTimeMillis());
-                elapsedTime = System.currentTimeMillis() - babystepsTimer.currentCycleStartTime();
+                elapsedTime = getElapsedTime();
             }
-            if (elapsedTime >= 5000 && elapsedTime < 6000 && !babystepsTimer.BACKGROUND_COLOR_NEUTRAL.equals(babystepsTimer.bodyBackgroundColor())) {
-                babystepsTimer.bodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+            if (elapsedTimeBetween5And6Seconds(elapsedTime) && backgroundColorIsNotNeutral()) {
+                babystepsTimer.setBodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_NEUTRAL);
             }
 
             String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
-            if (!remainingTime.equals(babystepsTimer.lastRemainingTime())) {
+            if (timerCaptionChanged(remainingTime)) {
                 if (remainingTime.equals("00:10")) {
                     soundPlayer.playSoundInNewThread("pluck.wav");
                 } else if (remainingTime.equals("00:00")) {
                     soundPlayer.playSoundInNewThread("theetone.wav");
-                    babystepsTimer.bodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_FAILED);
+                    babystepsTimer.setBodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_FAILED);
                 }
 
-                babystepsTimer.setText(htmlCreator.createTimerHtml(remainingTime, babystepsTimer.bodyBackgroundColor(), true));
-                babystepsTimer.repaint();
-                babystepsTimer.lastRemainingTime(remainingTime);
+                babystepsTimer.updateTimerCaption(remainingTime);
+
             }
             try {
                 sleep(10);
@@ -46,5 +46,21 @@ final class TimerThread extends Thread {
                 //We don't really care about this one...
             }
         }
+    }
+
+    private boolean timerCaptionChanged(String remainingTime) {
+        return !remainingTime.equals(babystepsTimer.lastRemainingTime());
+    }
+
+    private boolean backgroundColorIsNotNeutral() {
+        return !babystepsTimer.BACKGROUND_COLOR_NEUTRAL.equals(babystepsTimer.getBodyBackgroundColor());
+    }
+
+    private boolean elapsedTimeBetween5And6Seconds(long elapsedTime) {
+        return 5000 < elapsedTime && elapsedTime < 6000;
+    }
+
+    private long getElapsedTime() {
+        return System.currentTimeMillis() - babystepsTimer.currentCycleStartTime();
     }
 }
