@@ -133,17 +133,12 @@ public class BabystepsTimer {
     }
 
     public void tick() {
-        long elapsedTime = getElapsedTime();
+        long elapsedTime = resetTimerWhenCycleEnded();
+        resetBackgroundColorToNeutral(elapsedTime);
+        updateTimerCaptionWithElapsedTime(elapsedTime);
+    }
 
-        boolean timerCycleEnded = elapsedTime >= SECONDS_IN_CYCLE * 1000 + 980;
-        if (timerCycleEnded) {
-            currentCycleStartTime(System.currentTimeMillis());
-            elapsedTime = getElapsedTime();
-        }
-        if (elapsedTimeBetween5And6Seconds(elapsedTime) && backgroundColorIsNotNeutral()) {
-            setBodyBackgroundColor(BACKGROUND_COLOR_NEUTRAL);
-        }
-
+    private void updateTimerCaptionWithElapsedTime(long elapsedTime) {
         String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
         if (timerCaptionChanged(remainingTime)) {
             if (remainingTime.equals("00:10")) {
@@ -153,6 +148,22 @@ public class BabystepsTimer {
                 setBodyBackgroundColor(BACKGROUND_COLOR_FAILED);
             }
             updateTimerCaption(remainingTime);
+        }
+    }
+
+    private long resetTimerWhenCycleEnded() {
+        long elapsedTime = getElapsedTime();
+        boolean timerCycleEnded = elapsedTime >= SECONDS_IN_CYCLE * 1000 + 980;
+        if (timerCycleEnded) {
+            currentCycleStartTime(System.currentTimeMillis());
+            elapsedTime = getElapsedTime();
+        }
+        return elapsedTime;
+    }
+
+    private void resetBackgroundColorToNeutral(long elapsedTime) {
+        if (elapsedTimeBetween5And6Seconds(elapsedTime) && backgroundColorIsNotNeutral()) {
+            setBodyBackgroundColor(BACKGROUND_COLOR_NEUTRAL);
         }
     }
 
