@@ -32,6 +32,7 @@ public class BabystepsTimer {
 	private String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 	
 	private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
+    private SoundPlayer soundPlayer = new SoundPlayerImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
 
 	public static void main(final String[] args) throws InterruptedException {
@@ -129,6 +130,46 @@ public class BabystepsTimer {
         setText(htmlCreator.createTimerHtml(remainingTime, bodyBackgroundColor, true));
         repaint();
         lastRemainingTime(remainingTime);
+    }
+
+    public void tick() {
+        long elapsedTime = getElapsedTime();
+
+        boolean timerCycleEnded = elapsedTime >= SECONDS_IN_CYCLE * 1000 + 980;
+        if (timerCycleEnded) {
+            currentCycleStartTime(System.currentTimeMillis());
+            elapsedTime = getElapsedTime();
+        }
+        if (elapsedTimeBetween5And6Seconds(elapsedTime) && backgroundColorIsNotNeutral()) {
+            setBodyBackgroundColor(BACKGROUND_COLOR_NEUTRAL);
+        }
+
+        String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
+        if (timerCaptionChanged(remainingTime)) {
+            if (remainingTime.equals("00:10")) {
+                soundPlayer.playSoundInNewThread("pluck.wav");
+            } else if (remainingTime.equals("00:00")) {
+                soundPlayer.playSoundInNewThread("theetone.wav");
+                setBodyBackgroundColor(BACKGROUND_COLOR_FAILED);
+            }
+            updateTimerCaption(remainingTime);
+        }
+    }
+
+    private boolean timerCaptionChanged(String remainingTime) {
+        return !remainingTime.equals(lastRemainingTime());
+    }
+
+    private boolean backgroundColorIsNotNeutral() {
+        return !BACKGROUND_COLOR_NEUTRAL.equals(bodyBackgroundColor);
+    }
+
+    private boolean elapsedTimeBetween5And6Seconds(long elapsedTime) {
+        return 5000 < elapsedTime && elapsedTime < 6000;
+    }
+
+    private long getElapsedTime() {
+        return System.currentTimeMillis() - currentCycleStartTime;
     }
 
     private class BabystepsMouseMotionListener implements MouseMotionListener {
