@@ -16,6 +16,8 @@ package net.davidtanzer.babysteps;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BabystepsTimer {
 	public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
@@ -35,7 +37,16 @@ public class BabystepsTimer {
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
 
-	public static void main(final String[] args) throws InterruptedException {
+    private Map<String, String> soundsToPlayAtTime = new HashMap<>();
+    private Map<String, String> colorsToSetAtTime = new HashMap<>();
+
+    public BabystepsTimer() {
+        soundsToPlayAtTime.put("00:10", "pluck.wav");
+        soundsToPlayAtTime.put("00:00", "theetone.wav");
+        colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
+    }
+
+    public static void main(final String[] args) throws InterruptedException {
         new BabystepsTimer().init();
     }
 
@@ -148,17 +159,16 @@ public class BabystepsTimer {
     }
 
     private void changeBackgroundColorAtTime(String remainingTime) {
-        if (remainingTime.equals("00:00")) {
-            setBodyBackgroundColor(BACKGROUND_COLOR_FAILED);
+        String colorToSet = colorsToSetAtTime.get(remainingTime);
+        if (colorToSet != null) {
+            setBodyBackgroundColor(colorToSet);
         }
     }
 
     private void playSoundAtTime(String remainingTime) {
-        if (remainingTime.equals("00:10")) {
-            soundPlayer.playSoundInNewThread("pluck.wav");
-        }
-        if (remainingTime.equals("00:00")) {
-            soundPlayer.playSoundInNewThread("theetone.wav");
+        String soundToPlay = soundsToPlayAtTime.get(remainingTime);
+        if (soundToPlay != null) {
+            soundPlayer.playSoundInNewThread(soundToPlay);
         }
     }
 
