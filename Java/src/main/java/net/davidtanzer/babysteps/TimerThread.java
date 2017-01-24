@@ -13,9 +13,6 @@ final class TimerThread extends Thread {
 
     @Override
     public void run() {
-        babystepsTimer.timerRunning(true);
-        babystepsTimer.currentCycleStartTime(System.currentTimeMillis());
-
         while (babystepsTimer.timerRunning()) {
             long elapsedTime = getElapsedTime();
 

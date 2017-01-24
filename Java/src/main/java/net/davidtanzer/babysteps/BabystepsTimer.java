@@ -100,8 +100,11 @@ public class BabystepsTimer {
     }
 
     public void start() {
+        timerRunning(true);
+        currentCycleStartTime(System.currentTimeMillis());
+        String captionTextAtStart = htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, true);
         setAlwaysOnTop(true);
-        setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, true));
+        setText(captionTextAtStart);
         repaint();
         new TimerThread(this).start();
     }
