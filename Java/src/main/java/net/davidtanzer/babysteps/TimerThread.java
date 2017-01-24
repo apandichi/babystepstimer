@@ -1,7 +1,7 @@
 package net.davidtanzer.babysteps;
 
 final class TimerThread extends Thread {
-    
+
     private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
@@ -16,22 +16,22 @@ final class TimerThread extends Thread {
         babystepsTimer.timerRunning(true);
         babystepsTimer.currentCycleStartTime(System.currentTimeMillis());
 
-        while(babystepsTimer.timerRunning()) {
+        while (babystepsTimer.timerRunning()) {
             long elapsedTime = System.currentTimeMillis() - babystepsTimer.currentCycleStartTime();
 
-            if(elapsedTime >= babystepsTimer.SECONDS_IN_CYCLE*1000+980) {
+            if (elapsedTime >= babystepsTimer.SECONDS_IN_CYCLE * 1000 + 980) {
                 babystepsTimer.currentCycleStartTime(System.currentTimeMillis());
                 elapsedTime = System.currentTimeMillis() - babystepsTimer.currentCycleStartTime();
             }
-            if(elapsedTime >= 5000 && elapsedTime < 6000 && !babystepsTimer.BACKGROUND_COLOR_NEUTRAL.equals(babystepsTimer.bodyBackgroundColor())) {
+            if (elapsedTime >= 5000 && elapsedTime < 6000 && !babystepsTimer.BACKGROUND_COLOR_NEUTRAL.equals(babystepsTimer.bodyBackgroundColor())) {
                 babystepsTimer.bodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_NEUTRAL);
             }
 
             String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
-            if(!remainingTime.equals(babystepsTimer.lastRemainingTime())) {
-                if(remainingTime.equals("00:10")) {
+            if (!remainingTime.equals(babystepsTimer.lastRemainingTime())) {
+                if (remainingTime.equals("00:10")) {
                     soundPlayer.playSoundInNewThread("pluck.wav");
-                } else if(remainingTime.equals("00:00")) {
+                } else if (remainingTime.equals("00:00")) {
                     soundPlayer.playSoundInNewThread("theetone.wav");
                     babystepsTimer.bodyBackgroundColor(babystepsTimer.BACKGROUND_COLOR_FAILED);
                 }
