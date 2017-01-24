@@ -141,13 +141,24 @@ public class BabystepsTimer {
     private void updateTimerCaptionWithElapsedTime(long elapsedTime) {
         String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
         if (timerCaptionChanged(remainingTime)) {
-            if (remainingTime.equals("00:10")) {
-                soundPlayer.playSoundInNewThread("pluck.wav");
-            } else if (remainingTime.equals("00:00")) {
-                soundPlayer.playSoundInNewThread("theetone.wav");
-                setBodyBackgroundColor(BACKGROUND_COLOR_FAILED);
-            }
+            playSoundAtTime(remainingTime);
+            changeBackgroundColorAtTime(remainingTime);
             updateTimerCaption(remainingTime);
+        }
+    }
+
+    private void changeBackgroundColorAtTime(String remainingTime) {
+        if (remainingTime.equals("00:00")) {
+            setBodyBackgroundColor(BACKGROUND_COLOR_FAILED);
+        }
+    }
+
+    private void playSoundAtTime(String remainingTime) {
+        if (remainingTime.equals("00:10")) {
+            soundPlayer.playSoundInNewThread("pluck.wav");
+        }
+        if (remainingTime.equals("00:00")) {
+            soundPlayer.playSoundInNewThread("theetone.wav");
         }
     }
 
