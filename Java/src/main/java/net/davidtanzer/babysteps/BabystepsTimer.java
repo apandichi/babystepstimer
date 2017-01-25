@@ -30,16 +30,16 @@ public class BabystepsTimer {
 	private static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
 	private static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
-	private static final long SECONDS_IN_CYCLE = 120;
+	private static final long SECONDS_IN_CYCLE = 6;
 
 	private static JFrame timerFrame;
 	private static JTextPane timerPane;
-	private static boolean timerRunning;
-	private static long currentCycleStartTime;
-	private static String lastRemainingTime;
+
 	private static String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 	
 	private static DecimalFormat twoDigitsFormat = new DecimalFormat("00");
+
+	private static TimerThread timer = new TimerThread();
 
 	public static void main(final String[] args) throws InterruptedException {
 		timerFrame = new JFrame("Babysteps Timer");
@@ -80,14 +80,14 @@ public class BabystepsTimer {
 						timerFrame.setAlwaysOnTop(true);
 						timerPane.setText(createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, true));
 						timerFrame.repaint();
-						new TimerThread().start();
+						timer.startTimer();
 					} else if("command://stop".equals(e.getDescription())) {
-						timerRunning = false;
+						timer.stopTimer();
 						timerFrame.setAlwaysOnTop(false);
 						timerPane.setText(createTimerHtml(getRemainingTimeCaption(0L), BACKGROUND_COLOR_NEUTRAL, false));
 						timerFrame.repaint();
 					} else  if("command://reset".equals(e.getDescription())) {
-						currentCycleStartTime = System.currentTimeMillis();
+						timer.resetTimer();
 						bodyBackgroundColor=BACKGROUND_COLOR_PASSED;
 					} else  if("command://quit".equals(e.getDescription())) {
 						System.exit(0);
@@ -109,19 +109,7 @@ public class BabystepsTimer {
 	}
 
 	private static String createTimerHtml(final String timerText, final String bodyColor, final boolean running) {
-		String timerHtml = "<html><body style=\"border: 3px solid #555555; background: "+bodyColor+"; margin: 0; padding: 0;\">" +
-				"<h1 style=\"text-align: center; font-size: 30px; color: #333333;\">"+timerText+"</h1>" +
-				"<div style=\"text-align: center\">";
-		if(running) {
-			timerHtml += "<a style=\"color: #555555;\" href=\"command://stop\">Stop</a> " +
-					"<a style=\"color: #555555;\" href=\"command://reset\">Reset</a> ";
-		} else {
-			timerHtml += "<a style=\"color: #555555;\" href=\"command://start\">Start</a> ";
-		}
-		timerHtml += "<a style=\"color: #555555;\" href=\"command://quit\">Quit</a> ";
-		timerHtml += "</div>" +
-				"</body></html>";
-		return timerHtml;
+		return new HTMLRenderer(timerText, bodyColor, running).invoke();
 	}
 
 	public static synchronized void playSound(final String url) {
@@ -142,6 +130,10 @@ public class BabystepsTimer {
 	}
 
 	private static final class TimerThread extends Thread {
+
+		private static boolean timerRunning;
+		private static long currentCycleStartTime;
+		private static String lastRemainingTime;
 		@Override
 		public void run() {
 			timerRunning = true;
@@ -177,6 +169,46 @@ public class BabystepsTimer {
 					//We don't really care about this one...
 				}
 			}
+		}
+		private void resetTimer() {
+			currentCycleStartTime = System.currentTimeMillis();
+		}
+
+		private void stopTimer() {
+			timerRunning = false;
+		}
+
+		private void startTimer() {
+			start();
+		}
+
+	}
+
+	private static class HTMLRenderer {
+		private String timerText;
+		private String bodyColor;
+		private boolean running;
+
+		public HTMLRenderer(String timerText, String bodyColor, boolean running) {
+			this.timerText = timerText;
+			this.bodyColor = bodyColor;
+			this.running = running;
+		}
+
+		public String invoke() {
+			String timerHtml = "<html><body style=\"border: 3px solid #555555; background: "+bodyColor+"; margin: 0; padding: 0;\">" +
+                    "<h1 style=\"text-align: center; font-size: 30px; color: #333333;\">"+timerText+"</h1>" +
+                    "<div style=\"text-align: center\">";
+			if(running) {
+                timerHtml += "<a style=\"color: #555555;\" href=\"command://stop\">Stop</a> " +
+                        "<a style=\"color: #555555;\" href=\"command://reset\">Reset</a> ";
+            } else {
+                timerHtml += "<a style=\"color: #555555;\" href=\"command://start\">Start</a> ";
+            }
+			timerHtml += "<a style=\"color: #555555;\" href=\"command://quit\">Quit</a> ";
+			timerHtml += "</div>" +
+                    "</body></html>";
+			return timerHtml;
 		}
 	}
 }
