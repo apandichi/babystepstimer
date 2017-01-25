@@ -28,16 +28,19 @@ public class BabystepsTimer {
 	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
 
-	public static JFrame timerFrame;
-	public static JTextPane timerPane;
+	public JFrame timerFrame;
+	public JTextPane timerPane;
 
-	public static String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
+	public String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 	
-	private static DecimalFormat twoDigitsFormat = new DecimalFormat("00");
+	private DecimalFormat twoDigitsFormat = new DecimalFormat("00");
 
-	private static TimerThread timer = new TimerThread();
+	private TimerThread timer = new TimerThread(new SoundPlayer(), this);
 
 	public static void main(final String[] args) throws InterruptedException {
+		new BabystepsTimer().mymain();
+	}
+	public  void mymain() throws InterruptedException {
 		timerFrame = new JFrame("Babysteps Timer");
 		timerFrame.setUndecorated(true);
 
@@ -96,7 +99,7 @@ public class BabystepsTimer {
 		timerFrame.setVisible(true);
 	}
 
-	public static String getRemainingTimeCaption(final long elapsedTime) {
+	public String getRemainingTimeCaption(final long elapsedTime) {
 		long elapsedSeconds = elapsedTime/1000;
 		long remainingSeconds = TimerThread.SECONDS_IN_CYCLE - elapsedSeconds;
 		
@@ -104,7 +107,7 @@ public class BabystepsTimer {
 		return twoDigitsFormat.format(remainingMinutes)+":"+twoDigitsFormat.format(remainingSeconds-remainingMinutes*60);
 	}
 
-	public static String createTimerHtml(final String timerText, final String bodyColor, final boolean running) {
+	public String createTimerHtml(final String timerText, final String bodyColor, final boolean running) {
 		return new HTMLRenderer(timerText, bodyColor, running).invoke();
 	}
 
