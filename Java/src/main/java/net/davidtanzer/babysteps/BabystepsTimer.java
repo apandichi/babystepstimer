@@ -35,10 +35,14 @@ public class BabystepsTimer {
 	
 	private DecimalFormat twoDigitsFormat = new DecimalFormat("00");
 
-	private TimerThread timer = new TimerThread(new SoundPlayer(), this);
+	private TimerThread timer;
+
+	public BabystepsTimer(long seconds) {
+		timer = new TimerThread(new SoundPlayer(), this, seconds);
+	}
 
 	public static void main(final String[] args) throws InterruptedException {
-		new BabystepsTimer().mymain();
+		new BabystepsTimer(6).mymain();
 	}
 	public  void mymain() throws InterruptedException {
 		timerFrame = new JFrame("Babysteps Timer");
@@ -101,7 +105,7 @@ public class BabystepsTimer {
 
 	public String getRemainingTimeCaption(final long elapsedTime) {
 		long elapsedSeconds = elapsedTime/1000;
-		long remainingSeconds = TimerThread.SECONDS_IN_CYCLE - elapsedSeconds;
+		long remainingSeconds = timer.getSecondsInCycle() - elapsedSeconds;
 		
 		long remainingMinutes = remainingSeconds/60;
 		return twoDigitsFormat.format(remainingMinutes)+":"+twoDigitsFormat.format(remainingSeconds-remainingMinutes*60);
@@ -117,6 +121,15 @@ public class BabystepsTimer {
 
 	public void setBodyBackgroundColor(String bodyBackgroundColor) {
 		this.bodyBackgroundColor = bodyBackgroundColor;
+	}
+
+	public void setFailedBackgroundColor() {
+		this.bodyBackgroundColor = BabystepsTimer.BACKGROUND_COLOR_FAILED;
+	}
+
+
+	public void setNeutralBackgroundColor() {
+		this.bodyBackgroundColor = BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
 	}
 
 	public void setRemainingTime(String remainingTime) {
