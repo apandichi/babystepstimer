@@ -26,16 +26,15 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 public class BabystepsTimer {
-	private static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
-	private static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
-	private static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
+	public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
+	public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
+	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
-	private static final long SECONDS_IN_CYCLE = 6;
 
-	private static JFrame timerFrame;
-	private static JTextPane timerPane;
+	public static JFrame timerFrame;
+	public static JTextPane timerPane;
 
-	private static String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
+	public static String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 	
 	private static DecimalFormat twoDigitsFormat = new DecimalFormat("00");
 
@@ -100,15 +99,15 @@ public class BabystepsTimer {
 		timerFrame.setVisible(true);
 	}
 
-	private static String getRemainingTimeCaption(final long elapsedTime) {
+	public static String getRemainingTimeCaption(final long elapsedTime) {
 		long elapsedSeconds = elapsedTime/1000;
-		long remainingSeconds = SECONDS_IN_CYCLE - elapsedSeconds;
+		long remainingSeconds = TimerThread.SECONDS_IN_CYCLE - elapsedSeconds;
 		
 		long remainingMinutes = remainingSeconds/60;
 		return twoDigitsFormat.format(remainingMinutes)+":"+twoDigitsFormat.format(remainingSeconds-remainingMinutes*60);
 	}
 
-	private static String createTimerHtml(final String timerText, final String bodyColor, final boolean running) {
+	public static String createTimerHtml(final String timerText, final String bodyColor, final boolean running) {
 		return new HTMLRenderer(timerText, bodyColor, running).invoke();
 	}
 
@@ -127,61 +126,6 @@ public class BabystepsTimer {
 				}
 			}
 		}).start();
-	}
-
-	private static final class TimerThread extends Thread {
-
-		private static boolean timerRunning;
-		private static long currentCycleStartTime;
-		private static String lastRemainingTime;
-		@Override
-		public void run() {
-			timerRunning = true;
-			currentCycleStartTime = System.currentTimeMillis();
-			
-			while(timerRunning) {
-				long elapsedTime = System.currentTimeMillis() - currentCycleStartTime;
-				
-				if(elapsedTime >= SECONDS_IN_CYCLE*1000+980) {
-					currentCycleStartTime = System.currentTimeMillis();
-					elapsedTime = System.currentTimeMillis() - currentCycleStartTime;
-				}
-				if(elapsedTime >= 5000 && elapsedTime < 6000 && !BACKGROUND_COLOR_NEUTRAL.equals(bodyBackgroundColor)) {
-					bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
-				}
-				
-				String remainingTime = getRemainingTimeCaption(elapsedTime);
-				if(!remainingTime.equals(lastRemainingTime)) {
-					if(remainingTime.equals("00:10")) {
-						playSound("2166__suburban-grilla__bowl-struck.wav");
-					} else if(remainingTime.equals("00:00")) {
-						playSound("32304__acclivity__shipsbell.wav");
-						bodyBackgroundColor=BACKGROUND_COLOR_FAILED;
-					}
-					
-					timerPane.setText(createTimerHtml(remainingTime, bodyBackgroundColor, true));
-					timerFrame.repaint();
-					lastRemainingTime = remainingTime;
-				}
-				try {
-					sleep(10);
-				} catch (InterruptedException e) {
-					//We don't really care about this one...
-				}
-			}
-		}
-		private void resetTimer() {
-			currentCycleStartTime = System.currentTimeMillis();
-		}
-
-		private void stopTimer() {
-			timerRunning = false;
-		}
-
-		private void startTimer() {
-			start();
-		}
-
 	}
 
 	private static class HTMLRenderer {
