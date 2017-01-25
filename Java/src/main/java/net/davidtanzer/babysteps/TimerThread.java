@@ -2,9 +2,9 @@ package net.davidtanzer.babysteps;
 
 final class TimerThread extends Thread {
 
-    private BabystepsTimer babystepsTimer;
+    private BabystepsTimerUserInterface babystepsTimer;
 
-    public TimerThread(BabystepsTimer babystepsTimer) {
+    public TimerThread(BabystepsTimerUserInterface babystepsTimer) {
         this.babystepsTimer = babystepsTimer;
     }
 

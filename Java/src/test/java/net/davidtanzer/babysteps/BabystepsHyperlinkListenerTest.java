@@ -17,7 +17,7 @@ public class BabystepsHyperlinkListenerTest {
     private URL url;
 
     @Mock
-    BabystepsTimer babystepsTimer;
+    BabystepsTimerUserInterface babystepsTimer;
 
     private BabystepsHyperlinkListener listener;
 

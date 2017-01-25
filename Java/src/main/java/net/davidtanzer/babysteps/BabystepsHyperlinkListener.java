@@ -4,8 +4,8 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 class BabystepsHyperlinkListener implements HyperlinkListener {
-    private BabystepsTimer babystepsTimer;
-    public BabystepsHyperlinkListener(BabystepsTimer babystepsTimer) {
+    private BabystepsTimerUserInterface babystepsTimer;
+    public BabystepsHyperlinkListener(BabystepsTimerUserInterface babystepsTimer) {
         this.babystepsTimer = babystepsTimer;
     }
 

@@ -19,7 +19,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BabystepsTimer {
+public class BabystepsTimerUserInterface {
 	public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
 	public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
 	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
@@ -40,14 +40,14 @@ public class BabystepsTimer {
     private Map<String, String> soundsToPlayAtTime = new HashMap<>();
     private Map<String, String> colorsToSetAtTime = new HashMap<>();
 
-    public BabystepsTimer() {
+    public BabystepsTimerUserInterface() {
         soundsToPlayAtTime.put("00:10", "pluck.wav");
         soundsToPlayAtTime.put("00:00", "theetone.wav");
         colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
     }
 
     public static void main(final String[] args) throws InterruptedException {
-        new BabystepsTimer().init();
+        new BabystepsTimerUserInterface().init();
     }
 
     public void init() {
@@ -58,7 +58,7 @@ public class BabystepsTimer {
 		timerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		timerPane = new JTextPane();
 		timerPane.setContentType("text/html");
-		timerPane.setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BACKGROUND_COLOR_NEUTRAL, false));
+		timerPane.setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimerUserInterface.SECONDS_IN_CYCLE), BACKGROUND_COLOR_NEUTRAL, false));
 		timerPane.setEditable(false);
 		timerPane.addMouseMotionListener(new BabystepsMouseMotionListener());
         timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
@@ -114,7 +114,7 @@ public class BabystepsTimer {
     public void start() {
         timerRunning(true);
         currentCycleStartTime(System.currentTimeMillis());
-        String captionTextAtStart = htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, true);
+        String captionTextAtStart = htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimerUserInterface.SECONDS_IN_CYCLE), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL, true);
         setAlwaysOnTop(true);
         setText(captionTextAtStart);
         repaint();
@@ -124,13 +124,13 @@ public class BabystepsTimer {
     public void stop() {
         timerRunning(false);
         setAlwaysOnTop(false);
-        setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, false));
+        setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimerUserInterface.SECONDS_IN_CYCLE), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL, false));
         repaint();
     }
 
     public void reset() {
         currentCycleStartTime(System.currentTimeMillis());
-        setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
+        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
     }
 
     public void quit() {
@@ -150,7 +150,7 @@ public class BabystepsTimer {
     }
 
     private void updateTimerCaptionWithElapsedTime(long elapsedTime) {
-        String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
+        String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimerUserInterface.SECONDS_IN_CYCLE);
         if (timerCaptionChanged(remainingTime)) {
             playSoundAtTime(remainingTime);
             changeBackgroundColorAtTime(remainingTime);
