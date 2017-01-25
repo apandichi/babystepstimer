@@ -16,35 +16,13 @@ package net.davidtanzer.babysteps;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.util.HashMap;
-import java.util.Map;
 
 public class BabystepsTimerUserInterface {
-	public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
-	public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
-	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
-
-	public static final long SECONDS_IN_CYCLE = 20;
 
 	private JFrame timerFrame;
 	private JTextPane timerPane;
-	private boolean timerRunning;
-	private long currentCycleStartTime;
-	private String lastRemainingTime;
-	private String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
-	
-	private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
-    private SoundPlayer soundPlayer = new SoundPlayerImpl();
-    private HtmlCreator htmlCreator = new HtmlCreatorImpl();
 
-    private Map<String, String> soundsToPlayAtTime = new HashMap<>();
-    private Map<String, String> colorsToSetAtTime = new HashMap<>();
-
-    public BabystepsTimerUserInterface() {
-        soundsToPlayAtTime.put("00:10", "pluck.wav");
-        soundsToPlayAtTime.put("00:00", "theetone.wav");
-        colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
-    }
+	private BabystepsTimer babystepsTimer = new BabystepsTimer();
 
     public static void main(final String[] args) throws InterruptedException {
         new BabystepsTimerUserInterface().init();
@@ -53,47 +31,18 @@ public class BabystepsTimerUserInterface {
     public void init() {
 		timerFrame = new JFrame("Babysteps Timer");
 		timerFrame.setUndecorated(true);
-
 		timerFrame.setSize(250, 120);
 		timerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		timerPane = new JTextPane();
 		timerPane.setContentType("text/html");
-		timerPane.setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimerUserInterface.SECONDS_IN_CYCLE), BACKGROUND_COLOR_NEUTRAL, false));
+		timerPane.setText(babystepsTimer.getInitHtml());
 		timerPane.setEditable(false);
 		timerPane.addMouseMotionListener(new BabystepsMouseMotionListener());
         timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
 		timerFrame.getContentPane().add(timerPane);
-
 		timerFrame.setVisible(true);
 	}
 
-    public void timerRunning(boolean running) {
-        timerRunning = running;
-    }
-
-    public void currentCycleStartTime(long startTime) {
-        currentCycleStartTime = startTime;
-    }
-
-    public boolean timerRunning() {
-        return timerRunning;
-    }
-
-    public long currentCycleStartTime() {
-        return currentCycleStartTime;
-    }
-
-    public String getBodyBackgroundColor() {
-        return bodyBackgroundColor;
-    }
-
-    public void setBodyBackgroundColor(String color) {
-        bodyBackgroundColor = color;
-    }
-
-    public String lastRemainingTime() {
-        return lastRemainingTime;
-    }
 
     public void setText(String text) {
         timerPane.setText(text);
@@ -103,106 +52,45 @@ public class BabystepsTimerUserInterface {
         timerFrame.repaint();
     }
 
-    public void lastRemainingTime(String remainingTime) {
-        lastRemainingTime = remainingTime;
-    }
-
     public void setAlwaysOnTop(boolean onTop) {
         timerFrame.setAlwaysOnTop(onTop);
     }
 
     public void start() {
-        timerRunning(true);
-        currentCycleStartTime(System.currentTimeMillis());
-        String captionTextAtStart = htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimerUserInterface.SECONDS_IN_CYCLE), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL, true);
-        setAlwaysOnTop(true);
-        setText(captionTextAtStart);
-        repaint();
+        babystepsTimer.start();
         new TimerThread(this).start();
+        String htmlAtStart = babystepsTimer.getStartHtml();
+        setAlwaysOnTop(true);
+        setText(htmlAtStart);
+        repaint();
     }
 
     public void stop() {
-        timerRunning(false);
+        babystepsTimer.stop();
+        String htmlAtStart = babystepsTimer.getStopHtml();
         setAlwaysOnTop(false);
-        setText(htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimerUserInterface.SECONDS_IN_CYCLE), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL, false));
+        setText(htmlAtStart);
         repaint();
     }
 
     public void reset() {
-        currentCycleStartTime(System.currentTimeMillis());
-        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
+        babystepsTimer.reset();
+    }
+
+    public void tick() {
+        babystepsTimer.tick();
+        setText(babystepsTimer.getTimerHtml());
+        repaint();
     }
 
     public void quit() {
         System.exit(0);
     }
 
-    public void updateTimerCaption(String remainingTime) {
-        setText(htmlCreator.createTimerHtml(remainingTime, bodyBackgroundColor, true));
-        repaint();
-        lastRemainingTime(remainingTime);
+    public boolean timerRunning() {
+        return babystepsTimer.timerRunning();
     }
 
-    public void tick() {
-        long elapsedTime = resetTimerWhenCycleEnded();
-        resetBackgroundColorToNeutral(elapsedTime);
-        updateTimerCaptionWithElapsedTime(elapsedTime);
-    }
-
-    private void updateTimerCaptionWithElapsedTime(long elapsedTime) {
-        String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimerUserInterface.SECONDS_IN_CYCLE);
-        if (timerCaptionChanged(remainingTime)) {
-            playSoundAtTime(remainingTime);
-            changeBackgroundColorAtTime(remainingTime);
-            updateTimerCaption(remainingTime);
-        }
-    }
-
-    private void changeBackgroundColorAtTime(String remainingTime) {
-        String colorToSet = colorsToSetAtTime.get(remainingTime);
-        if (colorToSet != null) {
-            setBodyBackgroundColor(colorToSet);
-        }
-    }
-
-    private void playSoundAtTime(String remainingTime) {
-        String soundToPlay = soundsToPlayAtTime.get(remainingTime);
-        if (soundToPlay != null) {
-            soundPlayer.playSoundInNewThread(soundToPlay);
-        }
-    }
-
-    private long resetTimerWhenCycleEnded() {
-        long elapsedTime = getElapsedTime();
-        boolean timerCycleEnded = elapsedTime >= SECONDS_IN_CYCLE * 1000 + 980;
-        if (timerCycleEnded) {
-            currentCycleStartTime(System.currentTimeMillis());
-            elapsedTime = getElapsedTime();
-        }
-        return elapsedTime;
-    }
-
-    private void resetBackgroundColorToNeutral(long elapsedTime) {
-        if (elapsedTimeBetween5And6Seconds(elapsedTime) && backgroundColorIsNotNeutral()) {
-            setBodyBackgroundColor(BACKGROUND_COLOR_NEUTRAL);
-        }
-    }
-
-    private boolean timerCaptionChanged(String remainingTime) {
-        return !remainingTime.equals(lastRemainingTime());
-    }
-
-    private boolean backgroundColorIsNotNeutral() {
-        return !BACKGROUND_COLOR_NEUTRAL.equals(bodyBackgroundColor);
-    }
-
-    private boolean elapsedTimeBetween5And6Seconds(long elapsedTime) {
-        return 5000 < elapsedTime && elapsedTime < 6000;
-    }
-
-    private long getElapsedTime() {
-        return System.currentTimeMillis() - currentCycleStartTime;
-    }
 
     private class BabystepsMouseMotionListener implements MouseMotionListener {
         private int lastX;
