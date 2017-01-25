@@ -108,8 +108,4 @@ public class BabystepsTimer {
 		return new HTMLRenderer(timerText, bodyColor, running).invoke();
 	}
 
-	public static synchronized void playSound(final String url) {
-		new SoundPlayer(url).invoke();
-	}
-
 }
