@@ -28,10 +28,10 @@ public class BabystepsTimer {
 	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
 
-	public JFrame timerFrame;
-	public JTextPane timerPane;
+	private JFrame timerFrame;
+	private JTextPane timerPane;
 
-	public String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
+	private String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 	
 	private DecimalFormat twoDigitsFormat = new DecimalFormat("00");
 
@@ -87,7 +87,7 @@ public class BabystepsTimer {
 						timerFrame.repaint();
 					} else  if("command://reset".equals(e.getDescription())) {
 						timer.resetTimer();
-						bodyBackgroundColor=BACKGROUND_COLOR_PASSED;
+						setBodyBackgroundColor(BACKGROUND_COLOR_PASSED);
 					} else  if("command://quit".equals(e.getDescription())) {
 						System.exit(0);
 					}
@@ -111,4 +111,16 @@ public class BabystepsTimer {
 		return new HTMLRenderer(timerText, bodyColor, running).invoke();
 	}
 
+	public String getBodyBackgroundColor() {
+		return bodyBackgroundColor;
+	}
+
+	public void setBodyBackgroundColor(String bodyBackgroundColor) {
+		this.bodyBackgroundColor = bodyBackgroundColor;
+	}
+
+	public void setRemainingTime(String remainingTime) {
+		timerPane.setText(createTimerHtml(remainingTime, bodyBackgroundColor, true));
+		timerFrame.repaint();
+	}
 }
