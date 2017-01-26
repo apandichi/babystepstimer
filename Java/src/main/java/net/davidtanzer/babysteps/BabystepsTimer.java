@@ -45,20 +45,20 @@ public class BabystepsTimer {
         return htmlCreator.createTimerHtml(caption, backgroundColor, running);
     }
 
-    public String getInitHtml() {
-        return getTimerHtml(0L, BACKGROUND_COLOR_NEUTRAL, false);
+    public String getInitHtml(boolean running) {
+        return getStopHtml(running);
     }
 
-    public String getStartHtml() {
-        return getTimerHtml(0L, BACKGROUND_COLOR_NEUTRAL, true);
+    public String getStartHtml(boolean running) {
+        return getStopHtml(running);
     }
 
-    public String getStopHtml() {
-        return getTimerHtml(0L, BACKGROUND_COLOR_NEUTRAL, false);
+    public String getStopHtml(boolean running) {
+        return getTimerHtml(0L, BACKGROUND_COLOR_NEUTRAL, running);
     }
 
-    public String getTimerHtml() {
-        return getTimerHtml(getElapsedTime(), bodyBackgroundColor, true);
+    public String getTimerHtml(boolean running) {
+        return getTimerHtml(getElapsedTime(), bodyBackgroundColor, running);
     }
 
     public void currentCycleStartTime(long startTime) {
