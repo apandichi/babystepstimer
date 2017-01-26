@@ -41,20 +41,25 @@ public class BabystepsTimer {
         colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
     }
 
+    private String getTimerHtml(long elapsedTimeInMilliseconds, String backgroundColor, boolean running) {
+        String caption = remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, BabystepsTimer.SECONDS_IN_CYCLE);
+        return htmlCreator.createTimerHtml(caption, backgroundColor, running);
+    }
+
     public String getInitHtml() {
-        return htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BACKGROUND_COLOR_NEUTRAL, false);
+        return getTimerHtml(0L, BACKGROUND_COLOR_NEUTRAL, false);
     }
 
     public String getStartHtml() {
-        return htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, true);
+        return getTimerHtml(0L, BACKGROUND_COLOR_NEUTRAL, true);
     }
 
     public String getStopHtml() {
-        return htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(0L, BabystepsTimer.SECONDS_IN_CYCLE), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, false);
+        return getTimerHtml(0L, BACKGROUND_COLOR_NEUTRAL, false);
     }
 
     public String getTimerHtml() {
-        return htmlCreator.createTimerHtml(remainingTimeCaption.getRemainingTimeCaption(getElapsedTime(), BabystepsTimer.SECONDS_IN_CYCLE), bodyBackgroundColor, true);
+        return getTimerHtml(getElapsedTime(), bodyBackgroundColor, true);
     }
 
     public void timerRunning(boolean running) {
