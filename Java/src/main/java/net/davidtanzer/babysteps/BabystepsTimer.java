@@ -17,19 +17,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BabystepsTimer {
-	public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
-	public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
+    public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
+    public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
 	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
 	public static final long SECONDS_IN_CYCLE = 20;
 
-	private long currentCycleStartTime;
-	private String lastRemainingTime;
 	private String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 
-	private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
+    private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
+    private Clock clock = new Clock();
 
     private Map<String, String> soundsToPlayAtTime = new HashMap<>();
     private Map<String, String> colorsToSetAtTime = new HashMap<>();
@@ -50,50 +49,34 @@ public class BabystepsTimer {
     }
 
     public String getTimerHtml(boolean running) {
-        return getTimerHtml(getElapsedTime(), bodyBackgroundColor, running);
-    }
-
-    public void currentCycleStartTime(long startTime) {
-        currentCycleStartTime = startTime;
+        return getTimerHtml(clock.getElapsedTime(), bodyBackgroundColor, running);
     }
 
     public void setBodyBackgroundColor(String color) {
         bodyBackgroundColor = color;
     }
 
-    public String lastRemainingTime() {
-        return lastRemainingTime;
-    }
-
-    public void lastRemainingTime(String remainingTime) {
-        lastRemainingTime = remainingTime;
-    }
-
     public void start() {
-        currentCycleStartTime(System.currentTimeMillis());
+        clock.resetClock();
     }
 
     public void reset() {
-        currentCycleStartTime(System.currentTimeMillis());
+        clock.resetClock();
         setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
     }
 
-    public void updateTimerCaption(String remainingTime) {
-        lastRemainingTime(remainingTime);
-    }
-
     public void tick() {
-        long elapsedTime = resetTimerWhenCycleEnded();
+        long elapsedTime = clock.resetTimerWhenCycleEnded(SECONDS_IN_CYCLE);
         resetBackgroundColorToNeutral(elapsedTime);
         updateTimerCaptionWithElapsedTime(elapsedTime);
     }
 
     private void updateTimerCaptionWithElapsedTime(long elapsedTime) {
         String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
-        if (timerCaptionChanged(remainingTime)) {
+        if (clock.timerCaptionChanged(remainingTime)) {
             playSoundAtTime(remainingTime);
             changeBackgroundColorAtTime(remainingTime);
-            updateTimerCaption(remainingTime);
+            clock.updateTimerCaption(remainingTime);
         }
     }
 
@@ -111,35 +94,13 @@ public class BabystepsTimer {
         }
     }
 
-    private long resetTimerWhenCycleEnded() {
-        long elapsedTime = getElapsedTime();
-        boolean timerCycleEnded = elapsedTime >= SECONDS_IN_CYCLE * 1000 + 980;
-        if (timerCycleEnded) {
-            currentCycleStartTime(System.currentTimeMillis());
-            elapsedTime = getElapsedTime();
-        }
-        return elapsedTime;
-    }
-
     private void resetBackgroundColorToNeutral(long elapsedTime) {
-        if (elapsedTimeBetween5And6Seconds(elapsedTime) && backgroundColorIsNotNeutral()) {
+        if (clock.elapsedTimeBetween5And6Seconds(elapsedTime) && backgroundColorIsNotNeutral()) {
             setBodyBackgroundColor(BACKGROUND_COLOR_NEUTRAL);
         }
     }
 
-    private boolean timerCaptionChanged(String remainingTime) {
-        return !remainingTime.equals(lastRemainingTime());
-    }
-
     private boolean backgroundColorIsNotNeutral() {
         return !BACKGROUND_COLOR_NEUTRAL.equals(bodyBackgroundColor);
-    }
-
-    private boolean elapsedTimeBetween5And6Seconds(long elapsedTime) {
-        return 5000 < elapsedTime && elapsedTime < 6000;
-    }
-
-    private long getElapsedTime() {
-        return System.currentTimeMillis() - currentCycleStartTime;
     }
 }
