@@ -2,15 +2,26 @@ package net.davidtanzer.babysteps;
 
 final class TimerThread extends Thread {
 
+    private boolean timerRunning;
+
     private BabystepsTimerUserInterface babystepsTimer;
 
     public TimerThread(BabystepsTimerUserInterface babystepsTimer) {
         this.babystepsTimer = babystepsTimer;
     }
 
+    public void startTimer() {
+        timerRunning = true;
+        this.start();
+    }
+
+    public void stopTimer() {
+        timerRunning = false;
+    }
+
     @Override
     public void run() {
-        while (babystepsTimer.timerRunning()) {
+        while (timerRunning) {
             babystepsTimer.tick();
             tryToSleep();
         }

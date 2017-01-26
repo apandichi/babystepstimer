@@ -23,6 +23,7 @@ public class BabystepsTimerUserInterface {
 	private JTextPane timerPane;
 
 	private BabystepsTimer babystepsTimer = new BabystepsTimer();
+    private TimerThread timerThread;
 
     public static void main(final String[] args) throws InterruptedException {
         new BabystepsTimerUserInterface().init();
@@ -58,7 +59,8 @@ public class BabystepsTimerUserInterface {
 
     public void start() {
         babystepsTimer.start();
-        new TimerThread(this).start();
+        timerThread = new TimerThread(this);
+        timerThread.startTimer();
         String htmlAtStart = babystepsTimer.getStartHtml();
         setAlwaysOnTop(true);
         setText(htmlAtStart);
@@ -66,7 +68,7 @@ public class BabystepsTimerUserInterface {
     }
 
     public void stop() {
-        babystepsTimer.stop();
+        timerThread.stopTimer();
         String htmlAtStart = babystepsTimer.getStopHtml();
         setAlwaysOnTop(false);
         setText(htmlAtStart);
@@ -88,11 +90,6 @@ public class BabystepsTimerUserInterface {
     public void quit() {
         System.exit(0);
     }
-
-    public boolean timerRunning() {
-        return babystepsTimer.timerRunning();
-    }
-
 
     private class BabystepsMouseMotionListener implements MouseMotionListener {
         private int lastX;

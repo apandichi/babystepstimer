@@ -23,7 +23,6 @@ public class BabystepsTimer {
 
 	public static final long SECONDS_IN_CYCLE = 20;
 
-	private boolean timerRunning;
 	private long currentCycleStartTime;
 	private String lastRemainingTime;
 	private String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
@@ -62,16 +61,8 @@ public class BabystepsTimer {
         return getTimerHtml(getElapsedTime(), bodyBackgroundColor, true);
     }
 
-    public void timerRunning(boolean running) {
-        timerRunning = running;
-    }
-
     public void currentCycleStartTime(long startTime) {
         currentCycleStartTime = startTime;
-    }
-
-    public boolean timerRunning() {
-        return timerRunning;
     }
 
     public void setBodyBackgroundColor(String color) {
@@ -87,12 +78,7 @@ public class BabystepsTimer {
     }
 
     public void start() {
-        timerRunning(true);
         currentCycleStartTime(System.currentTimeMillis());
-    }
-
-    public void stop() {
-        timerRunning(false);
     }
 
     public void reset() {
