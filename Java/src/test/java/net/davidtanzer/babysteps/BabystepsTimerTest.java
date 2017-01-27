@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import static net.davidtanzer.babysteps.BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
 import static net.davidtanzer.babysteps.BabystepsTimer.SECONDS_IN_CYCLE;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class BabystepsTimerTest {
@@ -32,9 +33,13 @@ public class BabystepsTimerTest {
 
     @Test
     public void shouldGetTimerHtmlBeforeStartingTheTimer() {
-        boolean running = false;
-        String html = babystepsTimer.getTimerHtml(running);
-        assertEquals(html, "00:20");
+        when(clock.getElapsedTime()).thenReturn(0L);
+        when(remainingTimeCaption.getRemainingTimeCaption(0L, 20L)).thenReturn("00:20");
+        when(htmlCreator.createTimerHtml("00:20", "#ffffff", false)).thenReturn("00:20 red false");
+
+        String html = babystepsTimer.getTimerHtml(false);
+
+        assertEquals(html, "00:20 red false");
     }
 
     @Test

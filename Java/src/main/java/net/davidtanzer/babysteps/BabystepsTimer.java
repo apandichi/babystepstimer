@@ -22,7 +22,6 @@ public class BabystepsTimer {
 	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
 	public static final long SECONDS_IN_CYCLE = 20;
-
 	private String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
 
     private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
