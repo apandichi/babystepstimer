@@ -7,15 +7,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static net.davidtanzer.babysteps.BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
-import static net.davidtanzer.babysteps.BabystepsTimer.SECONDS_IN_CYCLE;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class BabystepsTimerTest {
 
     @InjectMocks
-    private BabystepsTimer babystepsTimer;
+    private BabystepsTimer babystepsTimer = new BabystepsTimer(20, "#ffffff");
 
     @Mock
     private RemainingTimeCaption remainingTimeCaption;
@@ -50,7 +48,7 @@ public class BabystepsTimerTest {
         String bodyColor = BACKGROUND_COLOR_NEUTRAL;
         long elapsedTimeInMilliseconds = 0L;
 
-        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, SECONDS_IN_CYCLE)).thenReturn(timeCaption);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, 20)).thenReturn(timeCaption);
         when(htmlCreator.createTimerHtml(timeCaption, bodyColor, running)).thenReturn(stopHtml);
 
         String html = babystepsTimer.getTimerHtml(running);
@@ -67,7 +65,7 @@ public class BabystepsTimerTest {
         long elapsedTimeInMilliseconds = 2000L;
 
         when(clock.getElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
-        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, SECONDS_IN_CYCLE)).thenReturn(timeCaption);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, 20)).thenReturn(timeCaption);
         when(htmlCreator.createTimerHtml(timeCaption, bodyColor, running)).thenReturn(stopHtml);
 
         babystepsTimer.setBodyBackgroundColor(bodyColor);

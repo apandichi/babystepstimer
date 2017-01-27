@@ -22,7 +22,7 @@ public class BabystepsTimerUserInterface {
 	private JFrame timerFrame;
 	private JTextPane timerPane;
 
-	private BabystepsTimer babystepsTimer = new BabystepsTimer();
+	private BabystepsTimer babystepsTimer = new BabystepsTimer(20, BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
     private TimerThread timerThread;
 
     public static void main(final String[] args) throws InterruptedException {

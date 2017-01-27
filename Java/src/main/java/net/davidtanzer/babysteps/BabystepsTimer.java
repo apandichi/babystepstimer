@@ -21,8 +21,8 @@ public class BabystepsTimer {
     public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
 	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
-	public static final long SECONDS_IN_CYCLE = 20;
-	private String bodyBackgroundColor = BACKGROUND_COLOR_NEUTRAL;
+	private final long secondsInCycle;
+	private String bodyBackgroundColor;
 
     private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
@@ -32,7 +32,9 @@ public class BabystepsTimer {
     private Map<String, String> soundsToPlayAtTime = new HashMap<>();
     private Map<String, String> colorsToSetAtTime = new HashMap<>();
 
-    public BabystepsTimer() {
+    public BabystepsTimer(long secondsInCycle, String bodyBackgroundColor) {
+        this.secondsInCycle = secondsInCycle;
+        this.bodyBackgroundColor = bodyBackgroundColor;
         soundsToPlayAtTime.put("00:10", "pluck.wav");
         soundsToPlayAtTime.put("00:00", "theetone.wav");
         colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
@@ -40,7 +42,7 @@ public class BabystepsTimer {
 
     public String getTimerHtml(boolean running) {
         long elapsedTimeInMilliseconds = clock.getElapsedTime();
-        String caption = remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, BabystepsTimer.SECONDS_IN_CYCLE);
+        String caption = remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle);
         return htmlCreator.createTimerHtml(caption, bodyBackgroundColor, running);
     }
 
@@ -58,13 +60,13 @@ public class BabystepsTimer {
     }
 
     public void tick() {
-        long elapsedTime = clock.resetTimerWhenCycleEnded(SECONDS_IN_CYCLE);
+        long elapsedTime = clock.resetTimerWhenCycleEnded(secondsInCycle);
         resetBackgroundColorToNeutral(elapsedTime);
         updateTimerCaptionWithElapsedTime(elapsedTime);
     }
 
     private void updateTimerCaptionWithElapsedTime(long elapsedTime) {
-        String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, BabystepsTimer.SECONDS_IN_CYCLE);
+        String remainingTime = remainingTimeCaption.getRemainingTimeCaption(elapsedTime, secondsInCycle);
         if (clock.timerCaptionChanged(remainingTime)) {
             playSoundAtTime(remainingTime);
             changeBackgroundColorAtTime(remainingTime);
