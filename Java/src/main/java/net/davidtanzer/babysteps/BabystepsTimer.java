@@ -44,7 +44,7 @@ public class BabystepsTimer {
         return htmlCreator.createTimerHtml(caption, backgroundColor, running);
     }
 
-    public String getStopHtml(boolean running) {
+    public String getHtmlForTheStopState(boolean running) {
         return getTimerHtml(0L, BACKGROUND_COLOR_NEUTRAL, running);
     }
 

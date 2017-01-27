@@ -1,6 +1,5 @@
 package net.davidtanzer.babysteps;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,7 +28,7 @@ public class BabystepsTimerTest {
     }
 
     @Test
-    public void shouldGetStopHtml() {
+    public void shouldGetHtmlForTheStopState() {
         boolean running = true;
         String stopHtml = "stop html";
         String timeCaption = "timer text";
@@ -39,7 +38,7 @@ public class BabystepsTimerTest {
         when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, SECONDS_IN_CYCLE)).thenReturn(timeCaption);
         when(htmlCreator.createTimerHtml(timeCaption, bodyColor, running)).thenReturn(stopHtml);
 
-        String html = babystepsTimer.getStopHtml(running);
+        String html = babystepsTimer.getHtmlForTheStopState(running);
 
         assertEquals(html, stopHtml);
     }
