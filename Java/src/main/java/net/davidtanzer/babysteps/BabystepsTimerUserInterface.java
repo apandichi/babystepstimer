@@ -36,7 +36,7 @@ public class BabystepsTimerUserInterface {
 		timerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		timerPane = new JTextPane();
 		timerPane.setContentType("text/html");
-        timerPane.setText(babystepsTimer.getHtmlForTheStopState(false));
+        timerPane.setText(babystepsTimer.getHtmlForTheStopState(0L, BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, false));
 		timerPane.setEditable(false);
 		timerPane.addMouseMotionListener(new BabystepsMouseMotionListener());
         timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
@@ -61,7 +61,7 @@ public class BabystepsTimerUserInterface {
         babystepsTimer.start();
         timerThread = new TimerThread(this);
         timerThread.startTimer();
-        String htmlAtStart = babystepsTimer.getHtmlForTheStopState(true);
+        String htmlAtStart = babystepsTimer.getHtmlForTheStopState(0L, BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, true);
         setAlwaysOnTop(true);
         setText(htmlAtStart);
         repaint();
@@ -69,7 +69,7 @@ public class BabystepsTimerUserInterface {
 
     public void stop() {
         timerThread.stopTimer();
-        String htmlAtStart = babystepsTimer.getHtmlForTheStopState(false);
+        String htmlAtStart = babystepsTimer.getHtmlForTheStopState(0L, BabystepsTimer.BACKGROUND_COLOR_NEUTRAL, false);
         setAlwaysOnTop(false);
         setText(htmlAtStart);
         repaint();

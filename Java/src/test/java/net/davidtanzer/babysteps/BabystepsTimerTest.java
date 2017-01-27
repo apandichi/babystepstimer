@@ -41,7 +41,7 @@ public class BabystepsTimerTest {
         when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, SECONDS_IN_CYCLE)).thenReturn(timeCaption);
         when(htmlCreator.createTimerHtml(timeCaption, bodyColor, running)).thenReturn(stopHtml);
 
-        String html = babystepsTimer.getHtmlForTheStopState(running);
+        String html = babystepsTimer.getHtmlForTheStopState(0L, BACKGROUND_COLOR_NEUTRAL, running);
 
         assertEquals(html, stopHtml);
     }

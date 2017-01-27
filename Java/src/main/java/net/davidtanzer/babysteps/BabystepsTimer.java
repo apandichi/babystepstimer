@@ -44,12 +44,12 @@ public class BabystepsTimer {
         return htmlCreator.createTimerHtml(caption, backgroundColor, running);
     }
 
-    public String getHtmlForTheStopState(boolean running) {
-        return getTimerHtml(0L, BACKGROUND_COLOR_NEUTRAL, running);
+    public String getHtmlForTheStopState(long elapsedTimeInMilliseconds, String backgroundColor, boolean running) {
+        return getTimerHtml(elapsedTimeInMilliseconds, backgroundColor, running);
     }
 
     public String getTimerHtml(boolean running) {
-        return getTimerHtml(clock.getElapsedTime(), bodyBackgroundColor, running);
+        return getHtmlForTheStopState(clock.getElapsedTime(), bodyBackgroundColor, running);
     }
 
     public void setBodyBackgroundColor(String color) {
