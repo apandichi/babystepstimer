@@ -31,6 +31,13 @@ public class BabystepsTimerTest {
     }
 
     @Test
+    public void shouldGetTimerHtmlBeforeStartingTheTimer() {
+        boolean running = false;
+        String html = babystepsTimer.getTimerHtml(running);
+        assertEquals(html, "00:20");
+    }
+
+    @Test
     public void shouldGetHtmlForTheStopState() {
         boolean running = true;
         String stopHtml = "stop html";
