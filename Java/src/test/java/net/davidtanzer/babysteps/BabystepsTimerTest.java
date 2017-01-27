@@ -22,6 +22,9 @@ public class BabystepsTimerTest {
     @Mock
     private HtmlCreator htmlCreator;
 
+    @Mock
+    private Clock clock;
+
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
@@ -39,6 +42,24 @@ public class BabystepsTimerTest {
         when(htmlCreator.createTimerHtml(timeCaption, bodyColor, running)).thenReturn(stopHtml);
 
         String html = babystepsTimer.getHtmlForTheStopState(running);
+
+        assertEquals(html, stopHtml);
+    }
+
+    @Test
+    public void shouldGetHtmlForTheOtherTimerStates() {
+        boolean running = true;
+        String stopHtml = "html for other timer states";
+        String timeCaption = "00:44";
+        String bodyColor = "a color";
+        long elapsedTimeInMilliseconds = 2000L;
+
+        when(clock.getElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, SECONDS_IN_CYCLE)).thenReturn(timeCaption);
+        when(htmlCreator.createTimerHtml(timeCaption, bodyColor, running)).thenReturn(stopHtml);
+
+        babystepsTimer.setBodyBackgroundColor(bodyColor);
+        String html = babystepsTimer.getTimerHtml(running);
 
         assertEquals(html, stopHtml);
     }
