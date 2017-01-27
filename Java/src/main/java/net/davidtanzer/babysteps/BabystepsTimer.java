@@ -28,7 +28,7 @@ public class BabystepsTimer {
     private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
-    private ClockImpl clock = new ClockImpl();
+    private Clock clock = new ClockImpl();
 
     private Map<String, String> soundsToPlayAtTime = new HashMap<>();
     private Map<String, String> colorsToSetAtTime = new HashMap<>();
