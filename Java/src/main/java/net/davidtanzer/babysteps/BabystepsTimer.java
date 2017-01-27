@@ -39,17 +39,10 @@ public class BabystepsTimer {
         colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
     }
 
-    private String getTimerHtml(long elapsedTimeInMilliseconds, String backgroundColor, boolean running) {
-        String caption = remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, BabystepsTimer.SECONDS_IN_CYCLE);
-        return htmlCreator.createTimerHtml(caption, backgroundColor, running);
-    }
-
-    public String getHtmlForTheStopState(long elapsedTimeInMilliseconds, String backgroundColor, boolean running) {
-        return getTimerHtml(elapsedTimeInMilliseconds, backgroundColor, running);
-    }
-
     public String getTimerHtml(boolean running) {
-        return getHtmlForTheStopState(clock.getElapsedTime(), bodyBackgroundColor, running);
+        long elapsedTimeInMilliseconds = clock.getElapsedTime();
+        String caption = remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, BabystepsTimer.SECONDS_IN_CYCLE);
+        return htmlCreator.createTimerHtml(caption, bodyBackgroundColor, running);
     }
 
     public void setBodyBackgroundColor(String color) {
