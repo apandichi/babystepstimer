@@ -1,6 +1,6 @@
 package net.davidtanzer.babysteps;
 
-public class Clock {
+public class ClockImpl {
     private long currentCycleStartTime;
     private String lastRemainingTime;
 
