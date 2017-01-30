@@ -6,7 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static net.davidtanzer.babysteps.BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -41,36 +40,24 @@ public class BabystepsTimerTest {
     }
 
     @Test
-    public void shouldGetHtmlForTheStopState() {
-        boolean running = true;
-        String stopHtml = "stop html";
-        String timeCaption = "timer text";
-        String bodyColor = BACKGROUND_COLOR_NEUTRAL;
-        long elapsedTimeInMilliseconds = 0L;
+    public void shouldGetTimerHtmlWhenTheTimerIsRunning() {
+        when(clock.getElapsedTime()).thenReturn(0L);
+        when(remainingTimeCaption.getRemainingTimeCaption(0L, 20L)).thenReturn("00:20");
+        when(htmlCreator.createTimerHtml("00:20", "#ffffff", true)).thenReturn("00:20 red true");
 
-        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, 20)).thenReturn(timeCaption);
-        when(htmlCreator.createTimerHtml(timeCaption, bodyColor, running)).thenReturn(stopHtml);
+        String html = babystepsTimer.getTimerHtml(true);
 
-        String html = babystepsTimer.getTimerHtml(running);
-
-        assertEquals(html, stopHtml);
+        assertEquals(html, "00:20 red true");
     }
 
     @Test
-    public void shouldGetHtmlForTheOtherTimerStates() {
-        boolean running = true;
-        String stopHtml = "html for other timer states";
-        String timeCaption = "00:44";
-        String bodyColor = "a color";
-        long elapsedTimeInMilliseconds = 2000L;
+    public void shouldGetTimerHtmlWithElapsedTime() {
+        when(clock.getElapsedTime()).thenReturn(5000L);
+        when(remainingTimeCaption.getRemainingTimeCaption(5000L, 20L)).thenReturn("00:15");
+        when(htmlCreator.createTimerHtml("00:15", "#ffffff", true)).thenReturn("00:15 red true");
 
-        when(clock.getElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
-        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, 20)).thenReturn(timeCaption);
-        when(htmlCreator.createTimerHtml(timeCaption, bodyColor, running)).thenReturn(stopHtml);
+        String html = babystepsTimer.getTimerHtml(true);
 
-        babystepsTimer.setBodyBackgroundColor(bodyColor);
-        String html = babystepsTimer.getTimerHtml(running);
-
-        assertEquals(html, stopHtml);
+        assertEquals(html, "00:15 red true");
     }
 }
