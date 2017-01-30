@@ -46,6 +46,10 @@ public class BabystepsTimer {
         return htmlCreator.createTimerHtml(caption, bodyBackgroundColor, running);
     }
 
+    public String getBodyBackgroundColor() {
+        return bodyBackgroundColor;
+    }
+
     public void setBodyBackgroundColor(String color) {
         bodyBackgroundColor = color;
     }

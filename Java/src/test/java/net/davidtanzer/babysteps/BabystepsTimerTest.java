@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class BabystepsTimerTest {
@@ -77,5 +79,15 @@ public class BabystepsTimerTest {
         String html = babystepsTimer.getTimerHtml(isTimerRunning);
 
         assertEquals(html, timerHtml);
+    }
+
+    @Test
+    public void shouldResetTimerClockAndBackgroundColor() {
+        assertNotEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_PASSED);
+
+        babystepsTimer.reset();
+
+        verify(clock).resetClock();
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_PASSED);
     }
 }
