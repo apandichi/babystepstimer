@@ -11,8 +11,11 @@ import static org.mockito.Mockito.when;
 
 public class BabystepsTimerTest {
 
+    private final long secondsInCycle = 20L;
+    private final String bodyBackgroundColor = "#ffffff";
+
     @InjectMocks
-    private BabystepsTimer babystepsTimer = new BabystepsTimer(20, "#ffffff");
+    private BabystepsTimer babystepsTimer = new BabystepsTimer(secondsInCycle, bodyBackgroundColor);
 
     @Mock
     private RemainingTimeCaption remainingTimeCaption;
@@ -30,34 +33,49 @@ public class BabystepsTimerTest {
 
     @Test
     public void shouldGetTimerHtmlBeforeStartingTheTimer() {
-        when(clock.getElapsedTime()).thenReturn(0L);
-        when(remainingTimeCaption.getRemainingTimeCaption(0L, 20L)).thenReturn("00:20");
-        when(htmlCreator.createTimerHtml("00:20", "#ffffff", false)).thenReturn("00:20 red false");
+        long elapsedTimeInMilliseconds = 0L;
+        boolean isTimerRunning = false;
+        String timerText = "00:20";
+        String timerHtml = "00:20 red false";
 
-        String html = babystepsTimer.getTimerHtml(false);
+        when(clock.getElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(timerText);
+        when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
 
-        assertEquals(html, "00:20 red false");
+        String html = babystepsTimer.getTimerHtml(isTimerRunning);
+
+        assertEquals(html, timerHtml);
     }
 
     @Test
     public void shouldGetTimerHtmlWhenTheTimerIsRunning() {
-        when(clock.getElapsedTime()).thenReturn(0L);
-        when(remainingTimeCaption.getRemainingTimeCaption(0L, 20L)).thenReturn("00:20");
-        when(htmlCreator.createTimerHtml("00:20", "#ffffff", true)).thenReturn("00:20 red true");
+        long elapsedTimeInMilliseconds = 0L;
+        boolean isTimerRunning = true;
+        String timerText = "00:20";
+        String timerHtml = "00:20 red true";
 
-        String html = babystepsTimer.getTimerHtml(true);
+        when(clock.getElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(timerText);
+        when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
 
-        assertEquals(html, "00:20 red true");
+        String html = babystepsTimer.getTimerHtml(isTimerRunning);
+
+        assertEquals(html, timerHtml);
     }
 
     @Test
     public void shouldGetTimerHtmlWithElapsedTime() {
-        when(clock.getElapsedTime()).thenReturn(5000L);
-        when(remainingTimeCaption.getRemainingTimeCaption(5000L, 20L)).thenReturn("00:15");
-        when(htmlCreator.createTimerHtml("00:15", "#ffffff", true)).thenReturn("00:15 red true");
+        long elapsedTimeInMilliseconds = 5000L;
+        boolean isTimerRunning = true;
+        String timerText = "00:15";
+        String timerHtml = "00:15 red true";
 
-        String html = babystepsTimer.getTimerHtml(true);
+        when(clock.getElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(timerText);
+        when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
 
-        assertEquals(html, "00:15 red true");
+        String html = babystepsTimer.getTimerHtml(isTimerRunning);
+
+        assertEquals(html, timerHtml);
     }
 }
