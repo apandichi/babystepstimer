@@ -110,4 +110,18 @@ public class BabystepsTimerTest {
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_FAILED);
         verifyNoMoreInteractions(soundPlayer);
     }
+
+    @Test
+    public void tickShouldResetColorToNeutralAndShouldNotPlayAnySound() {
+        long elapsedTimeInMilliseconds = 5500L;
+
+        babystepsTimer.setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_FAILED);
+        when(clock.resetTimerWhenCycleEnded(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
+        when(clock.elapsedTimeBetween5And6Seconds(elapsedTimeInMilliseconds)).thenReturn(true);
+
+        babystepsTimer.tick();
+
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        verifyNoMoreInteractions(soundPlayer);
+    }
 }
