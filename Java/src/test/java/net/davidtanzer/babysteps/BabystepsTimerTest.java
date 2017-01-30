@@ -9,12 +9,13 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class BabystepsTimerTest {
 
     private final long secondsInCycle = 20L;
-    private final String bodyBackgroundColor = "#ffffff";
+    private final String bodyBackgroundColor = BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
 
     @InjectMocks
     private BabystepsTimer babystepsTimer = new BabystepsTimer(secondsInCycle, bodyBackgroundColor);
@@ -27,6 +28,9 @@ public class BabystepsTimerTest {
 
     @Mock
     private Clock clock;
+
+    @Mock
+    private SoundPlayer soundPlayer;
 
     @Before
     public void beforeTest() {
@@ -89,5 +93,13 @@ public class BabystepsTimerTest {
 
         verify(clock).resetClock();
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_PASSED);
+    }
+
+    @Test
+    public void tickShouldNotResetBackgroundColorOrPlaySound() {
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        babystepsTimer.tick();
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        verifyNoMoreInteractions(soundPlayer);
     }
 }
