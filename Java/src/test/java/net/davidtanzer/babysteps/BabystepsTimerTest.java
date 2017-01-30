@@ -102,4 +102,12 @@ public class BabystepsTimerTest {
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         verifyNoMoreInteractions(soundPlayer);
     }
+
+    @Test
+    public void tickShouldNotResetBackgroundColorOrPlaySoundWhenBackgroundColorIsNotNeutral() {
+        babystepsTimer.setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_FAILED);
+        babystepsTimer.tick();
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_FAILED);
+        verifyNoMoreInteractions(soundPlayer);
+    }
 }
