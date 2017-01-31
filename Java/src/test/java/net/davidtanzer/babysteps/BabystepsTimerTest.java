@@ -132,4 +132,20 @@ public class BabystepsTimerTest {
         verify(clock, times(0)).updateTimerCaption(any());
     }
 
+    @Test
+    public void tickShouldUpdateRemainingTimeCaptionButShouldNotResetColorOrPlayAnySound() {
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        long elapsedTimeInMilliseconds = 1000L;
+        String remainingTime = "00:19";
+
+        when(clock.resetTimerWhenCycleEnded(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(remainingTime);
+        when(clock.timerCaptionChanged(remainingTime)).thenReturn(true);
+        babystepsTimer.tick();
+
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        verifyNoMoreInteractions(soundPlayer);
+        verify(clock).updateTimerCaption(remainingTime);
+    }
+
 }
