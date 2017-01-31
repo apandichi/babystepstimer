@@ -165,4 +165,10 @@ public class BabystepsTimerTest {
         verify(clock).updateTimerCaption(remainingTime);
     }
 
+    @Test
+    public void clockShouldBeResetWhenTimerIsStarted() {
+        babystepsTimer.start();
+        verify(clock).resetClock();
+    }
+
 }
