@@ -5,12 +5,16 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.verification.VerificationModeFactory;
+import org.mockito.verification.VerificationMode;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 public class BabystepsTimerTest {
 
@@ -96,23 +100,25 @@ public class BabystepsTimerTest {
     }
 
     @Test
-    public void tickShouldNotResetBackgroundColorOrPlaySound() {
+    public void tickShouldNotResetBackgroundColorOrPlayAnySoundOrUpdateTimeCaption() {
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         babystepsTimer.tick();
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         verifyNoMoreInteractions(soundPlayer);
+        verify(clock, times(0)).updateTimerCaption(any());
     }
 
     @Test
-    public void tickShouldNotResetBackgroundColorOrPlaySoundWhenBackgroundColorIsNotNeutral() {
+    public void tickShouldNotResetBackgroundColorOrPlaySoundWhenBackgroundColorIsNotNeutralOrUpdateTimeCaption() {
         babystepsTimer.setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_FAILED);
         babystepsTimer.tick();
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_FAILED);
         verifyNoMoreInteractions(soundPlayer);
+        verify(clock, times(0)).updateTimerCaption(any());
     }
 
     @Test
-    public void tickShouldResetColorToNeutralAndShouldNotPlayAnySound() {
+    public void tickShouldResetColorToNeutralAndShouldNotPlayAnySoundOrUpdateTimeCaption() {
         long elapsedTimeInMilliseconds = 5500L;
 
         babystepsTimer.setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_FAILED);
@@ -123,5 +129,7 @@ public class BabystepsTimerTest {
 
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         verifyNoMoreInteractions(soundPlayer);
+        verify(clock, times(0)).updateTimerCaption(any());
     }
+
 }
