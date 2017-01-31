@@ -39,6 +39,7 @@ public class BabystepsTimerTest {
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
     }
 
     @Test
@@ -101,7 +102,6 @@ public class BabystepsTimerTest {
 
     @Test
     public void tickShouldNotResetBackgroundColorOrPlayAnySoundOrUpdateTimeCaption() {
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         babystepsTimer.tick();
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         verifyNoMoreInteractions(soundPlayer);
@@ -134,7 +134,6 @@ public class BabystepsTimerTest {
 
     @Test
     public void tickShouldUpdateRemainingTimeCaptionButShouldNotResetColorOrPlayAnySound() {
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         long elapsedTimeInMilliseconds = 1000L;
         String remainingTime = "00:19";
 
@@ -150,7 +149,6 @@ public class BabystepsTimerTest {
 
     @Test
     public void tickShouldPlaySoundAndChangeBackgroundColorWhenRemainingTimeIsZero() {
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         long elapsedTimeInMilliseconds = 20000L;
         String remainingTime = "00:00";
         String soundAtTimeZero = "theetone.wav";
@@ -167,7 +165,6 @@ public class BabystepsTimerTest {
 
     @Test
     public void tickShouldPlaySoundWhenRemainingTimeIstenSeconds() {
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         long elapsedTimeInMilliseconds = 10000L;
         String remainingTime = "00:10";
         String soundAtTimeZero = "pluck.wav";
