@@ -148,4 +148,21 @@ public class BabystepsTimerTest {
         verify(clock).updateTimerCaption(remainingTime);
     }
 
+    @Test
+    public void tickShouldPlaySoundAndChangeBackgroundColorWhenRemainingTimeIsZero() {
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        long elapsedTimeInMilliseconds = 20000L;
+        String remainingTime = "00:00";
+        String soundAtTimeZero = "theetone.wav";
+
+        when(clock.resetTimerWhenCycleEnded(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(remainingTime);
+        when(clock.timerCaptionChanged(remainingTime)).thenReturn(true);
+        babystepsTimer.tick();
+
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_FAILED);
+        verify(soundPlayer).playSoundInNewThread(soundAtTimeZero);
+        verify(clock).updateTimerCaption(remainingTime);
+    }
+
 }
