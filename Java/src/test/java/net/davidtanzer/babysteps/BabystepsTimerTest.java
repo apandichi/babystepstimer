@@ -166,6 +166,23 @@ public class BabystepsTimerTest {
     }
 
     @Test
+    public void tickShouldPlaySoundWhenRemainingTimeIstenSeconds() {
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        long elapsedTimeInMilliseconds = 10000L;
+        String remainingTime = "00:10";
+        String soundAtTimeZero = "pluck.wav";
+
+        when(clock.resetTimerWhenCycleEnded(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(remainingTime);
+        when(clock.timerCaptionChanged(remainingTime)).thenReturn(true);
+        babystepsTimer.tick();
+
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        verify(soundPlayer).playSoundInNewThread(soundAtTimeZero);
+        verify(clock).updateTimerCaption(remainingTime);
+    }
+
+    @Test
     public void clockShouldBeResetWhenTimerIsStarted() {
         babystepsTimer.start();
         verify(clock).resetClock();
