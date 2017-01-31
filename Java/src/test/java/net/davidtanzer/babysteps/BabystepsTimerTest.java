@@ -118,7 +118,7 @@ public class BabystepsTimerTest {
     }
 
     @Test
-    public void tickShouldResetColorToNeutralAndShouldNotPlayAnySoundOrUpdateTimeCaption() {
+    public void tickShouldResetColorToNeutralWhenFiveSecondsElapsedButShouldNotPlayAnySoundOrUpdateTimeCaption() {
         long elapsedTimeInMilliseconds = 5500L;
 
         babystepsTimer.setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_FAILED);
