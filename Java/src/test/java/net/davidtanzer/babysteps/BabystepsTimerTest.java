@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.verification.VerificationModeFactory;
-import org.mockito.verification.VerificationMode;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -49,7 +47,7 @@ public class BabystepsTimerTest {
         String timerText = "00:20";
         String timerHtml = "00:20 red false";
 
-        when(clock.getElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
+        when(clock.computeElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
         when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(timerText);
         when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
 
@@ -65,7 +63,7 @@ public class BabystepsTimerTest {
         String timerText = "00:20";
         String timerHtml = "00:20 red true";
 
-        when(clock.getElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
+        when(clock.computeElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
         when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(timerText);
         when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
 
@@ -81,7 +79,7 @@ public class BabystepsTimerTest {
         String timerText = "00:15";
         String timerHtml = "00:15 red true";
 
-        when(clock.getElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
+        when(clock.computeElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
         when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(timerText);
         when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
 
@@ -122,7 +120,7 @@ public class BabystepsTimerTest {
         long elapsedTimeInMilliseconds = 5500L;
 
         babystepsTimer.setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_FAILED);
-        when(clock.resetTimerWhenCycleEnded(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
+        when(clock.getRemainingSecondsAndResetElapsedTime(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
         when(clock.elapsedTimeBetween5And6Seconds(elapsedTimeInMilliseconds)).thenReturn(true);
 
         babystepsTimer.tick();
@@ -137,9 +135,9 @@ public class BabystepsTimerTest {
         long elapsedTimeInMilliseconds = 1000L;
         String remainingTime = "00:19";
 
-        when(clock.resetTimerWhenCycleEnded(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
+        when(clock.getRemainingSecondsAndResetElapsedTime(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
         when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(remainingTime);
-        when(clock.timerCaptionChanged(remainingTime)).thenReturn(true);
+        when(clock.timerCaptionChanged(remainingTime, lastRemainingTime)).thenReturn(true);
         babystepsTimer.tick();
 
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
@@ -153,9 +151,9 @@ public class BabystepsTimerTest {
         String remainingTime = "00:00";
         String soundAtTimeZero = "theetone.wav";
 
-        when(clock.resetTimerWhenCycleEnded(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
+        when(clock.getRemainingSecondsAndResetElapsedTime(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
         when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(remainingTime);
-        when(clock.timerCaptionChanged(remainingTime)).thenReturn(true);
+        when(clock.timerCaptionChanged(remainingTime, lastRemainingTime)).thenReturn(true);
         babystepsTimer.tick();
 
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_FAILED);
@@ -169,9 +167,9 @@ public class BabystepsTimerTest {
         String remainingTime = "00:10";
         String soundAtTimeZero = "pluck.wav";
 
-        when(clock.resetTimerWhenCycleEnded(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
+        when(clock.getRemainingSecondsAndResetElapsedTime(secondsInCycle)).thenReturn(elapsedTimeInMilliseconds);
         when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle)).thenReturn(remainingTime);
-        when(clock.timerCaptionChanged(remainingTime)).thenReturn(true);
+        when(clock.timerCaptionChanged(remainingTime, lastRemainingTime)).thenReturn(true);
         babystepsTimer.tick();
 
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);

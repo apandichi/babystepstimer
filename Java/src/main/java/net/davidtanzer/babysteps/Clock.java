@@ -3,13 +3,13 @@ package net.davidtanzer.babysteps;
 public interface Clock {
     void resetClock();
 
-    long getElapsedTime();
+    long getRemainingSecondsAndResetElapsedTime();
 
-    long resetTimerWhenCycleEnded(long secondsInCycle);
+    boolean timerCaptionChanged(String remainingTime, String lastRemainingTime);
 
-    boolean timerCaptionChanged(String remainingTime);
+    boolean elapsedTimeBetween5And6Seconds();
 
-    void updateTimerCaption(String remainingTime);
+    String getRemainingTimeCaption();
 
-    boolean elapsedTimeBetween5And6Seconds(long elapsedTime);
+    void tick();
 }

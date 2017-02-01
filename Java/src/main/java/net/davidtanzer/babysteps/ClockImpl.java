@@ -1,54 +1,62 @@
 package net.davidtanzer.babysteps;
 
+import java.text.DecimalFormat;
+
 public class ClockImpl implements Clock {
+    private final long secondsInCycle;
+    private long elapsedTimeInMilliseconds;
     private long currentCycleStartTime;
-    private String lastRemainingTime;
+
+    public ClockImpl(long secondsInCycle) {
+        this.secondsInCycle = secondsInCycle;
+    }
 
     @Override
     public void resetClock() {
-        currentCycleStartTime(System.currentTimeMillis());
+        currentCycleStartTime = System.currentTimeMillis();
+        elapsedTimeInMilliseconds = 0;
+    }
+
+    private long getElapsedTimeInSeconds() {
+        return elapsedTimeInMilliseconds / 1000;
     }
 
     @Override
-    public long getElapsedTime() {
-        return System.currentTimeMillis() - currentCycleStartTime;
-    }
-
-    @Override
-    public long resetTimerWhenCycleEnded(long secondsInCycle) {
-        long elapsedTime = getElapsedTime();
-        boolean timerCycleEnded = elapsedTime >= secondsInCycle * 1000 + 980;
+    public long getRemainingSecondsAndResetElapsedTime() {
+        long elapsedTimeInSeconds = getElapsedTimeInSeconds();
+        boolean timerCycleEnded = elapsedTimeInSeconds == secondsInCycle;
         if (timerCycleEnded) {
             resetClock();
-            elapsedTime = getElapsedTime();
         }
-        return elapsedTime;
+        long remainingSeconds = secondsInCycle - getElapsedTimeInSeconds();
+        return remainingSeconds;
     }
 
     @Override
-    public boolean timerCaptionChanged(String remainingTime) {
-        return !remainingTime.equals(lastRemainingTime());
-    }
-
-    private void currentCycleStartTime(long startTime) {
-        currentCycleStartTime = startTime;
-    }
-
-    private String lastRemainingTime() {
-        return lastRemainingTime;
-    }
-
-    private void lastRemainingTime(String remainingTime) {
-        lastRemainingTime = remainingTime;
+    public boolean timerCaptionChanged(String remainingTime, String lastRemainingTime) {
+        return !remainingTime.equals(lastRemainingTime);
     }
 
     @Override
-    public void updateTimerCaption(String remainingTime) {
-        lastRemainingTime(remainingTime);
+    public boolean elapsedTimeBetween5And6Seconds() {
+        return 5000 < elapsedTimeInMilliseconds && elapsedTimeInMilliseconds < 6000;
+    }
+
+    private static DecimalFormat twoDigitsFormat = new DecimalFormat("00");
+
+    @Override
+    public String getRemainingTimeCaption() {
+        long remainingSeconds = secondsInCycle - getElapsedTimeInSeconds();
+        long remainingMinutes = remainingSeconds / 60;
+        return twoDigitsFormat.format(remainingMinutes) + ":" + twoDigitsFormat.format(remainingSeconds - remainingMinutes * 60);
     }
 
     @Override
-    public boolean elapsedTimeBetween5And6Seconds(long elapsedTime) {
-        return 5000 < elapsedTime && elapsedTime < 6000;
+    public void tick() {
+        getRemainingSecondsAndResetElapsedTime();
+        long difference = System.currentTimeMillis() - currentCycleStartTime;
+        if (difference > 1000) {
+            elapsedTimeInMilliseconds = difference;
+        }
     }
 }
