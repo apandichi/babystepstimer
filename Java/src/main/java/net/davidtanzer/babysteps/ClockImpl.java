@@ -1,11 +1,11 @@
 package net.davidtanzer.babysteps;
 
-import java.text.DecimalFormat;
-
 public class ClockImpl implements Clock {
     private final long secondsInCycle;
     private long elapsedTimeInMilliseconds;
     private long currentCycleStartTime;
+
+    private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
 
     public ClockImpl(long secondsInCycle) {
         this.secondsInCycle = secondsInCycle;
@@ -42,13 +42,9 @@ public class ClockImpl implements Clock {
         return 5000 < elapsedTimeInMilliseconds && elapsedTimeInMilliseconds < 6000;
     }
 
-    private static DecimalFormat twoDigitsFormat = new DecimalFormat("00");
-
     @Override
     public String getRemainingTimeCaption() {
-        long remainingSeconds = secondsInCycle - getElapsedTimeInSeconds();
-        long remainingMinutes = remainingSeconds / 60;
-        return twoDigitsFormat.format(remainingMinutes) + ":" + twoDigitsFormat.format(remainingSeconds - remainingMinutes * 60);
+        return remainingTimeCaption.getRemainingTimeCaption(getElapsedTimeInSeconds(), secondsInCycle);
     }
 
     @Override
