@@ -44,7 +44,8 @@ public class ClockImpl implements Clock {
 
     @Override
     public String getRemainingTimeCaption() {
-        return remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInMilliseconds, secondsInCycle);
+        long elapsedTimeInSeconds = elapsedTimeInMilliseconds / 1000;
+        return remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInSeconds, secondsInCycle);
     }
 
     @Override
