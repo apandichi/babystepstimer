@@ -5,6 +5,8 @@ repositories {
 }
 
 dependencies {
+	compile files('./src/main/resources/libs/ApprovalTests.jar')
+	compile 'com.github.spullara.mustache.java:compiler:0.9.4'
 	testCompile 'junit:junit:4.+'
 	testCompile 'org.mockito:mockito-core:1.9.5'
 }
