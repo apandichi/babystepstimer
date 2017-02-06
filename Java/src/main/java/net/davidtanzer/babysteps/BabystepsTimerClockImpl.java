@@ -1,6 +1,6 @@
 package net.davidtanzer.babysteps;
 
-public class ClockImpl implements Clock {
+public class BabystepsTimerClockImpl implements BabystepsTimerClock {
     private final long secondsInCycle;
     private long elapsedTimeInMilliseconds;
     private long currentCycleStartTime;
@@ -8,7 +8,7 @@ public class ClockImpl implements Clock {
     private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
     private SystemClockImpl systemClock = new SystemClockImpl();
 
-    public ClockImpl(long secondsInCycle) {
+    public BabystepsTimerClockImpl(long secondsInCycle) {
         this.secondsInCycle = secondsInCycle;
     }
 

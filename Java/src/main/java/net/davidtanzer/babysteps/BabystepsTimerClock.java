@@ -1,6 +1,6 @@
 package net.davidtanzer.babysteps;
 
-public interface Clock {
+public interface BabystepsTimerClock {
     void resetClock();
 
     long getRemainingSecondsAndResetElapsedTime();

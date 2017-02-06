@@ -25,13 +25,13 @@ public class BabystepsTimer {
 
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
-    private Clock clock;
+    private BabystepsTimerClock babystepsTimerClock;
 
     private Map<String, String> soundsToPlayAtTime = new HashMap<>();
     private Map<String, String> colorsToSetAtTime = new HashMap<>();
 
     public BabystepsTimer(long secondsInCycle, String bodyBackgroundColor) {
-        clock = new ClockImpl(secondsInCycle);
+        babystepsTimerClock = new BabystepsTimerClockImpl(secondsInCycle);
         this.bodyBackgroundColor = bodyBackgroundColor;
         soundsToPlayAtTime.put("00:10", "pluck.wav");
         soundsToPlayAtTime.put("00:00", "theetone.wav");
@@ -39,7 +39,7 @@ public class BabystepsTimer {
     }
 
     public String getTimerHtml(boolean running) {
-        String caption = clock.getRemainingTimeCaption();
+        String caption = babystepsTimerClock.getRemainingTimeCaption();
         return htmlCreator.createTimerHtml(caption, bodyBackgroundColor, running);
     }
 
@@ -52,24 +52,24 @@ public class BabystepsTimer {
     }
 
     public void start() {
-        clock.resetClock();
+        babystepsTimerClock.resetClock();
     }
 
     public void reset() {
-        clock.resetClock();
+        babystepsTimerClock.resetClock();
         setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
     }
 
     public void tick() {
-        String lastRemainingTime = clock.getRemainingTimeCaption();
-        clock.tick();
-        String remainingTime = clock.getRemainingTimeCaption();
+        String lastRemainingTime = babystepsTimerClock.getRemainingTimeCaption();
+        babystepsTimerClock.tick();
+        String remainingTime = babystepsTimerClock.getRemainingTimeCaption();
         resetBackgroundColorToNeutral();
         updateTimerCaptionWithElapsedTime(remainingTime, lastRemainingTime);
     }
 
     private void updateTimerCaptionWithElapsedTime(String remainingTime, String lastRemainingTime) {
-        if (clock.timerCaptionChanged(remainingTime, lastRemainingTime)) {
+        if (babystepsTimerClock.timerCaptionChanged(remainingTime, lastRemainingTime)) {
             playSoundAtTime(remainingTime);
             changeBackgroundColorAtTime(remainingTime);
         }
@@ -90,7 +90,7 @@ public class BabystepsTimer {
     }
 
     private void resetBackgroundColorToNeutral() {
-        if (clock.elapsedTimeBetween5And6Seconds() && backgroundColorIsNotNeutral()) {
+        if (babystepsTimerClock.elapsedTimeBetween5And6Seconds() && backgroundColorIsNotNeutral()) {
             setBodyBackgroundColor(BACKGROUND_COLOR_NEUTRAL);
         }
     }
