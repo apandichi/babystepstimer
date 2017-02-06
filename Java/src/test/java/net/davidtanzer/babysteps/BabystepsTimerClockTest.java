@@ -1,6 +1,5 @@
 package net.davidtanzer.babysteps;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -28,52 +27,42 @@ public class BabystepsTimerClockTest {
 
     @Test
     public void testElapsedTimeLessThan5Seconds() {
-        when(systemClock.currentTimeMillis()).thenReturn(0L).thenReturn(2000L);
-        babystepsTimerClock.resetClock();
-        babystepsTimerClock.tick();
+        setupElapsedTimeInMilliseconds(2000L);
         boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
         assertFalse(elapsedTimeBetween5And6Seconds);
     }
 
     @Test
     public void testElapsedTimeExactly5Seconds() {
-        MockitoAnnotations.initMocks(this);
-        when(systemClock.currentTimeMillis()).thenReturn(0L).thenReturn(5000L);
-        babystepsTimerClock.resetClock();
-        babystepsTimerClock.tick();
+        setupElapsedTimeInMilliseconds(5000L);
         boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
         assertFalse(elapsedTimeBetween5And6Seconds);
     }
 
     @Test
     public void testElapsedTimeBetween5And6SecondsLowerBound() {
-        MockitoAnnotations.initMocks(this);
-        when(systemClock.currentTimeMillis()).thenReturn(0L).thenReturn(5001L);
-        babystepsTimerClock.resetClock();
-        babystepsTimerClock.tick();
+        setupElapsedTimeInMilliseconds(5001L);
         boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
         assertTrue(elapsedTimeBetween5And6Seconds);
     }
 
     @Test
     public void testElapsedTimeBetween5And6SecondsUpperBound() {
-        MockitoAnnotations.initMocks(this);
-        when(systemClock.currentTimeMillis()).thenReturn(0L).thenReturn(5999L);
-        babystepsTimerClock.resetClock();
-        babystepsTimerClock.tick();
+        setupElapsedTimeInMilliseconds(5999L);
         boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
         assertTrue(elapsedTimeBetween5And6Seconds);
     }
 
     @Test
     public void testElapsedTimeExactly6Seconds() {
-        MockitoAnnotations.initMocks(this);
-        when(systemClock.currentTimeMillis()).thenReturn(0L).thenReturn(6000L);
-        babystepsTimerClock.resetClock();
-        babystepsTimerClock.tick();
+        setupElapsedTimeInMilliseconds(6000L);
         boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
         assertFalse(elapsedTimeBetween5And6Seconds);
     }
 
-
+    private void setupElapsedTimeInMilliseconds(long elapsedTimeInMilliseconds) {
+        when(systemClock.currentTimeMillis()).thenReturn(0L).thenReturn(elapsedTimeInMilliseconds);
+        babystepsTimerClock.resetClock();
+        babystepsTimerClock.tick();
+    }
 }
