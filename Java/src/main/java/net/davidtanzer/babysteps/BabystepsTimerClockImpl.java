@@ -6,7 +6,7 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
     private long currentCycleStartTime;
 
     private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
-    private SystemClockImpl systemClock = new SystemClockImpl();
+    private SystemClock systemClock = new SystemClockImpl();
 
     public BabystepsTimerClockImpl(long secondsInCycle) {
         this.secondsInCycle = secondsInCycle;
