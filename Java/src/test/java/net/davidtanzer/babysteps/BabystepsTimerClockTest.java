@@ -60,6 +60,22 @@ public class BabystepsTimerClockTest {
         assertFalse(elapsedTimeBetween5And6Seconds);
     }
 
+    @Test
+    public void testTimerCaptionChanged() {
+        String remainingTime = "00:19";
+        String lastRemainingTime = "00:20";
+        boolean timerCaptionChanged = babystepsTimerClock.timerCaptionChanged(remainingTime, lastRemainingTime);
+        assertTrue(timerCaptionChanged);
+    }
+
+    @Test
+    public void testTimerCaptionNotChanged() {
+        String remainingTime = "00:20";
+        String lastRemainingTime = "00:20";
+        boolean timerCaptionChanged = babystepsTimerClock.timerCaptionChanged(remainingTime, lastRemainingTime);
+        assertFalse(timerCaptionChanged);
+    }
+
     private void setupElapsedTimeInMilliseconds(long elapsedTimeInMilliseconds) {
         when(systemClock.currentTimeMillis()).thenReturn(0L).thenReturn(elapsedTimeInMilliseconds);
         babystepsTimerClock.resetClock();
