@@ -23,7 +23,6 @@ public class BabystepsTimer {
 
 	private String bodyBackgroundColor;
 
-    private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
     private Clock clock;

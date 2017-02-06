@@ -6,6 +6,7 @@ public class ClockImpl implements Clock {
     private long currentCycleStartTime;
 
     private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
+    private SystemClockImpl systemClock = new SystemClockImpl();
 
     public ClockImpl(long secondsInCycle) {
         this.secondsInCycle = secondsInCycle;
@@ -13,7 +14,7 @@ public class ClockImpl implements Clock {
 
     @Override
     public void resetClock() {
-        currentCycleStartTime = System.currentTimeMillis();
+        currentCycleStartTime = systemClock.currentTimeMillis();
         elapsedTimeInMilliseconds = 0;
     }
 
@@ -51,9 +52,10 @@ public class ClockImpl implements Clock {
     @Override
     public void tick() {
         getRemainingSecondsAndResetElapsedTime();
-        long difference = System.currentTimeMillis() - currentCycleStartTime;
+        long difference = systemClock.currentTimeMillis() - currentCycleStartTime;
         if (difference > 1000) {
             elapsedTimeInMilliseconds = difference;
         }
     }
+
 }
