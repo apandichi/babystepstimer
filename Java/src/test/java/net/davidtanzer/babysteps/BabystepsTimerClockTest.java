@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class BabystepsTimerClockTest {
@@ -86,7 +87,30 @@ public class BabystepsTimerClockTest {
         String expectedCaption = "00:10";
         setupElapsedTimeInMilliseconds(10000L);
         when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInSeconds, secondsInCycle)).thenReturn(expectedCaption);
+
         String caption = babystepsTimerClock.getRemainingTimeCaption();
+
+        assertEquals(expectedCaption, caption);
+    }
+
+    @Test
+    public void verifyInteractionForGetRemainingTimeCaption() {
+        setupElapsedTimeInMilliseconds(10000L);
+        babystepsTimerClock.getRemainingTimeCaption();
+        verify(remainingTimeCaption).getRemainingTimeCaption(10L, secondsInCycle);
+    }
+
+    @Test
+    public void testClockIsReset() {
+        long elapsedTimeInSeconds = 0L;
+        String expectedCaption = "00:00";
+        setupElapsedTimeInMilliseconds(10000L);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInSeconds, secondsInCycle)).thenReturn(expectedCaption);
+
+        babystepsTimerClock.resetClock();
+        String caption = babystepsTimerClock.getRemainingTimeCaption();
+
+        verify(remainingTimeCaption).getRemainingTimeCaption(elapsedTimeInSeconds, secondsInCycle);
         assertEquals(expectedCaption, caption);
     }
 
