@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -19,6 +20,9 @@ public class BabystepsTimerClockTest {
 
     @Mock
     private SystemClock systemClock;
+
+    @Mock
+    private RemainingTimeCaption remainingTimeCaption;
 
     @Before
     public void beforeTest() {
@@ -74,6 +78,16 @@ public class BabystepsTimerClockTest {
         String lastRemainingTime = "00:20";
         boolean timerCaptionChanged = babystepsTimerClock.timerCaptionChanged(remainingTime, lastRemainingTime);
         assertFalse(timerCaptionChanged);
+    }
+
+    @Test
+    public void testRemainingTimeCaption() {
+        long elapsedTimeInSeconds = 10L;
+        String expectedCaption = "00:10";
+        setupElapsedTimeInMilliseconds(10000L);
+        when(remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInSeconds, secondsInCycle)).thenReturn(expectedCaption);
+        String caption = babystepsTimerClock.getRemainingTimeCaption();
+        assertEquals(expectedCaption, caption);
     }
 
     private void setupElapsedTimeInMilliseconds(long elapsedTimeInMilliseconds) {
