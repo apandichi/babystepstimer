@@ -22,8 +22,7 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
         return elapsedTimeInMilliseconds / 1000;
     }
 
-    @Override
-    public long getRemainingSecondsAndResetElapsedTime() {
+    private long getRemainingSecondsAndResetElapsedTime() {
         long elapsedTimeInSeconds = getElapsedTimeInSeconds();
         boolean timerCycleEnded = elapsedTimeInSeconds == secondsInCycle;
         if (timerCycleEnded) {

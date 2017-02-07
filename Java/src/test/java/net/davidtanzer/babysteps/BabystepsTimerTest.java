@@ -108,10 +108,7 @@ public class BabystepsTimerTest {
 
     @Test
     public void tickShouldResetColorToNeutralWhenFiveSecondsElapsedButShouldNotPlayAnySound() {
-        long elapsedTimeInMilliseconds = 5500L;
-
         babystepsTimer.setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_FAILED);
-        when(babystepsTimerClock.getRemainingSecondsAndResetElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
         when(babystepsTimerClock.elapsedTimeBetween5And6Seconds()).thenReturn(true);
 
         babystepsTimer.tick();
@@ -122,10 +119,8 @@ public class BabystepsTimerTest {
 
     @Test
     public void tickShouldUpdateRemainingTimeCaptionButShouldNotResetColorOrPlayAnySound() {
-        long elapsedTimeInMilliseconds = 1000L;
         String remainingTime = "00:19";
 
-        when(babystepsTimerClock.getRemainingSecondsAndResetElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
         babystepsTimer.tick();
 
@@ -135,11 +130,9 @@ public class BabystepsTimerTest {
 
     @Test
     public void tickShouldPlaySoundAndChangeBackgroundColorWhenRemainingTimeIsZero() {
-        long elapsedTimeInMilliseconds = 20000L;
         String remainingTime = "00:00";
         String soundAtTimeZero = "theetone.wav";
 
-        when(babystepsTimerClock.getRemainingSecondsAndResetElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
         when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
         babystepsTimer.tick();
@@ -150,11 +143,9 @@ public class BabystepsTimerTest {
 
     @Test
     public void tickShouldPlaySoundWhenRemainingTimeIstenSeconds() {
-        long elapsedTimeInMilliseconds = 10000L;
         String remainingTime = "00:10";
         String soundAtTimeZero = "pluck.wav";
 
-        when(babystepsTimerClock.getRemainingSecondsAndResetElapsedTime()).thenReturn(elapsedTimeInMilliseconds);
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
         when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
         babystepsTimer.tick();
