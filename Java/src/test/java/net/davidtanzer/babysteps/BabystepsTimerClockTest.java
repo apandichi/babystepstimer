@@ -114,6 +114,26 @@ public class BabystepsTimerClockTest {
         assertEquals(expectedCaption, caption);
     }
 
+    @Test
+    public void tickShouldNotChangeCaption() {
+        when(remainingTimeCaption.getRemainingTimeCaption(0L, secondsInCycle)).thenReturn("00:20");
+        when(remainingTimeCaption.getRemainingTimeCaption(1L, secondsInCycle)).thenReturn("00:19");
+
+        assertEquals("00:20", babystepsTimerClock.getRemainingTimeCaption());
+        setupElapsedTimeInMilliseconds(1000L);
+        assertEquals("00:20", babystepsTimerClock.getRemainingTimeCaption());
+    }
+
+    @Test
+    public void tickShouldChangeCaption() {
+        when(remainingTimeCaption.getRemainingTimeCaption(0L, secondsInCycle)).thenReturn("00:20");
+        when(remainingTimeCaption.getRemainingTimeCaption(1L, secondsInCycle)).thenReturn("00:19");
+
+        assertEquals("00:20", babystepsTimerClock.getRemainingTimeCaption());
+        setupElapsedTimeInMilliseconds(1001L);
+        assertEquals("00:19", babystepsTimerClock.getRemainingTimeCaption());
+    }
+
     private void setupElapsedTimeInMilliseconds(long elapsedTimeInMilliseconds) {
         when(systemClock.currentTimeMillis()).thenReturn(0L).thenReturn(elapsedTimeInMilliseconds);
         babystepsTimerClock.resetClock();
