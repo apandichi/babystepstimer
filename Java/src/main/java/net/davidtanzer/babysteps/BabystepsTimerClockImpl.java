@@ -22,14 +22,12 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
         return elapsedTimeInMilliseconds / 1000;
     }
 
-    private long getRemainingSecondsAndResetElapsedTime() {
+    private void resetClockIfTimerCycleEnded() {
         long elapsedTimeInSeconds = getElapsedTimeInSeconds();
         boolean timerCycleEnded = elapsedTimeInSeconds == secondsInCycle;
         if (timerCycleEnded) {
             resetClock();
         }
-        long remainingSeconds = secondsInCycle - getElapsedTimeInSeconds();
-        return remainingSeconds;
     }
 
     @Override
@@ -50,7 +48,7 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
 
     @Override
     public void tick() {
-        getRemainingSecondsAndResetElapsedTime();
+        resetClockIfTimerCycleEnded();
         long difference = systemClock.currentTimeMillis() - currentCycleStartTime;
         if (difference > 1000) {
             elapsedTimeInMilliseconds = difference;
