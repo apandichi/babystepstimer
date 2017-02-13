@@ -50,7 +50,6 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         timerFrame.setVisible(true);
     }
 
-
     private void setText(String text) {
         timerPane.setText(text);
     }
@@ -85,10 +84,6 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     @Override
     public void reset() {
         babystepsTimer.reset();
-    }
-
-    public void tick() {
-        babystepsTimer.tick();
     }
 
     @Override
