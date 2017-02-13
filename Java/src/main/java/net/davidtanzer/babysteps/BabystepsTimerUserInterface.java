@@ -81,6 +81,10 @@ public class BabystepsTimerUserInterface {
 
     public void tick() {
         babystepsTimer.tick();
+        updateUserInterfaceOnChange();
+    }
+
+    private void updateUserInterfaceOnChange() {
         SwingUtilities.invokeLater(() -> {
             setText(babystepsTimer.getTimerHtml(true));
             repaint();
