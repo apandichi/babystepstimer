@@ -46,15 +46,15 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 	}
 
 
-    public void setText(String text) {
+    private void setText(String text) {
         timerPane.setText(text);
     }
 
-    public void repaint() {
+    private void repaint() {
         timerFrame.repaint();
     }
 
-    public void setAlwaysOnTop(boolean onTop) {
+    private void setAlwaysOnTop(boolean onTop) {
         timerFrame.setAlwaysOnTop(onTop);
     }
 
