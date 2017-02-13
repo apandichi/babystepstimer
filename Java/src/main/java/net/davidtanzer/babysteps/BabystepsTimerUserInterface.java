@@ -17,7 +17,7 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
-public class BabystepsTimerUserInterface implements UserInterfaceChangeListener {
+public class BabystepsTimerUserInterface implements UserInterfaceChangeListener, BabystepsTimerCommands {
 
 	private JFrame timerFrame;
 	private JTextPane timerPane;
@@ -58,6 +58,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener 
         timerFrame.setAlwaysOnTop(onTop);
     }
 
+    @Override
     public void start() {
         babystepsTimer.start();
         timerThread = new TimerThread(this);
@@ -68,6 +69,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener 
         repaint();
     }
 
+    @Override
     public void stop() {
         timerThread.stopTimer();
         String htmlAtStart = babystepsTimer.getTimerHtml(false);
@@ -76,6 +78,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener 
         repaint();
     }
 
+    @Override
     public void reset() {
         babystepsTimer.reset();
     }
@@ -92,6 +95,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener 
         });
     }
 
+    @Override
     public void quit() {
         System.exit(0);
     }
