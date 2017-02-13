@@ -4,15 +4,14 @@ final class TimerThread extends Thread {
 
     private boolean timerRunning;
 
-    private BabystepsTimerUserInterface babystepsTimer;
+    private ClockListener clockListener;
 
-    public TimerThread(BabystepsTimerUserInterface babystepsTimer) {
-        this.babystepsTimer = babystepsTimer;
+    public TimerThread(ClockListener clockListener) {
+        this.clockListener = clockListener;
     }
 
     public void startTimer() {
         timerRunning = true;
-        this.start();
     }
 
     public void stopTimer() {
@@ -21,8 +20,10 @@ final class TimerThread extends Thread {
 
     @Override
     public void run() {
-        while (timerRunning) {
-            babystepsTimer.tick();
+        while (true) {
+            if (timerRunning) {
+                clockListener.tick();
+            }
             tryToSleep();
         }
     }

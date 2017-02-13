@@ -23,7 +23,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 	private JTextPane timerPane;
 
 	private BabystepsTimer babystepsTimer = new BabystepsTimer(20, BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
-    private TimerThread timerThread;
+    private TimerThread timerThread = new TimerThread(babystepsTimer);
 
     public static void main(final String[] args) throws InterruptedException {
         new BabystepsTimerUserInterface().init();
@@ -43,6 +43,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 		timerFrame.getContentPane().add(timerPane);
 		timerFrame.setVisible(true);
         babystepsTimer.registerUserInterfaceChangeListener(this);
+        timerThread.start();
 	}
 
 
@@ -61,7 +62,6 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     @Override
     public void start() {
         babystepsTimer.start();
-        timerThread = new TimerThread(this);
         timerThread.startTimer();
         String htmlAtStart = babystepsTimer.getTimerHtml(true);
         setAlwaysOnTop(true);
