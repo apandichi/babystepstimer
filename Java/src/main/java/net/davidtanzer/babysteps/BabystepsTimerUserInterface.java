@@ -30,21 +30,25 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     }
 
     public void init() {
-		timerFrame = new JFrame("Babysteps Timer");
-		timerFrame.setUndecorated(true);
-		timerFrame.setSize(250, 120);
-		timerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		timerPane = new JTextPane();
-		timerPane.setContentType("text/html");
-        timerPane.setText(babystepsTimer.getTimerHtml(false));
-		timerPane.setEditable(false);
-		timerPane.addMouseMotionListener(new BabystepsMouseMotionListener());
-        timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
-		timerFrame.getContentPane().add(timerPane);
-		timerFrame.setVisible(true);
+        initUserInterface();
         babystepsTimer.registerUserInterfaceChangeListener(this);
         timerThread.start();
 	}
+
+    private void initUserInterface() {
+        timerFrame = new JFrame("Babysteps Timer");
+        timerFrame.setUndecorated(true);
+        timerFrame.setSize(250, 120);
+        timerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        timerPane = new JTextPane();
+        timerPane.setContentType("text/html");
+        timerPane.setText(babystepsTimer.getTimerHtml(false));
+        timerPane.setEditable(false);
+        timerPane.addMouseMotionListener(new BabystepsMouseMotionListener());
+        timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
+        timerFrame.getContentPane().add(timerPane);
+        timerFrame.setVisible(true);
+    }
 
 
     private void setText(String text) {
