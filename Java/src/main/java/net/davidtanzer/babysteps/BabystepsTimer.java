@@ -13,10 +13,12 @@
 
 package net.davidtanzer.babysteps;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class BabystepsTimer {
+public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadcaster {
     public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
     public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
 	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
@@ -29,6 +31,8 @@ public class BabystepsTimer {
 
     private Map<String, String> soundsToPlayAtTime = new HashMap<>();
     private Map<String, String> colorsToSetAtTime = new HashMap<>();
+
+    private List<UserInterfaceChangeListener> userInterfaceChangeListeners = new ArrayList<>();
 
     public BabystepsTimer(long secondsInCycle, String bodyBackgroundColor) {
         babystepsTimerClock = new BabystepsTimerClockImpl(secondsInCycle);
@@ -60,12 +64,20 @@ public class BabystepsTimer {
         setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
     }
 
+    @Override
     public void tick() {
         String lastRemainingTime = babystepsTimerClock.getRemainingTimeCaption();
         babystepsTimerClock.tick();
         String remainingTime = babystepsTimerClock.getRemainingTimeCaption();
         resetBackgroundColorToNeutral();
         updateTimerCaptionWithElapsedTime(remainingTime, lastRemainingTime);
+        broadcastUserInrerfaceChangeToListeners();
+    }
+
+    private void broadcastUserInrerfaceChangeToListeners() {
+        for (UserInterfaceChangeListener userInterfaceChangeListener : userInterfaceChangeListeners) {
+            userInterfaceChangeListener.updateUserInterfaceOnChange();
+        }
     }
 
     private void updateTimerCaptionWithElapsedTime(String remainingTime, String lastRemainingTime) {
@@ -97,5 +109,15 @@ public class BabystepsTimer {
 
     private boolean backgroundColorIsNotNeutral() {
         return !BACKGROUND_COLOR_NEUTRAL.equals(bodyBackgroundColor);
+    }
+
+    @Override
+    public void registerUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener) {
+        userInterfaceChangeListeners.add(userInterfaceChangeListener);
+    }
+
+    @Override
+    public void unregisterUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener) {
+        userInterfaceChangeListeners.remove(userInterfaceChangeListener);
     }
 }

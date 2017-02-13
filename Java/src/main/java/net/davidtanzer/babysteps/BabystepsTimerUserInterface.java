@@ -17,7 +17,7 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
-public class BabystepsTimerUserInterface {
+public class BabystepsTimerUserInterface implements UserInterfaceChangeListener {
 
 	private JFrame timerFrame;
 	private JTextPane timerPane;
@@ -42,6 +42,7 @@ public class BabystepsTimerUserInterface {
         timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
 		timerFrame.getContentPane().add(timerPane);
 		timerFrame.setVisible(true);
+        babystepsTimer.registerUserInterfaceChangeListener(this);
 	}
 
 
@@ -81,10 +82,10 @@ public class BabystepsTimerUserInterface {
 
     public void tick() {
         babystepsTimer.tick();
-        updateUserInterfaceOnChange();
     }
 
-    private void updateUserInterfaceOnChange() {
+    @Override
+    public void updateUserInterfaceOnChange() {
         SwingUtilities.invokeLater(() -> {
             setText(babystepsTimer.getTimerHtml(true));
             repaint();
