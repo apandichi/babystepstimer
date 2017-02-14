@@ -22,8 +22,13 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 	private JFrame timerFrame;
 	private JTextPane timerPane;
 
-	private BabystepsTimer babystepsTimer = new BabystepsTimer(20, BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
-    private TimerThread timerThread = new TimerThread(babystepsTimer);
+	private BabystepsTimer babystepsTimer;
+    private TimerThread timerThread;
+
+    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, TimerThread timerThread) {
+        this.babystepsTimer = babystepsTimer;
+        this.timerThread = timerThread;
+    }
 
     public void init() {
         initUserInterface();
