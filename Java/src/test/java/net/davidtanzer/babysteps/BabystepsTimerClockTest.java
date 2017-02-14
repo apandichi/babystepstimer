@@ -2,7 +2,6 @@ package net.davidtanzer.babysteps;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,7 +18,7 @@ public class BabystepsTimerClockTest {
     private final long secondsInCycle = 20L;
 
     @InjectMocks
-    private BabystepsTimerClock babystepsTimerClock = new BabystepsTimerClockImpl(secondsInCycle);
+    private BabystepsTimerClock babystepsTimerClock = new BabystepsTimerClockImpl(secondsInCycle, new RemainingTimeCaptionImpl(), new SystemClockImpl());
 
     @Mock
     private SystemClock systemClock;

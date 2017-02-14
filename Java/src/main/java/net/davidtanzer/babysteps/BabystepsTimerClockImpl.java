@@ -5,11 +5,13 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
     private long elapsedTimeInMilliseconds;
     private long currentCycleStartTime;
 
-    private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
-    private SystemClock systemClock = new SystemClockImpl();
+    private RemainingTimeCaption remainingTimeCaption;
+    private SystemClock systemClock;
 
-    public BabystepsTimerClockImpl(long secondsInCycle) {
+    public BabystepsTimerClockImpl(long secondsInCycle, RemainingTimeCaption remainingTimeCaption, SystemClock systemClock) {
         this.secondsInCycle = secondsInCycle;
+        this.remainingTimeCaption = remainingTimeCaption;
+        this.systemClock = systemClock;
     }
 
     @Override
