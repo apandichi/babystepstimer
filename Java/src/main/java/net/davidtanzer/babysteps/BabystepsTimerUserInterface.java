@@ -25,10 +25,6 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 	private BabystepsTimer babystepsTimer = new BabystepsTimer(20, BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
     private TimerThread timerThread = new TimerThread(babystepsTimer);
 
-    public static void main(final String[] args) throws InterruptedException {
-        new BabystepsTimerUserInterface().init();
-    }
-
     public void init() {
         initUserInterface();
         babystepsTimer.registerUserInterfaceChangeListener(this);
