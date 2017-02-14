@@ -23,17 +23,14 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 	private JTextPane timerPane;
 
 	private BabystepsTimer babystepsTimer;
-    private TimerThread timerThread;
 
-    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, TimerThread timerThread) {
+    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer) {
         this.babystepsTimer = babystepsTimer;
-        this.timerThread = timerThread;
     }
 
     public void init() {
         initUserInterface();
         babystepsTimer.registerUserInterfaceChangeListener(this);
-        timerThread.start();
 	}
 
     private void initUserInterface() {
