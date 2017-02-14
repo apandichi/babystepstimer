@@ -48,7 +48,7 @@ public class BabystepsTimerTest {
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(timerText);
         when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
 
-        String html = babystepsTimer.getTimerHtml(isTimerRunning);
+        String html = babystepsTimer.getTimerHtml();
 
         assertEquals(html, timerHtml);
     }
@@ -62,21 +62,22 @@ public class BabystepsTimerTest {
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(timerText);
         when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
 
-        String html = babystepsTimer.getTimerHtml(isTimerRunning);
+        babystepsTimer.start();
+        String html = babystepsTimer.getTimerHtml();
 
         assertEquals(html, timerHtml);
     }
 
     @Test
     public void shouldGetTimerHtmlWithElapsedTime() {
-        boolean isTimerRunning = true;
+        boolean isTimerRunning = false;
         String timerText = "00:15";
         String timerHtml = "00:15 red true";
 
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(timerText);
         when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
 
-        String html = babystepsTimer.getTimerHtml(isTimerRunning);
+        String html = babystepsTimer.getTimerHtml();
 
         assertEquals(html, timerHtml);
     }

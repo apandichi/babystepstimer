@@ -43,7 +43,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         timerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         timerPane = new JTextPane();
         timerPane.setContentType("text/html");
-        timerPane.setText(babystepsTimer.getTimerHtml(false));
+        timerPane.setText(babystepsTimer.getTimerHtml());
         timerPane.setEditable(false);
         timerPane.addMouseMotionListener(new BabystepsMouseMotionListener());
         timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
@@ -66,8 +66,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     @Override
     public void start() {
         babystepsTimer.start();
-        timerThread.startTimer();
-        String htmlAtStart = babystepsTimer.getTimerHtml(true);
+        String htmlAtStart = babystepsTimer.getTimerHtml();
         setAlwaysOnTop(true);
         setText(htmlAtStart);
         repaint();
@@ -75,8 +74,8 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
     @Override
     public void stop() {
-        timerThread.stopTimer();
-        String htmlAtStart = babystepsTimer.getTimerHtml(false);
+        babystepsTimer.stop();
+        String htmlAtStart = babystepsTimer.getTimerHtml();
         setAlwaysOnTop(false);
         setText(htmlAtStart);
         repaint();
@@ -90,7 +89,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     @Override
     public void updateUserInterfaceOnChange() {
         SwingUtilities.invokeLater(() -> {
-            setText(babystepsTimer.getTimerHtml(true));
+            setText(babystepsTimer.getTimerHtml());
             repaint();
         });
     }

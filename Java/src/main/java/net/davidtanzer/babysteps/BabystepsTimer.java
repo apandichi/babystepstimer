@@ -24,6 +24,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
 	private String bodyBackgroundColor;
+    private boolean timerRunning;
 
     private SoundPlayer soundPlayer = new SoundPlayerImpl();
     private HtmlCreator htmlCreator = new HtmlCreatorImpl();
@@ -37,14 +38,30 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     public BabystepsTimer(long secondsInCycle, String bodyBackgroundColor) {
         babystepsTimerClock = new BabystepsTimerClockImpl(secondsInCycle);
         this.bodyBackgroundColor = bodyBackgroundColor;
+        configSoundsAndColorsForTimestamps();
+    }
+
+    private void configSoundsAndColorsForTimestamps() {
         soundsToPlayAtTime.put("00:10", "pluck.wav");
         soundsToPlayAtTime.put("00:00", "theetone.wav");
         colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
     }
 
-    public String getTimerHtml(boolean running) {
+    public void startTimer() {
+        timerRunning = true;
+    }
+
+    public void stopTimer() {
+        timerRunning = false;
+    }
+
+    public boolean isTimerRunning() {
+        return timerRunning;
+    }
+
+    public String getTimerHtml() {
         String caption = babystepsTimerClock.getRemainingTimeCaption();
-        return htmlCreator.createTimerHtml(caption, bodyBackgroundColor, running);
+        return htmlCreator.createTimerHtml(caption, bodyBackgroundColor, timerRunning);
     }
 
     public String getBodyBackgroundColor() {
@@ -57,6 +74,11 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     public void start() {
         babystepsTimerClock.resetClock();
+        startTimer();
+    }
+
+    public void stop() {
+        stopTimer();
     }
 
     public void reset() {
