@@ -19,7 +19,7 @@ public class BabystepsTimerTest {
     private final String bodyBackgroundColor = BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
 
     @InjectMocks
-    private BabystepsTimer babystepsTimer = new BabystepsTimer(secondsInCycle, bodyBackgroundColor);
+    private BabystepsTimer babystepsTimer = new BabystepsTimer(bodyBackgroundColor, new BabystepsTimerClockImpl(secondsInCycle));
 
     @Mock
     private RemainingTimeCaption remainingTimeCaption;

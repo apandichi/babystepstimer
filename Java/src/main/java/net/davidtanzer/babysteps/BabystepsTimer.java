@@ -35,8 +35,8 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     private List<UserInterfaceChangeListener> userInterfaceChangeListeners = new ArrayList<>();
 
-    public BabystepsTimer(long secondsInCycle, String bodyBackgroundColor) {
-        babystepsTimerClock = new BabystepsTimerClockImpl(secondsInCycle);
+    public BabystepsTimer(String bodyBackgroundColor, BabystepsTimerClock babystepsTimerClock) {
+        this.babystepsTimerClock = babystepsTimerClock;
         this.bodyBackgroundColor = bodyBackgroundColor;
         configSoundsAndColorsForTimestamps();
     }
