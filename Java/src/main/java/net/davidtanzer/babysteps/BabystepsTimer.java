@@ -26,8 +26,8 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 	private String bodyBackgroundColor;
     private boolean timerRunning;
 
-    private SoundPlayer soundPlayer = new SoundPlayerImpl();
-    private HtmlCreator htmlCreator = new HtmlCreatorImpl();
+    private SoundPlayer soundPlayer;
+    private HtmlCreator htmlCreator;
     private BabystepsTimerClock babystepsTimerClock;
 
     private Map<String, String> soundsToPlayAtTime = new HashMap<>();
@@ -35,9 +35,11 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     private List<UserInterfaceChangeListener> userInterfaceChangeListeners = new ArrayList<>();
 
-    public BabystepsTimer(String bodyBackgroundColor, BabystepsTimerClock babystepsTimerClock) {
-        this.babystepsTimerClock = babystepsTimerClock;
+    public BabystepsTimer(String bodyBackgroundColor, BabystepsTimerClock babystepsTimerClock, SoundPlayer soundPlayer, HtmlCreator htmlCreator) {
         this.bodyBackgroundColor = bodyBackgroundColor;
+        this.babystepsTimerClock = babystepsTimerClock;
+        this.soundPlayer = soundPlayer;
+        this.htmlCreator = htmlCreator;
         configSoundsAndColorsForTimestamps();
     }
 
