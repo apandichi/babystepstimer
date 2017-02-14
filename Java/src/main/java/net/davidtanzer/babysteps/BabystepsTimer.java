@@ -55,7 +55,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         timerRunning = false;
     }
 
-    public boolean isTimerRunning() {
+    public boolean isListening() {
         return timerRunning;
     }
 

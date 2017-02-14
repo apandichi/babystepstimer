@@ -11,7 +11,7 @@ final class TimerThread extends Thread {
     @Override
     public void run() {
         while (true) {
-            if (clockListener.isTimerRunning()) {
+            if (clockListener.isListening()) {
                 clockListener.tick();
             }
             tryToSleep();
