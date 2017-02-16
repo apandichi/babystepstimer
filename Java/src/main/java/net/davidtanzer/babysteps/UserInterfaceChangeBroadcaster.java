@@ -2,6 +2,6 @@ package net.davidtanzer.babysteps;
 
 public interface UserInterfaceChangeBroadcaster {
 
-    void registerUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener);
-    void unregisterUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener);
+    void addUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener);
+    void removeUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener);
 }

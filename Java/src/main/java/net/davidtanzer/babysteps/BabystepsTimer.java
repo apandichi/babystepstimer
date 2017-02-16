@@ -151,12 +151,12 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     }
 
     @Override
-    public void registerUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener) {
+    public void addUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener) {
         userInterfaceChangeListeners.add(userInterfaceChangeListener);
     }
 
     @Override
-    public void unregisterUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener) {
+    public void removeUserInterfaceChangeListener(UserInterfaceChangeListener userInterfaceChangeListener) {
         userInterfaceChangeListeners.remove(userInterfaceChangeListener);
     }
 }

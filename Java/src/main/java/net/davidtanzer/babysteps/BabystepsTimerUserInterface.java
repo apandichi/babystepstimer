@@ -30,7 +30,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
     public void init() {
         initUserInterface();
-        babystepsTimer.registerUserInterfaceChangeListener(this);
+        babystepsTimer.addUserInterfaceChangeListener(this);
 	}
 
     private void initUserInterface() {
