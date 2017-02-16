@@ -99,7 +99,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     public void reset() {
         babystepsTimerClock.resetClock();
         setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
-        broadcastUserInrerfaceChangeToListeners();
+        broadcastUserInterfaceChangeToListeners();
     }
 
     @Override
@@ -109,10 +109,10 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         String remainingTime = babystepsTimerClock.getRemainingTimeCaption();
         resetBackgroundColorToNeutral();
         updateTimerCaptionWithElapsedTime(remainingTime, lastRemainingTime);
-        broadcastUserInrerfaceChangeToListeners();
+        broadcastUserInterfaceChangeToListeners();
     }
 
-    private void broadcastUserInrerfaceChangeToListeners() {
+    private void broadcastUserInterfaceChangeToListeners() {
         for (UserInterfaceChangeListener userInterfaceChangeListener : userInterfaceChangeListeners) {
             userInterfaceChangeListener.updateUserInterfaceOnChange();
         }
