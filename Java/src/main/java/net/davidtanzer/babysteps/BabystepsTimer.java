@@ -55,11 +55,11 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
     }
 
-    public void startTimer() {
+    private void startTimer() {
         timerRunning = true;
     }
 
-    public void stopTimer() {
+    private void stopTimer() {
         timerRunning = false;
     }
 
