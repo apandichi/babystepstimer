@@ -13,10 +13,7 @@
 
 package net.davidtanzer.babysteps;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -102,6 +99,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     public void reset() {
         babystepsTimerClock.resetClock();
         setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
+        broadcastUserInrerfaceChangeToListeners();
     }
 
     @Override
