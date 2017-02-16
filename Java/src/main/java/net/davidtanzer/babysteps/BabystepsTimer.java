@@ -41,6 +41,12 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         this.soundPlayer = soundPlayer;
         this.htmlCreator = htmlCreator;
         configSoundsAndColorsForTimestamps();
+        configureTimeNotificationMechanism();
+    }
+
+    private void configureTimeNotificationMechanism() {
+        TimerThread timerThread = new TimerThread(this);
+        timerThread.start();
     }
 
     private void configSoundsAndColorsForTimestamps() {
