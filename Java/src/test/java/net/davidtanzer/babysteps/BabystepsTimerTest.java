@@ -110,7 +110,7 @@ public class BabystepsTimerTest {
     @Test
     public void tickShouldResetColorToNeutralWhenFiveSecondsElapsedButShouldNotPlayAnySound() {
         babystepsTimer.setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_FAILED);
-        when(babystepsTimerClock.elapsedTimeBetween5And6Seconds()).thenReturn(true);
+        when(babystepsTimerClock.elapsedTimeBetween(5, 6)).thenReturn(true);
 
         babystepsTimer.tick();
 

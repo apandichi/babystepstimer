@@ -34,35 +34,35 @@ public class BabystepsTimerClockTest {
     @Test
     public void testElapsedTimeLessThan5Seconds() {
         setupElapsedTimeInMilliseconds(2000L);
-        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
+        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween(5, 6);
         assertFalse(elapsedTimeBetween5And6Seconds);
     }
 
     @Test
     public void testElapsedTimeExactly5Seconds() {
         setupElapsedTimeInMilliseconds(5000L);
-        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
+        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween(5, 6);
         assertFalse(elapsedTimeBetween5And6Seconds);
     }
 
     @Test
     public void testElapsedTimeBetween5And6SecondsLowerBound() {
         setupElapsedTimeInMilliseconds(5001L);
-        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
+        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween(5, 6);
         assertTrue(elapsedTimeBetween5And6Seconds);
     }
 
     @Test
     public void testElapsedTimeBetween5And6SecondsUpperBound() {
         setupElapsedTimeInMilliseconds(5999L);
-        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
+        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween(5, 6);
         assertTrue(elapsedTimeBetween5And6Seconds);
     }
 
     @Test
     public void testElapsedTimeExactly6Seconds() {
         setupElapsedTimeInMilliseconds(6000L);
-        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween5And6Seconds();
+        boolean elapsedTimeBetween5And6Seconds = babystepsTimerClock.elapsedTimeBetween(5, 6);
         assertFalse(elapsedTimeBetween5And6Seconds);
     }
 

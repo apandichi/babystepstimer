@@ -141,7 +141,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     }
 
     private void resetBackgroundColorToNeutral() {
-        if (babystepsTimerClock.elapsedTimeBetween5And6Seconds() && backgroundColorIsNotNeutral()) {
+        if (babystepsTimerClock.elapsedTimeBetween(5, 6) && backgroundColorIsNotNeutral()) {
             setBodyBackgroundColor(BACKGROUND_COLOR_NEUTRAL);
         }
     }
