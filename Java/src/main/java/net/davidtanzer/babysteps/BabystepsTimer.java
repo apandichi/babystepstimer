@@ -46,7 +46,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     private void configureTimeNotificationMechanism() {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(this::tickIfListening, 0, 1, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(this::tickIfListening, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     private void configSoundsAndColorsForTimestamps() {
