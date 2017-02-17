@@ -46,6 +46,11 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
         changeElapsedTimeIfTimeDifferenceOver1000();
     }
 
+    @Override
+    public String timeCaptionForResettingBackgroundColorToNeutral() {
+        return remainingTimeCaption.getTimeCaption(secondsInCycle - 5);
+    }
+
     private long getElapsedTimeInSeconds() {
         return elapsedTimeInMilliseconds / 1000;
     }

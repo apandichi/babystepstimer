@@ -52,6 +52,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     private void configSoundsAndColorsForTimestamps() {
         soundsToPlayAtTime.put("00:10", "pluck.wav");
         soundsToPlayAtTime.put("00:00", "theetone.wav");
+        colorsToSetAtTime.put(babystepsTimerClock.timeCaptionForResettingBackgroundColorToNeutral(), BACKGROUND_COLOR_NEUTRAL);
         colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
     }
 
@@ -108,7 +109,6 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         String lastRemainingTime = babystepsTimerClock.getRemainingTimeCaption();
         babystepsTimerClock.tick();
         String remainingTime = babystepsTimerClock.getRemainingTimeCaption();
-        resetBackgroundColorToNeutral();
         updateTimerCaptionWithElapsedTime(remainingTime, lastRemainingTime);
         broadcastUserInterfaceChangeToListeners();
     }
@@ -138,16 +138,6 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         if (soundToPlay != null) {
             soundPlayer.playSoundInNewThread(soundToPlay);
         }
-    }
-
-    private void resetBackgroundColorToNeutral() {
-        if (babystepsTimerClock.elapsedTimeBetween(5, 6) && backgroundColorIsNotNeutral()) {
-            setBodyBackgroundColor(BACKGROUND_COLOR_NEUTRAL);
-        }
-    }
-
-    private boolean backgroundColorIsNotNeutral() {
-        return !BACKGROUND_COLOR_NEUTRAL.equals(bodyBackgroundColor);
     }
 
     @Override

@@ -5,9 +5,9 @@ public interface BabystepsTimerClock {
 
     boolean timerCaptionChanged(String remainingTime, String lastRemainingTime);
 
-    boolean elapsedTimeBetween(long secondsToTheLeft, long secondsToTheRight);
-
     String getRemainingTimeCaption();
 
     void tick();
+
+    String timeCaptionForResettingBackgroundColorToNeutral();
 }
