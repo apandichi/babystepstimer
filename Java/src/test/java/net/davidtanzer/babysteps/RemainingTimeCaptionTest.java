@@ -54,4 +54,11 @@ public class RemainingTimeCaptionTest {
         String caption = remainingTimeCaption.getRemainingTimeCaption(2L, secondsInCycle);
         Assert.assertEquals(caption, "01:03");
     }
+
+    @Test
+    public void when2SecondsElapsedOutOf55MinutesAnd33SecondsCaptionShouldBe55MinutesAnd31Seconds() {
+        long secondsInCycle = 60L * 55L + 33L;
+        String caption = remainingTimeCaption.getRemainingTimeCaption(2L, secondsInCycle);
+        Assert.assertEquals(caption, "55:31");
+    }
 }
