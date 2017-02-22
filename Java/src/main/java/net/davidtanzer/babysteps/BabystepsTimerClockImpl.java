@@ -1,5 +1,7 @@
 package net.davidtanzer.babysteps;
 
+import java.util.concurrent.TimeUnit;
+
 public class BabystepsTimerClockImpl implements BabystepsTimerClock {
     private final long secondsInCycle;
     private long elapsedTimeInMilliseconds;
@@ -27,8 +29,7 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
 
     @Override
     public String getRemainingTimeCaption() {
-        long elapsedTimeInSeconds = elapsedTimeInMilliseconds / 1000;
-        return remainingTimeCaption.getRemainingTimeCaption(elapsedTimeInSeconds, secondsInCycle);
+        return remainingTimeCaption.getRemainingTimeCaption(getElapsedTimeInSeconds(), secondsInCycle);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
     }
 
     private long getElapsedTimeInSeconds() {
-        return elapsedTimeInMilliseconds / 1000;
+        return TimeUnit.MILLISECONDS.toSeconds(elapsedTimeInMilliseconds);
     }
 
     private void resetClockIfTimerCycleEnded() {
