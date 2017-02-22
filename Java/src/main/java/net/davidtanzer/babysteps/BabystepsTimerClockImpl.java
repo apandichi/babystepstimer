@@ -3,6 +3,7 @@ package net.davidtanzer.babysteps;
 import java.util.concurrent.TimeUnit;
 
 public class BabystepsTimerClockImpl implements BabystepsTimerClock {
+    private static final int SECONDS_TO_WAIT_BEFORE_RESETTING_BACKGROUND_COLOR = 5;
     private final long secondsInCycle;
     private long elapsedTimeInMilliseconds;
     private long currentCycleStartTime;
@@ -40,7 +41,7 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
 
     @Override
     public String timeCaptionForResettingBackgroundColorToNeutral() {
-        return remainingTimeCaption.getTimeCaption(secondsInCycle - 5);
+        return remainingTimeCaption.getTimeCaption(secondsInCycle - SECONDS_TO_WAIT_BEFORE_RESETTING_BACKGROUND_COLOR);
     }
 
     private long getElapsedTimeInSeconds() {
@@ -57,7 +58,8 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
 
     private void changeElapsedTimeIfTimeDifferenceOver1000() {
         long difference = systemClock.currentTimeMillis() - currentCycleStartTime;
-        if (difference > 1000) {
+        int oneSecond = 1000;
+        if (difference > oneSecond) {
             elapsedTimeInMilliseconds = difference;
         }
     }
