@@ -22,9 +22,6 @@ public class BabystepsTimerTest {
     private BabystepsTimer babystepsTimer = new BabystepsTimer(bodyBackgroundColor, new BabystepsTimerClockImpl(secondsInCycle, new RemainingTimeCaptionImpl(), new SystemClockImpl()), new SoundPlayerImpl(), new HtmlCreatorImpl());
 
     @Mock
-    private RemainingTimeCaption remainingTimeCaption;
-
-    @Mock
     private HtmlCreator htmlCreator;
 
     @Mock
