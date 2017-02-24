@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.HashMap;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Matchers.any;
@@ -15,11 +17,12 @@ import static org.mockito.Mockito.when;
 
 public class BabystepsTimerTest {
 
-    private final long secondsInCycle = 20L;
     private final String bodyBackgroundColor = BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
 
+    private HashMap<String, String> soundsToPlayAtTime = new HashMap<>();
+
     @InjectMocks
-    private BabystepsTimer babystepsTimer = new BabystepsTimer(bodyBackgroundColor, new BabystepsTimerClockImpl(secondsInCycle, new RemainingTimeCaptionImpl(), new SystemClockImpl()), new SoundPlayerImpl(), new HtmlCreatorImpl());
+    private BabystepsTimer babystepsTimer;
 
     @Mock
     private HtmlCreator htmlCreator;
@@ -33,7 +36,14 @@ public class BabystepsTimerTest {
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
+        babystepsTimer = new BabystepsTimer(bodyBackgroundColor, babystepsTimerClock, soundPlayer, htmlCreator, soundsToPlayAtTime);
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        configureSoundsToPlayAtTime();
+    }
+
+    private void configureSoundsToPlayAtTime() {
+        soundsToPlayAtTime.put("00:10", "pluck.wav");
+        soundsToPlayAtTime.put("00:00", "theetone.wav");
     }
 
     @Test
