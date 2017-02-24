@@ -8,6 +8,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
 
+import static net.davidtanzer.babysteps.BabystepsTimer.BACKGROUND_COLOR_FAILED;
+import static net.davidtanzer.babysteps.BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Matchers.any;
@@ -18,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class BabystepsTimerTest {
 
     private final String bodyBackgroundColor = BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
-
+    private HashMap<String, String> colorsToSetAtTime = new HashMap<>();
     private HashMap<String, String> soundsToPlayAtTime = new HashMap<>();
 
     @InjectMocks
@@ -36,9 +38,15 @@ public class BabystepsTimerTest {
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
-        babystepsTimer = new BabystepsTimer(bodyBackgroundColor, babystepsTimerClock, soundPlayer, htmlCreator, soundsToPlayAtTime);
+        babystepsTimer = new BabystepsTimer(bodyBackgroundColor, babystepsTimerClock, soundPlayer, htmlCreator, soundsToPlayAtTime, colorsToSetAtTime);
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
         configureSoundsToPlayAtTime();
+        configureColorsToSetAtTime();
+    }
+
+    private void configureColorsToSetAtTime() {
+        colorsToSetAtTime.put("00:15", BACKGROUND_COLOR_NEUTRAL);
+        colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
     }
 
     private void configureSoundsToPlayAtTime() {

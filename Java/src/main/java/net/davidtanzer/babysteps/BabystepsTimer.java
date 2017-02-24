@@ -31,28 +31,23 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     private BabystepsTimerClock babystepsTimerClock;
 
     private Map<String, String> soundsToPlayAtTime;
-    private Map<String, String> colorsToSetAtTime = new HashMap<>();
+    private Map<String, String> colorsToSetAtTime;
 
     private List<UserInterfaceChangeListener> userInterfaceChangeListeners = new ArrayList<>();
 
-    public BabystepsTimer(String bodyBackgroundColor, BabystepsTimerClock babystepsTimerClock, SoundPlayer soundPlayer, HtmlCreator htmlCreator, Map<String, String> soundsToPlayAtTime) {
+    public BabystepsTimer(String bodyBackgroundColor, BabystepsTimerClock babystepsTimerClock, SoundPlayer soundPlayer, HtmlCreator htmlCreator, Map<String, String> soundsToPlayAtTime, Map<String, String> colorsToSetAtTime) {
         this.bodyBackgroundColor = bodyBackgroundColor;
         this.babystepsTimerClock = babystepsTimerClock;
         this.soundPlayer = soundPlayer;
         this.htmlCreator = htmlCreator;
         this.soundsToPlayAtTime = soundsToPlayAtTime;
-        configColorsForTimestamps();
+        this.colorsToSetAtTime = colorsToSetAtTime;
         configureTimeNotificationMechanism();
     }
 
     private void configureTimeNotificationMechanism() {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(this::tickIfListening, 0, 10, TimeUnit.MILLISECONDS);
-    }
-
-    private void configColorsForTimestamps() {
-        colorsToSetAtTime.put(babystepsTimerClock.timeCaptionForResettingBackgroundColorToNeutral(), BACKGROUND_COLOR_NEUTRAL);
-        colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
     }
 
     private void startTimer() {
