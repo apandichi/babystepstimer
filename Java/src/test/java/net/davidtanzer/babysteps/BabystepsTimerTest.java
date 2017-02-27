@@ -8,8 +8,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
 
-import static net.davidtanzer.babysteps.BabystepsTimer.BACKGROUND_COLOR_FAILED;
-import static net.davidtanzer.babysteps.BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
+import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED;
+import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Matchers.any;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 public class BabystepsTimerTest {
 
-    private final String bodyBackgroundColor = BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
+    private final String bodyBackgroundColor = BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL;
     private HashMap<String, String> colorsToSetAtTime = new HashMap<>();
     private HashMap<String, String> soundsToPlayAtTime = new HashMap<>();
 
@@ -39,7 +39,7 @@ public class BabystepsTimerTest {
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
         babystepsTimer = new BabystepsTimer(bodyBackgroundColor, babystepsTimerClock, soundPlayer, htmlCreator, soundsToPlayAtTime, colorsToSetAtTime);
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
         configureSoundsToPlayAtTime();
         configureColorsToSetAtTime();
     }
@@ -99,26 +99,26 @@ public class BabystepsTimerTest {
 
     @Test
     public void shouldResetTimerClockAndBackgroundColor() {
-        assertNotEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_PASSED);
+        assertNotEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
 
         babystepsTimer.reset();
 
         verify(babystepsTimerClock).resetClock();
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_PASSED);
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
     }
 
     @Test
     public void tickShouldNotResetBackgroundColorOrPlayAnySound() {
         babystepsTimer.tick();
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
         verifyNoMoreInteractions(soundPlayer);
     }
 
     @Test
     public void tickShouldNotResetBackgroundColorOrPlaySoundWhenBackgroundColorIsNotNeutral() {
-        babystepsTimer.setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_FAILED);
+        babystepsTimer.setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED);
         babystepsTimer.tick();
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_FAILED);
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED);
         verifyNoMoreInteractions(soundPlayer);
     }
 
@@ -129,7 +129,7 @@ public class BabystepsTimerTest {
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
         babystepsTimer.tick();
 
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
         verifyNoMoreInteractions(soundPlayer);
     }
 
@@ -142,7 +142,7 @@ public class BabystepsTimerTest {
         when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
         babystepsTimer.tick();
 
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_FAILED);
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED);
         verify(soundPlayer).playSoundInNewThread(soundAtTimeZero);
     }
 
@@ -155,7 +155,7 @@ public class BabystepsTimerTest {
         when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
         babystepsTimer.tick();
 
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimer.BACKGROUND_COLOR_NEUTRAL);
+        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
         verify(soundPlayer).playSoundInNewThread(soundAtTimeZero);
     }
 

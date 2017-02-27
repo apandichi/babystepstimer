@@ -2,8 +2,8 @@ package net.davidtanzer.babysteps;
 
 import java.util.HashMap;
 
-import static net.davidtanzer.babysteps.BabystepsTimer.BACKGROUND_COLOR_FAILED;
-import static net.davidtanzer.babysteps.BabystepsTimer.BACKGROUND_COLOR_NEUTRAL;
+import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED;
+import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL;
 
 public class BabystepsTimerMain {
     public static void main(final String[] args) throws InterruptedException {

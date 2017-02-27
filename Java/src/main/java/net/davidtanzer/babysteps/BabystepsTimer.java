@@ -19,11 +19,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadcaster {
-    public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
-    public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
-	public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
-	private String bodyBackgroundColor;
+    private String bodyBackgroundColor;
     private boolean timerRunning;
 
     private SoundPlayer soundPlayer;
@@ -89,12 +86,12 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     public void stop() {
         stopTimer();
-        setBodyBackgroundColor(BACKGROUND_COLOR_NEUTRAL);
+        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
     }
 
     public void reset() {
         babystepsTimerClock.resetClock();
-        setBodyBackgroundColor(BabystepsTimer.BACKGROUND_COLOR_PASSED);
+        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
         broadcastUserInterfaceChangeToListeners();
     }
 

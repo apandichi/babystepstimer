@@ -19,7 +19,11 @@ import java.awt.event.MouseMotionListener;
 
 public class BabystepsTimerUserInterface implements UserInterfaceChangeListener, BabystepsTimerCommands {
 
-	private JFrame timerFrame;
+    public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
+    public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
+    public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
+
+    private JFrame timerFrame;
 	private JTextPane timerPane;
 
 	private BabystepsTimer babystepsTimer;
