@@ -67,8 +67,11 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     }
 
     public String getTimerHtml() {
-        String caption = babystepsTimerClock.getRemainingTimeCaption();
-        return htmlCreator.createTimerHtml(caption, bodyBackgroundColor, timerRunning);
+        return htmlCreator.createTimerHtml(getRemainingTimeCaption(), bodyBackgroundColor, timerRunning);
+    }
+
+    public String getRemainingTimeCaption() {
+        return babystepsTimerClock.getRemainingTimeCaption();
     }
 
     public String getBodyBackgroundColor() {
@@ -97,9 +100,9 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     @Override
     public void tick() {
-        String remainingTimeBeforeTick = babystepsTimerClock.getRemainingTimeCaption();
+        String remainingTimeBeforeTick = getRemainingTimeCaption();
         babystepsTimerClock.tick();
-        String remainingTimeAfterTick = babystepsTimerClock.getRemainingTimeCaption();
+        String remainingTimeAfterTick = getRemainingTimeCaption();
         updateTimerCaptionWithElapsedTime(remainingTimeBeforeTick, remainingTimeAfterTick);
     }
 
