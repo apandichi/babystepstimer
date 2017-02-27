@@ -101,7 +101,6 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         babystepsTimerClock.tick();
         String remainingTimeAfterTick = babystepsTimerClock.getRemainingTimeCaption();
         updateTimerCaptionWithElapsedTime(remainingTimeBeforeTick, remainingTimeAfterTick);
-        broadcastUserInterfaceChangeToListeners();
     }
 
     private void broadcastUserInterfaceChangeToListeners() {
@@ -114,6 +113,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         if (babystepsTimerClock.timerCaptionChanged(remainingTimeBefore, remainingTimeAfter)) {
             playSoundAtTime(remainingTimeAfter);
             changeBackgroundColorAtTime(remainingTimeAfter);
+            broadcastUserInterfaceChangeToListeners();
         }
     }
 
