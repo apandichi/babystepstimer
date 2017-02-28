@@ -75,12 +75,12 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     private void changeBackgroundColorAtTime(String remainingTime) {
         String colorToSet = colorsToSetAtTime.get(remainingTime);
         if (colorToSet != null) {
-            babystepsTimer.setBodyBackgroundColor(colorToSet);
+            setBodyBackgroundColor(colorToSet);
         }
     }
 
     private String getTimerHtml() {
-        return htmlCreator.createTimerHtml(babystepsTimer.getRemainingTimeCaption(), babystepsTimer.getBodyBackgroundColor(), babystepsTimer.isTimerRunning());
+        return htmlCreator.createTimerHtml(babystepsTimer.getRemainingTimeCaption(), getBodyBackgroundColor(), babystepsTimer.isTimerRunning());
     }
 
     @Override
@@ -94,7 +94,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     @Override
     public void stop() {
         babystepsTimer.stop();
-        babystepsTimer.setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
+        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
         setAlwaysOnTop(false);
         setText(getTimerHtml());
         repaint();
@@ -102,7 +102,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
     @Override
     public void reset() {
-        babystepsTimer.setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
+        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
         babystepsTimer.reset();
     }
 
@@ -119,6 +119,14 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     @Override
     public void quit() {
         System.exit(0);
+    }
+
+    public String getBodyBackgroundColor() {
+        return bodyBackgroundColor;
+    }
+
+    public void setBodyBackgroundColor(String bodyBackgroundColor) {
+        this.bodyBackgroundColor = bodyBackgroundColor;
     }
 
     private class BabystepsMouseMotionListener implements MouseMotionListener {
