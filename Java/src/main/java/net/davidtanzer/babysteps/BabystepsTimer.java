@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 
 public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadcaster {
 
-    private String bodyBackgroundColor;
     private boolean timerRunning;
 
     private SoundPlayer soundPlayer;
@@ -30,8 +29,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     private List<UserInterfaceChangeListener> userInterfaceChangeListeners = new ArrayList<>();
 
-    public BabystepsTimer(String bodyBackgroundColor, BabystepsTimerClock babystepsTimerClock, SoundPlayer soundPlayer, Map<String, String> soundsToPlayAtTime) {
-        this.bodyBackgroundColor = bodyBackgroundColor;
+    public BabystepsTimer(BabystepsTimerClock babystepsTimerClock, SoundPlayer soundPlayer, Map<String, String> soundsToPlayAtTime) {
         this.babystepsTimerClock = babystepsTimerClock;
         this.soundPlayer = soundPlayer;
         this.soundsToPlayAtTime = soundsToPlayAtTime;
@@ -64,14 +62,6 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     public String getRemainingTimeCaption() {
         return babystepsTimerClock.getRemainingTimeCaption();
-    }
-
-    public String getBodyBackgroundColor() {
-        return bodyBackgroundColor;
-    }
-
-    public void setBodyBackgroundColor(String color) {
-        bodyBackgroundColor = color;
     }
 
     public void start() {
