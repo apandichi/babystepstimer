@@ -41,7 +41,7 @@ public class BabystepsTimerTest {
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
-        babystepsTimer = new BabystepsTimer(bodyBackgroundColor, babystepsTimerClock, soundPlayer, htmlCreator, soundsToPlayAtTime, colorsToSetAtTime);
+        babystepsTimer = new BabystepsTimer(bodyBackgroundColor, babystepsTimerClock, soundPlayer, htmlCreator, soundsToPlayAtTime);
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
         configureSoundsToPlayAtTime();
         configureColorsToSetAtTime();
