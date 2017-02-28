@@ -35,6 +35,9 @@ public class BabystepsTimerTest {
     @Mock
     private SoundPlayer soundPlayer;
 
+    @Mock
+    private UserInterfaceChangeListener userInterfaceChangeListener;
+
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
@@ -140,9 +143,11 @@ public class BabystepsTimerTest {
 
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
         when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
+
         babystepsTimer.tick();
 
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED);
+        verify(userInterfaceChangeListener).updateUserInterfaceOnChange();
         verify(soundPlayer).playSoundInNewThread(soundAtTimeZero);
     }
 

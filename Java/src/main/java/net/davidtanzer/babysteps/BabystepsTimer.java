@@ -115,15 +115,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     private void updateTimerCaptionWithElapsedTime(String remainingTimeBefore, String remainingTimeAfter) {
         if (babystepsTimerClock.timerCaptionChanged(remainingTimeBefore, remainingTimeAfter)) {
             playSoundAtTime(remainingTimeAfter);
-            changeBackgroundColorAtTime(remainingTimeAfter);
             broadcastUserInterfaceChangeToListeners();
-        }
-    }
-
-    private void changeBackgroundColorAtTime(String remainingTime) {
-        String colorToSet = colorsToSetAtTime.get(remainingTime);
-        if (colorToSet != null) {
-            setBodyBackgroundColor(colorToSet);
         }
     }
 
