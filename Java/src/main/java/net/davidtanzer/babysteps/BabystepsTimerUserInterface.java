@@ -67,6 +67,13 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         timerFrame.setAlwaysOnTop(onTop);
     }
 
+    private void changeBackgroundColorAtTime(String remainingTime) {
+        String colorToSet = colorsToSetAtTime.get(remainingTime);
+        if (colorToSet != null) {
+            babystepsTimer.setBodyBackgroundColor(colorToSet);
+        }
+    }
+
     @Override
     public void start() {
         babystepsTimer.start();
@@ -93,6 +100,8 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     @Override
     public void updateUserInterfaceOnChange() {
         SwingUtilities.invokeLater(() -> {
+            String caption = babystepsTimer.getRemainingTimeCaption();
+            changeBackgroundColorAtTime(caption);
             setText(babystepsTimer.getTimerHtml());
             repaint();
         });
