@@ -58,8 +58,7 @@ public class BabystepsTimerTest {
     }
 
     @Test
-    public void shouldResetTimerClockAndBackgroundColor() {
-        assertNotEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
+    public void shouldResetTimerClockAndBroadcastUserInterfaceChange() {
         babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
 
         babystepsTimer.reset();
@@ -69,33 +68,12 @@ public class BabystepsTimerTest {
     }
 
     @Test
-    public void tickShouldNotResetBackgroundColorOrPlayAnySound() {
-        babystepsTimer.tick();
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
-        verifyNoMoreInteractions(soundPlayer);
-    }
-
-    @Test
-    public void tickShouldNotResetBackgroundColorOrPlaySoundWhenBackgroundColorIsNotNeutral() {
-        babystepsTimer.setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED);
+    public void tickShouldNotPlayAnySoundOrBroadcastUserInterfaceChangeWhenTimerCaptionDidNotChange() {
         babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
+        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(false);
 
         babystepsTimer.tick();
 
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED);
-        verifyNoMoreInteractions(userInterfaceChangeListener);
-        verifyNoMoreInteractions(soundPlayer);
-    }
-
-    @Test
-    public void tickShouldUpdateRemainingTimeCaptionButShouldNotResetColorOrPlayAnySound() {
-        String remainingTime = "00:19";
-        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
-
-        babystepsTimer.tick();
-
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
         verifyNoMoreInteractions(userInterfaceChangeListener);
         verifyNoMoreInteractions(soundPlayer);
     }
