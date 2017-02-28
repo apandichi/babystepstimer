@@ -16,20 +16,23 @@ package net.davidtanzer.babysteps;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.Map;
 
 public class BabystepsTimerUserInterface implements UserInterfaceChangeListener, BabystepsTimerCommands {
 
     public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
     public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
     public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
+    private Map<String, String> colorsToSetAtTime;
 
     private JFrame timerFrame;
 	private JTextPane timerPane;
 
 	private BabystepsTimer babystepsTimer;
 
-    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer) {
+    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, Map<String, String> colorsToSetAtTime) {
         this.babystepsTimer = babystepsTimer;
+        this.colorsToSetAtTime = colorsToSetAtTime;
     }
 
     public void init() {
