@@ -76,6 +76,10 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         }
     }
 
+    private String getTimerHtml() {
+        return htmlCreator.createTimerHtml(babystepsTimer.getRemainingTimeCaption(), babystepsTimer.getBodyBackgroundColor(), babystepsTimer.isTimerRunning());
+    }
+
     @Override
     public void start() {
         babystepsTimer.start();
