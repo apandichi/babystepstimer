@@ -23,6 +23,8 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
     public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
     public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
+
+    private String bodyBackgroundColor;
     private Map<String, String> colorsToSetAtTime;
     private HtmlCreator htmlCreator;
 
@@ -31,7 +33,8 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
 	private BabystepsTimer babystepsTimer;
 
-    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, Map<String, String> colorsToSetAtTime, HtmlCreator htmlCreator) {
+    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, Map<String, String> colorsToSetAtTime, HtmlCreator htmlCreator, String bodyBackgroundColor) {
+        this.bodyBackgroundColor = bodyBackgroundColor;
         this.babystepsTimer = babystepsTimer;
         this.colorsToSetAtTime = colorsToSetAtTime;
         this.htmlCreator = htmlCreator;
