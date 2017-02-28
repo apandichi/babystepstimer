@@ -81,12 +81,10 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     public void stop() {
         stopTimer();
-        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
     }
 
     public void reset() {
         babystepsTimerClock.resetClock();
-        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
         broadcastUserInterfaceChangeToListeners();
     }
 

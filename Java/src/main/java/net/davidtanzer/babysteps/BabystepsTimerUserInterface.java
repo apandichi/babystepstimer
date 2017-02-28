@@ -91,6 +91,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     @Override
     public void stop() {
         babystepsTimer.stop();
+        babystepsTimer.setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
         setAlwaysOnTop(false);
         setText(getTimerHtml());
         repaint();
@@ -98,6 +99,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
     @Override
     public void reset() {
+        babystepsTimer.setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
         babystepsTimer.reset();
     }
 

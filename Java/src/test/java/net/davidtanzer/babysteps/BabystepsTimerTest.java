@@ -66,7 +66,6 @@ public class BabystepsTimerTest {
 
         verify(babystepsTimerClock).resetClock();
         verify(userInterfaceChangeListener).updateUserInterfaceOnChange();
-        assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
     }
 
     @Test
