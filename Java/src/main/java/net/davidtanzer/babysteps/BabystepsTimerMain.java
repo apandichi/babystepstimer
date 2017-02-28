@@ -13,7 +13,7 @@ public class BabystepsTimerMain {
         HashMap<String, String> soundsToPlayAtTime = configureSoundsToPlayAtTime();
         HashMap<String, String> colorsToSetAtTime = configureColorsToSetAtTime(timeCaptionForResettingBackgroundColorToNeutral);
 
-        BabystepsTimer babystepsTimer = new BabystepsTimer(BACKGROUND_COLOR_NEUTRAL, babystepsTimerClock, new SoundPlayerImpl(), new HtmlCreatorImpl(), soundsToPlayAtTime);
+        BabystepsTimer babystepsTimer = new BabystepsTimer(BACKGROUND_COLOR_NEUTRAL, babystepsTimerClock, new SoundPlayerImpl(), soundsToPlayAtTime);
         BabystepsTimerUserInterface babystepsTimerUserInterface = new BabystepsTimerUserInterface(babystepsTimer, colorsToSetAtTime, new HtmlCreatorImpl());
         babystepsTimerUserInterface.init();
     }
