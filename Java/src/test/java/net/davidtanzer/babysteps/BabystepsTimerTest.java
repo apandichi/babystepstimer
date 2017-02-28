@@ -58,49 +58,6 @@ public class BabystepsTimerTest {
     }
 
     @Test
-    public void shouldGetTimerHtmlBeforeStartingTheTimer() {
-        boolean isTimerRunning = false;
-        String timerText = "00:20";
-        String timerHtml = "00:20 red false";
-
-        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(timerText);
-        when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
-
-        String html = babystepsTimer.getTimerHtml();
-
-        assertEquals(html, timerHtml);
-    }
-
-    @Test
-    public void shouldGetTimerHtmlWhenTheTimerIsRunning() {
-        boolean isTimerRunning = true;
-        String timerText = "00:20";
-        String timerHtml = "00:20 red true";
-
-        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(timerText);
-        when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
-
-        babystepsTimer.start();
-        String html = babystepsTimer.getTimerHtml();
-
-        assertEquals(html, timerHtml);
-    }
-
-    @Test
-    public void shouldGetTimerHtmlWithElapsedTime() {
-        boolean isTimerRunning = false;
-        String timerText = "00:15";
-        String timerHtml = "00:15 red true";
-
-        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(timerText);
-        when(htmlCreator.createTimerHtml(timerText, bodyBackgroundColor, isTimerRunning)).thenReturn(timerHtml);
-
-        String html = babystepsTimer.getTimerHtml();
-
-        assertEquals(html, timerHtml);
-    }
-
-    @Test
     public void shouldResetTimerClockAndBackgroundColor() {
         assertNotEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
         babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);

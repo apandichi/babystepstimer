@@ -64,10 +64,6 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         }
     }
 
-    public String getTimerHtml() {
-        return htmlCreator.createTimerHtml(getRemainingTimeCaption(), bodyBackgroundColor, timerRunning);
-    }
-
     public String getRemainingTimeCaption() {
         return babystepsTimerClock.getRemainingTimeCaption();
     }
