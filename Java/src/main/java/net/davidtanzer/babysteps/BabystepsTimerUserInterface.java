@@ -49,7 +49,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         timerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         timerPane = new JTextPane();
         timerPane.setContentType("text/html");
-        timerPane.setText(babystepsTimer.getTimerHtml());
+        timerPane.setText(getTimerHtml());
         timerPane.setEditable(false);
         timerPane.addMouseMotionListener(new BabystepsMouseMotionListener());
         timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
@@ -83,18 +83,16 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     @Override
     public void start() {
         babystepsTimer.start();
-        String htmlAtStart = babystepsTimer.getTimerHtml();
         setAlwaysOnTop(true);
-        setText(htmlAtStart);
+        setText(getTimerHtml());
         repaint();
     }
 
     @Override
     public void stop() {
         babystepsTimer.stop();
-        String htmlAtStart = babystepsTimer.getTimerHtml();
         setAlwaysOnTop(false);
-        setText(htmlAtStart);
+        setText(getTimerHtml());
         repaint();
     }
 
@@ -108,7 +106,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         SwingUtilities.invokeLater(() -> {
             String caption = babystepsTimer.getRemainingTimeCaption();
             changeBackgroundColorAtTime(caption);
-            setText(babystepsTimer.getTimerHtml());
+            setText(getTimerHtml());
             repaint();
         });
     }
