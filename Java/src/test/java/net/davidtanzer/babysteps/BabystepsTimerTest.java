@@ -103,10 +103,12 @@ public class BabystepsTimerTest {
     @Test
     public void shouldResetTimerClockAndBackgroundColor() {
         assertNotEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
+        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
 
         babystepsTimer.reset();
 
         verify(babystepsTimerClock).resetClock();
+        verify(userInterfaceChangeListener).updateUserInterfaceOnChange();
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
     }
 
@@ -120,19 +122,25 @@ public class BabystepsTimerTest {
     @Test
     public void tickShouldNotResetBackgroundColorOrPlaySoundWhenBackgroundColorIsNotNeutral() {
         babystepsTimer.setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED);
+        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
+
         babystepsTimer.tick();
+
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED);
+        verifyNoMoreInteractions(userInterfaceChangeListener);
         verifyNoMoreInteractions(soundPlayer);
     }
 
     @Test
     public void tickShouldUpdateRemainingTimeCaptionButShouldNotResetColorOrPlayAnySound() {
         String remainingTime = "00:19";
-
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
+        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
+
         babystepsTimer.tick();
 
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
+        verifyNoMoreInteractions(userInterfaceChangeListener);
         verifyNoMoreInteractions(soundPlayer);
     }
 
@@ -152,14 +160,17 @@ public class BabystepsTimerTest {
     }
 
     @Test
-    public void tickShouldPlaySoundWhenRemainingTimeIstenSeconds() {
+    public void tickShouldPlaySoundWhenRemainingTimeIsTenSeconds() {
         String remainingTime = "00:10";
         String soundAtTimeZero = "pluck.wav";
 
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
         when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
+
         babystepsTimer.tick();
 
+        verify(userInterfaceChangeListener).updateUserInterfaceOnChange();
         assertEquals(babystepsTimer.getBodyBackgroundColor(), BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL);
         verify(soundPlayer).playSoundInNewThread(soundAtTimeZero);
     }
