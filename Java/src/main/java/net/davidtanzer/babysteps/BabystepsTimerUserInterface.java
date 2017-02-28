@@ -24,15 +24,17 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
     public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
     private Map<String, String> colorsToSetAtTime;
+    private HtmlCreator htmlCreator;
 
     private JFrame timerFrame;
 	private JTextPane timerPane;
 
 	private BabystepsTimer babystepsTimer;
 
-    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, Map<String, String> colorsToSetAtTime) {
+    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, Map<String, String> colorsToSetAtTime, HtmlCreator htmlCreator) {
         this.babystepsTimer = babystepsTimer;
         this.colorsToSetAtTime = colorsToSetAtTime;
+        this.htmlCreator = htmlCreator;
     }
 
     public void init() {
