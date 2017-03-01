@@ -19,12 +19,12 @@ public class BabystepsHyperlinkListenerTest {
     @Mock
     BabystepsTimerUserInterface babystepsTimer;
 
-    private BabystepsHyperlinkListener listener;
+    private HyperlinkListenerActingOnBabystepsTimerUserInterface listener;
 
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        listener = new BabystepsHyperlinkListener(babystepsTimer);
+        listener = new HyperlinkListenerActingOnBabystepsTimerUserInterface(babystepsTimer);
         try {
             url = new URL("http://start.io");
         } catch (MalformedURLException e) {

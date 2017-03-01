@@ -55,7 +55,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         timerPane.setText(getTimerHtml());
         timerPane.setEditable(false);
         timerPane.addMouseMotionListener(new BabystepsMouseMotionListener());
-        timerPane.addHyperlinkListener(new BabystepsHyperlinkListener(this));
+        timerPane.addHyperlinkListener(new HyperlinkListenerActingOnBabystepsTimerUserInterface(this));
         timerFrame.getContentPane().add(timerPane);
         timerFrame.setVisible(true);
     }

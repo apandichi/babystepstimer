@@ -5,11 +5,11 @@ import javax.swing.event.HyperlinkListener;
 import java.util.HashMap;
 import java.util.Map;
 
-class BabystepsHyperlinkListener implements HyperlinkListener {
+class HyperlinkListenerActingOnBabystepsTimerUserInterface implements HyperlinkListener {
     private BabystepsTimerUserInterface babystepsTimer;
     Map<String, Runnable> mapHyperlinkToFunction = new HashMap<>();
 
-    public BabystepsHyperlinkListener(BabystepsTimerUserInterface babystepsTimer) {
+    public HyperlinkListenerActingOnBabystepsTimerUserInterface(BabystepsTimerUserInterface babystepsTimer) {
         this.babystepsTimer = babystepsTimer;
         initializeMapHyperlinkToFunction();
     }
