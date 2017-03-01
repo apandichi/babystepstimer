@@ -2,7 +2,7 @@ package net.davidtanzer.babysteps;
 
 import java.util.concurrent.TimeUnit;
 
-public class RemainingTimeCaptionImpl implements RemainingTimeCaption {
+public class RemainingTimeCaptionWithMinutesAndSeconds implements RemainingTimeCaption {
     @Override
     public String getRemainingTimeCaption(long elapsedTimeInSeconds, long secondsInCycle) {
         long remainingSecondsTotal = secondsInCycle - elapsedTimeInSeconds;

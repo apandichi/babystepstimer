@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class RemainingTimeCaptionTest {
-    private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionImpl();
+    private RemainingTimeCaption remainingTimeCaption = new RemainingTimeCaptionWithMinutesAndSeconds();
 
     @Test
     public void when0SecondsElapsedCaptionShouldBe20Seconds() {

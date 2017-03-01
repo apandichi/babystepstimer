@@ -10,7 +10,7 @@ import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_C
 
 public class BabystepsTimerMain {
     public static void main(final String[] args) throws InterruptedException {
-        BabystepsTimerClockImpl babystepsTimerClock = new BabystepsTimerClockImpl(20, new RemainingTimeCaptionImpl(), new SystemClockImpl());
+        BabystepsTimerClockImpl babystepsTimerClock = new BabystepsTimerClockImpl(20, new RemainingTimeCaptionWithMinutesAndSeconds(), new SystemClockImpl());
         String timeCaptionForResettingBackgroundColorToNeutral = babystepsTimerClock.timeCaptionForResettingBackgroundColorToNeutral();
 
         HashMap<String, String> soundsToPlayAtTime = configureSoundsToPlayAtTime();
