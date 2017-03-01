@@ -18,7 +18,7 @@ public class BabystepsTimerClockTest {
     private final long secondsInCycle = 20L;
 
     @InjectMocks
-    private BabystepsTimerClock babystepsTimerClock = new BabystepsTimerClockImpl(secondsInCycle, new RemainingTimeCaptionWithMinutesAndSeconds(), new SystemClockImpl());
+    private BabystepsTimerClock babystepsTimerClock = new BabystepsTimerClockImpl(secondsInCycle, new RemainingTimeCaptionWithMinutesAndSeconds(), new SystemClockFromTheJVM());
 
     @Mock
     private SystemClock systemClock;

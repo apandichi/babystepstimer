@@ -1,6 +1,6 @@
 package net.davidtanzer.babysteps;
 
-class SystemClockImpl implements SystemClock {
+class SystemClockFromTheJVM implements SystemClock {
     @Override
     public long currentTimeMillis() {
         return System.currentTimeMillis();
