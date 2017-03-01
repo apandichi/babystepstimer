@@ -2,7 +2,7 @@ package net.davidtanzer.babysteps;
 
 import java.util.concurrent.TimeUnit;
 
-public class BabystepsTimerClockImpl implements BabystepsTimerClock {
+public class BabystepsTimerClockTrackingElapsedTimeBasedOnCycleStartTime implements BabystepsTimerClock {
     private static final int SECONDS_TO_WAIT_BEFORE_RESETTING_BACKGROUND_COLOR = 5;
     private final long secondsInCycle;
     private long elapsedTimeInMilliseconds;
@@ -11,7 +11,7 @@ public class BabystepsTimerClockImpl implements BabystepsTimerClock {
     private RemainingTimeCaption remainingTimeCaption;
     private SystemClock systemClock;
 
-    public BabystepsTimerClockImpl(long secondsInCycle, RemainingTimeCaption remainingTimeCaption, SystemClock systemClock) {
+    public BabystepsTimerClockTrackingElapsedTimeBasedOnCycleStartTime(long secondsInCycle, RemainingTimeCaption remainingTimeCaption, SystemClock systemClock) {
         this.secondsInCycle = secondsInCycle;
         this.remainingTimeCaption = remainingTimeCaption;
         this.systemClock = systemClock;
