@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 
-public class HtmlCreatorImpl implements HtmlCreator {
+public class HtmlCreatorWithMustacheTemplates implements HtmlCreator {
     @Override
     public String createTimerHtml(String timerText, String bodyColor, boolean running) {
         String templateName = templateName(running);

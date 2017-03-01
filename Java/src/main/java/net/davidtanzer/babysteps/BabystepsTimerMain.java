@@ -19,7 +19,7 @@ public class BabystepsTimerMain {
         BabystepsTimer babystepsTimer = new BabystepsTimer(babystepsTimerClock, new SoundPlayerImpl(), soundsToPlayAtTime);
         configureTimeNotificationMechanism(babystepsTimer);
 
-        BabystepsTimerUserInterface babystepsTimerUserInterface = new BabystepsTimerUserInterface(babystepsTimer, colorsToSetAtTime, new HtmlCreatorImpl(), BACKGROUND_COLOR_NEUTRAL);
+        BabystepsTimerUserInterface babystepsTimerUserInterface = new BabystepsTimerUserInterface(babystepsTimer, colorsToSetAtTime, new HtmlCreatorWithMustacheTemplates(), BACKGROUND_COLOR_NEUTRAL);
         babystepsTimerUserInterface.init();
     }
 

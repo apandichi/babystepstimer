@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class HtmlCreatorTest {
-    private HtmlCreator htmlCreator = new HtmlCreatorImpl();
+    private HtmlCreator htmlCreator = new HtmlCreatorWithMustacheTemplates();
 
     @Test
     public void testTimerHtml() throws IOException {
