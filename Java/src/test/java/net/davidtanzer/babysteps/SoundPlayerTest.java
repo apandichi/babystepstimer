@@ -8,7 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 public class SoundPlayerTest {
-    private SoundPlayer soundPlayer = new SoundPlayerImpl();
+    private SoundPlayer soundPlayer = new SoundPlayerWithClip();
 
     @Mock
     ErrorPrinter errorPrinter;

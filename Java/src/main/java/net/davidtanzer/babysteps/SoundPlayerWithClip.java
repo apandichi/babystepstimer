@@ -5,7 +5,7 @@ import javax.sound.sampled.Clip;
 import static javax.sound.sampled.AudioSystem.getAudioInputStream;
 import static javax.sound.sampled.AudioSystem.getClip;
 
-public class SoundPlayerImpl implements SoundPlayer {
+public class SoundPlayerWithClip implements SoundPlayer {
     @Override
     public synchronized void playSoundInNewThread(String url) {
         new Thread(() -> {
