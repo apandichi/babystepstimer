@@ -13,10 +13,9 @@
 
 package net.davidtanzer.babysteps;
 
-import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadcaster {
 
@@ -33,12 +32,6 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         this.babystepsTimerClock = babystepsTimerClock;
         this.soundPlayer = soundPlayer;
         this.soundsToPlayAtTime = soundsToPlayAtTime;
-        configureTimeNotificationMechanism();
-    }
-
-    private void configureTimeNotificationMechanism() {
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(this::tickIfListening, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     private void startTimer() {

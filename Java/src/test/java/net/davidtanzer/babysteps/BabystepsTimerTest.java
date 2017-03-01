@@ -19,15 +19,11 @@ import static org.mockito.Mockito.when;
 
 public class BabystepsTimerTest {
 
-    private final String bodyBackgroundColor = BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL;
     private HashMap<String, String> colorsToSetAtTime = new HashMap<>();
     private HashMap<String, String> soundsToPlayAtTime = new HashMap<>();
 
     @InjectMocks
     private BabystepsTimer babystepsTimer;
-
-    @Mock
-    private HtmlCreator htmlCreator;
 
     @Mock
     private BabystepsTimerClock babystepsTimerClock;
