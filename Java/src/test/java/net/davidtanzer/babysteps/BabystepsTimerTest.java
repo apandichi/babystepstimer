@@ -74,6 +74,11 @@ public class BabystepsTimerTest {
     }
 
     @Test
+    public void babystepsTimerStateIsNeutralAfterTimerIsConstructed() {
+        assertEquals(babystepsTimer.getTimerState(), BabystepsTimerState.NEUTRAL);
+    }
+
+    @Test
     public void tickShouldChangeTimerStateToFailedWhenRemainingTimeIsZero() {
         String remainingTime = "00:00";
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);

@@ -27,7 +27,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     private Map<String, String> soundsToPlayAtTime;
 
     private List<UserInterfaceChangeListener> userInterfaceChangeListeners = new ArrayList<>();
-    private BabystepsTimerState timerState = BabystepsTimerState.FAILED;
+    private BabystepsTimerState timerState = BabystepsTimerState.NEUTRAL;
 
     public BabystepsTimer(BabystepsTimerClock babystepsTimerClock, SoundPlayer soundPlayer, Map<String, String> soundsToPlayAtTime) {
         this.babystepsTimerClock = babystepsTimerClock;
@@ -89,7 +89,14 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     private void updateTimerCaptionWithElapsedTime(String remainingTimeBefore, String remainingTimeAfter) {
         if (babystepsTimerClock.timerCaptionChanged(remainingTimeBefore, remainingTimeAfter)) {
             playSoundAtTime(remainingTimeAfter);
+            changeTimerStateAtTime(remainingTimeAfter);
             broadcastUserInterfaceChangeToListeners();
+        }
+    }
+
+    private void changeTimerStateAtTime(String remainingTimeAfter) {
+        if (remainingTimeAfter.equals("00:00")) {
+            timerState = BabystepsTimerState.FAILED;
         }
     }
 
