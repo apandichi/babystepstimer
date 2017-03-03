@@ -79,6 +79,26 @@ public class BabystepsTimerTest {
     }
 
     @Test
+    public void tickShouldChangeTimerStateFromFailedToNeutralWhenRemainingTimeIs15Seconds() {
+        setupTimerInFailedState();
+
+        String remainingTime = "00:15";
+        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
+        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+
+        babystepsTimer.tick();
+
+        assertEquals(babystepsTimer.getTimerState(), BabystepsTimerState.NEUTRAL);
+    }
+
+    private void setupTimerInFailedState() {
+        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn("00:00");
+        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+        babystepsTimer.tick();
+        assertEquals(babystepsTimer.getTimerState(), BabystepsTimerState.FAILED);
+    }
+
+    @Test
     public void tickShouldChangeTimerStateToFailedWhenRemainingTimeIsZero() {
         String remainingTime = "00:00";
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);

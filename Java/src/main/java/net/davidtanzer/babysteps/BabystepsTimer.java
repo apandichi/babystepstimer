@@ -98,6 +98,9 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
         if (remainingTimeAfter.equals("00:00")) {
             timerState = BabystepsTimerState.FAILED;
         }
+        if (remainingTimeAfter.equals("00:15")) {
+            timerState = BabystepsTimerState.NEUTRAL;
+        }
     }
 
     private void playSoundAtTime(String remainingTime) {
