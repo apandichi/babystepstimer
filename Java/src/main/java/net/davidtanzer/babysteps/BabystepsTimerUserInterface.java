@@ -108,12 +108,14 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
     @Override
     public void updateUserInterfaceOnChange() {
-        SwingUtilities.invokeLater(() -> {
-            String caption = babystepsTimer.getRemainingTimeCaption();
-            changeBackgroundColorAtTime(caption);
-            setText(getTimerHtml());
-            repaint();
-        });
+        SwingUtilities.invokeLater(this::updateUserInterface);
+    }
+
+    private void updateUserInterface() {
+        String caption = babystepsTimer.getRemainingTimeCaption();
+        changeBackgroundColorAtTime(caption);
+        setText(getTimerHtml());
+        repaint();
     }
 
     @Override
