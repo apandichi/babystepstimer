@@ -25,14 +25,16 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     private BabystepsTimerClock babystepsTimerClock;
 
     private Map<String, String> soundsToPlayAtTime;
+    private Map<String, BabystepsTimerState> babystepsTimerStateAtTime;
 
     private List<UserInterfaceChangeListener> userInterfaceChangeListeners = new ArrayList<>();
     private BabystepsTimerState timerState = BabystepsTimerState.NEUTRAL;
 
-    public BabystepsTimer(BabystepsTimerClock babystepsTimerClock, SoundPlayer soundPlayer, Map<String, String> soundsToPlayAtTime) {
+    public BabystepsTimer(BabystepsTimerClock babystepsTimerClock, SoundPlayer soundPlayer, Map<String, String> soundsToPlayAtTime, Map<String, BabystepsTimerState> babystepsTimerStateAtTime) {
         this.babystepsTimerClock = babystepsTimerClock;
         this.soundPlayer = soundPlayer;
         this.soundsToPlayAtTime = soundsToPlayAtTime;
+        this.babystepsTimerStateAtTime = babystepsTimerStateAtTime;
     }
 
     private void startTimer() {
@@ -95,11 +97,9 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     }
 
     private void changeTimerStateAtTime(String remainingTimeAfter) {
-        if (remainingTimeAfter.equals("00:00")) {
-            timerState = BabystepsTimerState.FAILED;
-        }
-        if (remainingTimeAfter.equals("00:15")) {
-            timerState = BabystepsTimerState.NEUTRAL;
+        BabystepsTimerState babystepsTimerStateAtTime = this.babystepsTimerStateAtTime.get(remainingTimeAfter);
+        if (babystepsTimerStateAtTime != null) {
+            timerState = babystepsTimerStateAtTime;
         }
     }
 

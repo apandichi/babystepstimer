@@ -8,8 +8,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
 
-import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED;
-import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL;
+import static net.davidtanzer.babysteps.BabystepsTimerState.FAILED;
+import static net.davidtanzer.babysteps.BabystepsTimerState.NEUTRAL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Matchers.any;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 public class BabystepsTimerTest {
 
-    private HashMap<String, String> colorsToSetAtTime = new HashMap<>();
+    private HashMap<String, BabystepsTimerState> babystepsTimerStateAtTime = new HashMap<>();
     private HashMap<String, String> soundsToPlayAtTime = new HashMap<>();
 
     @InjectMocks
@@ -37,14 +37,14 @@ public class BabystepsTimerTest {
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
-        babystepsTimer = new BabystepsTimer(babystepsTimerClock, soundPlayer, soundsToPlayAtTime);
+        babystepsTimer = new BabystepsTimer(babystepsTimerClock, soundPlayer, soundsToPlayAtTime, babystepsTimerStateAtTime);
         configureSoundsToPlayAtTime();
         configureColorsToSetAtTime();
     }
 
     private void configureColorsToSetAtTime() {
-        colorsToSetAtTime.put("00:15", BACKGROUND_COLOR_NEUTRAL);
-        colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
+        babystepsTimerStateAtTime.put("00:15", NEUTRAL);
+        babystepsTimerStateAtTime.put("00:00", FAILED);
     }
 
     private void configureSoundsToPlayAtTime() {
@@ -75,7 +75,7 @@ public class BabystepsTimerTest {
 
     @Test
     public void babystepsTimerStateIsNeutralAfterTimerIsConstructed() {
-        assertEquals(babystepsTimer.getTimerState(), BabystepsTimerState.NEUTRAL);
+        assertEquals(babystepsTimer.getTimerState(), NEUTRAL);
     }
 
     @Test
@@ -88,14 +88,14 @@ public class BabystepsTimerTest {
 
         babystepsTimer.tick();
 
-        assertEquals(babystepsTimer.getTimerState(), BabystepsTimerState.NEUTRAL);
+        assertEquals(babystepsTimer.getTimerState(), NEUTRAL);
     }
 
     private void setupTimerInFailedState() {
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn("00:00");
         when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
         babystepsTimer.tick();
-        assertEquals(babystepsTimer.getTimerState(), BabystepsTimerState.FAILED);
+        assertEquals(babystepsTimer.getTimerState(), FAILED);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class BabystepsTimerTest {
 
         babystepsTimer.tick();
 
-        assertEquals(babystepsTimer.getTimerState(), BabystepsTimerState.FAILED);
+        assertEquals(babystepsTimer.getTimerState(), FAILED);
     }
 
     @Test
