@@ -74,6 +74,17 @@ public class BabystepsTimerTest {
     }
 
     @Test
+    public void tickShouldChangeTimerStateToFailedWhenRemainingTimeIsZero() {
+        String remainingTime = "00:00";
+        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
+        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+
+        babystepsTimer.tick();
+
+        assertEquals(babystepsTimer.getTimerState(), BabystepsTimerState.FAILED);
+    }
+
+    @Test
     public void tickShouldPlaySoundAndChangeBackgroundColorWhenRemainingTimeIsZero() {
         String remainingTime = "00:00";
         String soundAtTimeZero = "theetone.wav";
