@@ -1,7 +1,6 @@
 package net.davidtanzer.babysteps;
 
 import java.util.HashMap;
-import java.util.StringJoiner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +16,7 @@ public class BabystepsTimerMain {
         String timeCaptionForResettingBackgroundColorToNeutral = babystepsTimerClock.timeCaptionForResettingBackgroundColorToNeutral();
 
         HashMap<String, String> soundsToPlayAtTime = configureSoundsToPlayAtTime();
-        HashMap<String, BabystepsTimerState> babystepsTimerStateAtTime = configureBabystepsTimerStatesAtTime();
+        HashMap<String, BabystepsTimerState> babystepsTimerStateAtTime = configureBabystepsTimerStatesAtTime(timeCaptionForResettingBackgroundColorToNeutral);
         HashMap<String, String> colorsToSetAtTime = configureColorsToSetAtTime(timeCaptionForResettingBackgroundColorToNeutral);
 
         BabystepsTimer babystepsTimer = new BabystepsTimer(babystepsTimerClock, new SoundPlayerWithClip(), soundsToPlayAtTime, babystepsTimerStateAtTime);
@@ -46,9 +45,9 @@ public class BabystepsTimerMain {
         return soundsToPlayAtTime;
     }
 
-    private static HashMap<String, BabystepsTimerState> configureBabystepsTimerStatesAtTime() {
+    private static HashMap<String, BabystepsTimerState> configureBabystepsTimerStatesAtTime(String timeCaptionForResettingBackgroundColorToNeutral) {
         HashMap<String, BabystepsTimerState> babystepsTimerStateAtTime = new HashMap<>();
-        babystepsTimerStateAtTime.put("00:15", NEUTRAL);
+        babystepsTimerStateAtTime.put(timeCaptionForResettingBackgroundColorToNeutral, NEUTRAL);
         babystepsTimerStateAtTime.put("00:00", FAILED);
         return babystepsTimerStateAtTime;
     }
