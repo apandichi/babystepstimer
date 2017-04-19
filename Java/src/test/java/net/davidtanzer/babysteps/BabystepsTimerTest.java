@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import static net.davidtanzer.babysteps.BabystepsTimerState.FAILED;
 import static net.davidtanzer.babysteps.BabystepsTimerState.NEUTRAL;
+import static net.davidtanzer.babysteps.BabystepsTimerState.RESET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Matchers.any;
@@ -54,10 +55,12 @@ public class BabystepsTimerTest {
 
     @Test
     public void shouldResetTimerClockAndBroadcastUserInterfaceChange() {
+        assertEquals(babystepsTimer.getTimerState(), NEUTRAL);
         babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
 
         babystepsTimer.reset();
 
+        assertEquals(babystepsTimer.getTimerState(), RESET);
         verify(babystepsTimerClock).resetClock();
         verify(userInterfaceChangeListener).updateUserInterfaceOnChange();
     }
