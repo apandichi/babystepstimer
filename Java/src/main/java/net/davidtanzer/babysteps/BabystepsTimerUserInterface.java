@@ -25,7 +25,6 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
 
     private String bodyBackgroundColor;
-    private Map<String, String> colorsToSetAtTime;
     private HtmlCreator htmlCreator;
 
     private JFrame timerFrame;
@@ -33,10 +32,9 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
 	private BabystepsTimer babystepsTimer;
 
-    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, Map<String, String> colorsToSetAtTime, HtmlCreator htmlCreator, String bodyBackgroundColor) {
+    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, HtmlCreator htmlCreator, String bodyBackgroundColor) {
         this.bodyBackgroundColor = bodyBackgroundColor;
         this.babystepsTimer = babystepsTimer;
-        this.colorsToSetAtTime = colorsToSetAtTime;
         this.htmlCreator = htmlCreator;
     }
 
@@ -73,10 +71,6 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     }
 
     private void changeBackgroundColorAtTime(String remainingTime) {
-        String colorToSet = colorsToSetAtTime.get(remainingTime);
-        if (colorToSet != null) {
-            setBodyBackgroundColor(colorToSet);
-        }
     }
 
     private String getTimerHtml() {

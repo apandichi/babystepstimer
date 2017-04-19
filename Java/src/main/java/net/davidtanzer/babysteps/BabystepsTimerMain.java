@@ -17,25 +17,17 @@ public class BabystepsTimerMain {
 
         HashMap<String, String> soundsToPlayAtTime = configureSoundsToPlayAtTime();
         HashMap<String, BabystepsTimerState> babystepsTimerStateAtTime = configureBabystepsTimerStatesAtTime(timeCaptionForResettingBackgroundColorToNeutral);
-        HashMap<String, String> colorsToSetAtTime = configureColorsToSetAtTime(timeCaptionForResettingBackgroundColorToNeutral);
 
         BabystepsTimer babystepsTimer = new BabystepsTimer(babystepsTimerClock, new SoundPlayerWithClip(), soundsToPlayAtTime, babystepsTimerStateAtTime);
         configureTimeNotificationMechanism(babystepsTimer);
 
-        BabystepsTimerUserInterface babystepsTimerUserInterface = new BabystepsTimerUserInterface(babystepsTimer, colorsToSetAtTime, new HtmlCreatorWithMustacheTemplates(), BACKGROUND_COLOR_NEUTRAL);
+        BabystepsTimerUserInterface babystepsTimerUserInterface = new BabystepsTimerUserInterface(babystepsTimer, new HtmlCreatorWithMustacheTemplates(), BACKGROUND_COLOR_NEUTRAL);
         babystepsTimerUserInterface.init();
     }
 
     private static void configureTimeNotificationMechanism(BabystepsTimer babystepsTimer) {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(babystepsTimer::tickIfListening, 0, 10, TimeUnit.MILLISECONDS);
-    }
-
-    private static HashMap<String, String> configureColorsToSetAtTime(String timeCaptionForResettingBackgroundColorToNeutral) {
-        HashMap<String, String> colorsToSetAtTime = new HashMap<>();
-        colorsToSetAtTime.put(timeCaptionForResettingBackgroundColorToNeutral, BACKGROUND_COLOR_NEUTRAL);
-        colorsToSetAtTime.put("00:00", BACKGROUND_COLOR_FAILED);
-        return colorsToSetAtTime;
     }
 
     private static HashMap<String, String> configureSoundsToPlayAtTime() {

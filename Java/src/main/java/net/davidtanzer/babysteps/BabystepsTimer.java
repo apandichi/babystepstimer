@@ -71,6 +71,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     public void reset() {
         babystepsTimerClock.resetClock();
+        timerState = BabystepsTimerState.RESET;
         broadcastUserInterfaceChangeToListeners();
     }
 
