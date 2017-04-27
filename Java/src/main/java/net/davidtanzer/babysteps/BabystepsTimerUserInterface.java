@@ -117,7 +117,6 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
     }
 
     private void updateUserInterface() {
-        String caption = babystepsTimer.getRemainingTimeCaption();
         changeBackgroundColor();
         setText(getTimerHtml());
         repaint();
