@@ -16,13 +16,15 @@ package net.davidtanzer.babysteps;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BabystepsTimerUserInterface implements UserInterfaceChangeListener, BabystepsTimerCommands {
 
     public static final String BACKGROUND_COLOR_NEUTRAL = "#ffffff";
     public static final String BACKGROUND_COLOR_FAILED = "#ffcccc";
-    public static final String BACKGROUND_COLOR_PASSED = "#ccffcc";
+    public static final String BACKGROUND_COLOR_RESET = "#ccffcc";
+    private Map<BabystepsTimerState, String> timerStateToColorMap;
 
     private String bodyBackgroundColor;
     private HtmlCreator htmlCreator;
@@ -36,6 +38,14 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         this.bodyBackgroundColor = bodyBackgroundColor;
         this.babystepsTimer = babystepsTimer;
         this.htmlCreator = htmlCreator;
+        configureTimerStateToColorMap();
+    }
+
+    private void configureTimerStateToColorMap() {
+        timerStateToColorMap = new HashMap<>();
+        timerStateToColorMap.put(BabystepsTimerState.NEUTRAL, BACKGROUND_COLOR_NEUTRAL);
+        timerStateToColorMap.put(BabystepsTimerState.FAILED, BACKGROUND_COLOR_FAILED);
+        timerStateToColorMap.put(BabystepsTimerState.RESET, BACKGROUND_COLOR_RESET);
     }
 
     public void init() {
@@ -70,7 +80,8 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         timerFrame.setAlwaysOnTop(onTop);
     }
 
-    private void changeBackgroundColorAtTime(String remainingTime) {
+    private void changeBackgroundColorAtTime() {
+        setBodyBackgroundColor(timerStateToColorMap.get(babystepsTimer.getTimerState()));
     }
 
     private String getTimerHtml() {
@@ -96,7 +107,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
     @Override
     public void reset() {
-        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_PASSED);
+        setBodyBackgroundColor(BabystepsTimerUserInterface.BACKGROUND_COLOR_RESET);
         babystepsTimer.reset();
     }
 
@@ -107,7 +118,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
     private void updateUserInterface() {
         String caption = babystepsTimer.getRemainingTimeCaption();
-        changeBackgroundColorAtTime(caption);
+        changeBackgroundColorAtTime();
         setText(getTimerHtml());
         repaint();
     }

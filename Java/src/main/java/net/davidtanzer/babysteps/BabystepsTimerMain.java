@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import static net.davidtanzer.babysteps.BabystepsTimerState.FAILED;
 import static net.davidtanzer.babysteps.BabystepsTimerState.NEUTRAL;
-import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_COLOR_FAILED;
 import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL;
 
 public class BabystepsTimerMain {
