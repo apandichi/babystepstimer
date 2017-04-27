@@ -34,8 +34,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
 	private BabystepsTimer babystepsTimer;
 
-    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, HtmlCreator htmlCreator, String bodyBackgroundColor) {
-        this.bodyBackgroundColor = bodyBackgroundColor;
+    public BabystepsTimerUserInterface(BabystepsTimer babystepsTimer, HtmlCreator htmlCreator) {
         this.babystepsTimer = babystepsTimer;
         this.htmlCreator = htmlCreator;
         configureTimerStateToColorMap();

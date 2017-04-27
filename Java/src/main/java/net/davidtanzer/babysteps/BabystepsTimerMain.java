@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import static net.davidtanzer.babysteps.BabystepsTimerState.FAILED;
 import static net.davidtanzer.babysteps.BabystepsTimerState.NEUTRAL;
-import static net.davidtanzer.babysteps.BabystepsTimerUserInterface.BACKGROUND_COLOR_NEUTRAL;
 
 public class BabystepsTimerMain {
     public static void main(final String[] args) throws InterruptedException {
@@ -20,7 +19,7 @@ public class BabystepsTimerMain {
         BabystepsTimer babystepsTimer = new BabystepsTimer(babystepsTimerClock, new SoundPlayerWithClip(), soundsToPlayAtTime, babystepsTimerStateAtTime);
         configureTimeNotificationMechanism(babystepsTimer);
 
-        BabystepsTimerUserInterface babystepsTimerUserInterface = new BabystepsTimerUserInterface(babystepsTimer, new HtmlCreatorWithMustacheTemplates(), BACKGROUND_COLOR_NEUTRAL);
+        BabystepsTimerUserInterface babystepsTimerUserInterface = new BabystepsTimerUserInterface(babystepsTimer, new HtmlCreatorWithMustacheTemplates());
         babystepsTimerUserInterface.init();
     }
 
