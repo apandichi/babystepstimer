@@ -80,7 +80,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
         timerFrame.setAlwaysOnTop(onTop);
     }
 
-    private void changeBackgroundColorAtTime() {
+    private void changeBackgroundColor() {
         setBodyBackgroundColor(timerStateToColorMap.get(babystepsTimer.getTimerState()));
     }
 
@@ -118,7 +118,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
     private void updateUserInterface() {
         String caption = babystepsTimer.getRemainingTimeCaption();
-        changeBackgroundColorAtTime();
+        changeBackgroundColor();
         setText(getTimerHtml());
         repaint();
     }
