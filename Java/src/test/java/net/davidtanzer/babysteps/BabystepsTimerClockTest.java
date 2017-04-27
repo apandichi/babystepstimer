@@ -35,7 +35,7 @@ public class BabystepsTimerClockTest {
     public void testTimerCaptionChanged() {
         String remainingTime = "00:19";
         String lastRemainingTime = "00:20";
-        boolean timerCaptionChanged = babystepsTimerClock.timerCaptionChanged(remainingTime, lastRemainingTime);
+        boolean timerCaptionChanged = babystepsTimerClock.didTimerCaptionChange(remainingTime, lastRemainingTime);
         assertTrue(timerCaptionChanged);
     }
 
@@ -43,7 +43,7 @@ public class BabystepsTimerClockTest {
     public void testTimerCaptionNotChanged() {
         String remainingTime = "00:20";
         String lastRemainingTime = "00:20";
-        boolean timerCaptionChanged = babystepsTimerClock.timerCaptionChanged(remainingTime, lastRemainingTime);
+        boolean timerCaptionChanged = babystepsTimerClock.didTimerCaptionChange(remainingTime, lastRemainingTime);
         assertFalse(timerCaptionChanged);
     }
 

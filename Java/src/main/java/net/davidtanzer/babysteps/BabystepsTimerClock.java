@@ -3,7 +3,7 @@ package net.davidtanzer.babysteps;
 public interface BabystepsTimerClock {
     void resetClock();
 
-    boolean timerCaptionChanged(String remainingTime, String lastRemainingTime);
+    boolean didTimerCaptionChange(String remainingTime, String lastRemainingTime);
 
     String getRemainingTimeCaption();
 

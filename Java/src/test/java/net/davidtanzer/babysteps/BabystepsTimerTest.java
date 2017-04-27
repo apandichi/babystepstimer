@@ -68,7 +68,7 @@ public class BabystepsTimerTest {
     @Test
     public void tickShouldNotPlayAnySoundOrBroadcastUserInterfaceChangeWhenTimerCaptionDidNotChange() {
         babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
-        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(false);
+        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(false);
 
         babystepsTimer.tick();
 
@@ -87,7 +87,7 @@ public class BabystepsTimerTest {
 
         String remainingTime = "00:15";
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
 
         babystepsTimer.tick();
 
@@ -96,7 +96,7 @@ public class BabystepsTimerTest {
 
     private void setupTimerInFailedState() {
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn("00:00");
-        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
         babystepsTimer.tick();
         assertEquals(babystepsTimer.getTimerState(), FAILED);
     }
@@ -105,7 +105,7 @@ public class BabystepsTimerTest {
     public void tickShouldChangeTimerStateToFailedWhenRemainingTimeIsZero() {
         String remainingTime = "00:00";
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
 
         babystepsTimer.tick();
 
@@ -118,7 +118,7 @@ public class BabystepsTimerTest {
         String soundAtTimeZero = "theetone.wav";
 
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
         babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
 
         babystepsTimer.tick();
@@ -133,7 +133,7 @@ public class BabystepsTimerTest {
         String soundAtTimeZero = "pluck.wav";
 
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        when(babystepsTimerClock.timerCaptionChanged(any(), any())).thenReturn(true);
+        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
         babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
 
         babystepsTimer.tick();

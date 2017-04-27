@@ -90,7 +90,7 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
     }
 
     private void updateTimerCaptionWithElapsedTime(String remainingTimeBefore, String remainingTimeAfter) {
-        if (babystepsTimerClock.timerCaptionChanged(remainingTimeBefore, remainingTimeAfter)) {
+        if (babystepsTimerClock.didTimerCaptionChange(remainingTimeBefore, remainingTimeAfter)) {
             playSoundAtTime(remainingTimeAfter);
             changeTimerStateAtTime(remainingTimeAfter);
             broadcastUserInterfaceChangeToListeners();
