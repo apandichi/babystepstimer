@@ -33,17 +33,17 @@ public class BabystepsTimerClockTest {
 
     @Test
     public void testTimerCaptionDidChange() {
-        String remainingTime = "00:19";
-        String lastRemainingTime = "00:20";
-        boolean timerCaptionChanged = babystepsTimerClock.didTimerCaptionChange(remainingTime, lastRemainingTime);
+        String remainingTimeBefore = "00:20";
+        String remainingTimeAfter = "00:19";
+        boolean timerCaptionChanged = babystepsTimerClock.didTimerCaptionChange(remainingTimeBefore, remainingTimeAfter);
         assertTrue(timerCaptionChanged);
     }
 
     @Test
     public void testTimerCaptionDidNotChange() {
-        String remainingTime = "00:20";
-        String lastRemainingTime = "00:20";
-        boolean timerCaptionChanged = babystepsTimerClock.didTimerCaptionChange(remainingTime, lastRemainingTime);
+        String remainingTimeBefore = "00:20";
+        String remainingTimeAfter = "00:20";
+        boolean timerCaptionChanged = babystepsTimerClock.didTimerCaptionChange(remainingTimeBefore, remainingTimeAfter);
         assertFalse(timerCaptionChanged);
     }
 

@@ -24,8 +24,8 @@ public class BabystepsTimerClockTrackingElapsedTimeBasedOnCycleStartTime impleme
     }
 
     @Override
-    public boolean didTimerCaptionChange(String remainingTime, String lastRemainingTime) {
-        return !remainingTime.equals(lastRemainingTime);
+    public boolean didTimerCaptionChange(String remainingTimeBefore, String lastRemainingAfter) {
+        return !remainingTimeBefore.equals(lastRemainingAfter);
     }
 
     @Override
