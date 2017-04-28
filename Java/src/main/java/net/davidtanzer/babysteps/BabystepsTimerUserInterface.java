@@ -42,6 +42,7 @@ public class BabystepsTimerUserInterface implements UserInterfaceChangeListener,
 
     private void configureTimerStateToColorMap() {
         timerStateToColorMap = new HashMap<>();
+        timerStateToColorMap.put(BabystepsTimerState.STOP, BACKGROUND_COLOR_NEUTRAL);
         timerStateToColorMap.put(BabystepsTimerState.NEUTRAL, BACKGROUND_COLOR_NEUTRAL);
         timerStateToColorMap.put(BabystepsTimerState.FAILED, BACKGROUND_COLOR_FAILED);
         timerStateToColorMap.put(BabystepsTimerState.RESET, BACKGROUND_COLOR_RESET);

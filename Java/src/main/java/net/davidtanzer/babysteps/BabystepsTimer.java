@@ -67,6 +67,9 @@ public class BabystepsTimer implements ClockListener, UserInterfaceChangeBroadca
 
     public void stop() {
         stopTimer();
+        babystepsTimerClock.resetClock();
+        timerState = BabystepsTimerState.STOP;
+        broadcastUserInterfaceChangeToListeners();
     }
 
     public void reset() {

@@ -1,5 +1,5 @@
 package net.davidtanzer.babysteps;
 
 public enum BabystepsTimerState {
-    NEUTRAL, FAILED, RESET
+    NEUTRAL, FAILED, STOP, RESET
 }
