@@ -91,8 +91,7 @@ public class BabystepsTimerTest {
     @Test
     public void tickShouldChangeTimerStateFromFailedToNeutralWhenRemainingTimeIs15Seconds() {
         setupTimerInFailedState();
-        String remainingTime = "00:15";
-        setupRemainingTimeBeforeTick(remainingTime);
+        setupRemainingTimeBeforeTick("00:15");
 
         babystepsTimer.tick();
 
@@ -100,16 +99,13 @@ public class BabystepsTimerTest {
     }
 
     private void setupTimerInFailedState() {
-        String remainingTime = "00:00";
-        setupRemainingTimeBeforeTick(remainingTime);
-
+        setupRemainingTimeBeforeTick("00:00");
         babystepsTimer.tick();
     }
 
     @Test
     public void tickShouldChangeTimerStateToFailedWhenRemainingTimeIsZero() {
-        String remainingTime = "00:00";
-        setupRemainingTimeBeforeTick(remainingTime);
+        setupRemainingTimeBeforeTick("00:00");
 
         babystepsTimer.tick();
 
@@ -119,8 +115,7 @@ public class BabystepsTimerTest {
     @Test
     public void tickShouldPlaySoundAndChangeBackgroundColorWhenRemainingTimeIsZero() {
         String soundAtTimeZero = "theetone.wav";
-        String remainingTime = "00:00";
-        setupRemainingTimeBeforeTick(remainingTime);
+        setupRemainingTimeBeforeTick("00:00");
 
         babystepsTimer.tick();
 
@@ -131,8 +126,7 @@ public class BabystepsTimerTest {
     @Test
     public void tickShouldPlaySoundWhenRemainingTimeIsTenSeconds() {
         String soundAtTimeZero = "pluck.wav";
-        String remainingTime = "00:10";
-        setupRemainingTimeBeforeTick(remainingTime);
+        setupRemainingTimeBeforeTick("00:10");
 
         babystepsTimer.tick();
 
