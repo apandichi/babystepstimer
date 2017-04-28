@@ -37,6 +37,7 @@ public class BabystepsTimerTest {
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
         babystepsTimer = new BabystepsTimer(babystepsTimerClock, soundPlayer, soundsToPlayAtTime, babystepsTimerStateAtTime);
+        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
         configureSoundsToPlayAtTime();
         configureColorsToSetAtTime();
     }
@@ -54,7 +55,6 @@ public class BabystepsTimerTest {
     @Test
     public void shouldResetTimerClockAndBroadcastUserInterfaceChange() {
         assertEquals(babystepsTimer.getTimerState(), NEUTRAL);
-        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
 
         babystepsTimer.reset();
 
@@ -65,7 +65,6 @@ public class BabystepsTimerTest {
 
     @Test
     public void shouldStopTimerClockAndBroadcastUserInterfaceChange() {
-        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
         babystepsTimer.start();
         assertEquals(babystepsTimer.isTimerRunning(), true);
 
@@ -78,7 +77,6 @@ public class BabystepsTimerTest {
 
     @Test
     public void tickShouldNotPlayAnySoundOrBroadcastUserInterfaceChangeWhenTimerCaptionDidNotChange() {
-        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
         when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(false);
 
         babystepsTimer.tick();
@@ -130,7 +128,6 @@ public class BabystepsTimerTest {
 
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
         when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
-        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
 
         babystepsTimer.tick();
 
@@ -145,7 +142,6 @@ public class BabystepsTimerTest {
 
         when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
         when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
-        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
 
         babystepsTimer.tick();
 
