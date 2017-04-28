@@ -54,8 +54,6 @@ public class BabystepsTimerTest {
 
     @Test
     public void shouldResetTimerClockAndBroadcastUserInterfaceChange() {
-        assertEquals(babystepsTimer.getTimerState(), NEUTRAL);
-
         babystepsTimer.reset();
 
         assertEquals(babystepsTimer.getTimerState(), RESET);
