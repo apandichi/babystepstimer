@@ -8,9 +8,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
 
-import static net.davidtanzer.babysteps.BabystepsTimerState.FAILED;
-import static net.davidtanzer.babysteps.BabystepsTimerState.NEUTRAL;
-import static net.davidtanzer.babysteps.BabystepsTimerState.RESET;
+import static net.davidtanzer.babysteps.BabystepsTimerState.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Matchers.any;
@@ -62,6 +60,19 @@ public class BabystepsTimerTest {
 
         assertEquals(babystepsTimer.getTimerState(), RESET);
         verify(babystepsTimerClock).resetClock();
+        verify(userInterfaceChangeListener).updateUserInterfaceOnChange();
+    }
+
+    @Test
+    public void shouldStopTimerClockAndBroadcastUserInterfaceChange() {
+        babystepsTimer.addUserInterfaceChangeListener(userInterfaceChangeListener);
+        babystepsTimer.start();
+        assertEquals(babystepsTimer.isTimerRunning(), true);
+
+        babystepsTimer.stop();
+
+        assertEquals(babystepsTimer.getTimerState(), STOP);
+        assertEquals(babystepsTimer.isTimerRunning(), false);
         verify(userInterfaceChangeListener).updateUserInterfaceOnChange();
     }
 
