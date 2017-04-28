@@ -92,8 +92,7 @@ public class BabystepsTimerTest {
     public void tickShouldChangeTimerStateFromFailedToNeutralWhenRemainingTimeIs15Seconds() {
         setupTimerInFailedState();
         String remainingTime = "00:15";
-        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
+        setupRemainingTimeBeforeTick(remainingTime);
 
         babystepsTimer.tick();
 
@@ -102,8 +101,7 @@ public class BabystepsTimerTest {
 
     private void setupTimerInFailedState() {
         String remainingTime = "00:00";
-        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
+        setupRemainingTimeBeforeTick(remainingTime);
 
         babystepsTimer.tick();
     }
@@ -111,8 +109,7 @@ public class BabystepsTimerTest {
     @Test
     public void tickShouldChangeTimerStateToFailedWhenRemainingTimeIsZero() {
         String remainingTime = "00:00";
-        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
+        setupRemainingTimeBeforeTick(remainingTime);
 
         babystepsTimer.tick();
 
@@ -123,8 +120,7 @@ public class BabystepsTimerTest {
     public void tickShouldPlaySoundAndChangeBackgroundColorWhenRemainingTimeIsZero() {
         String soundAtTimeZero = "theetone.wav";
         String remainingTime = "00:00";
-        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
+        setupRemainingTimeBeforeTick(remainingTime);
 
         babystepsTimer.tick();
 
@@ -136,13 +132,17 @@ public class BabystepsTimerTest {
     public void tickShouldPlaySoundWhenRemainingTimeIsTenSeconds() {
         String soundAtTimeZero = "pluck.wav";
         String remainingTime = "00:10";
-        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
-        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
+        setupRemainingTimeBeforeTick(remainingTime);
 
         babystepsTimer.tick();
 
         verify(userInterfaceChangeListener).updateUserInterfaceOnChange();
         verify(soundPlayer).playSoundInNewThread(soundAtTimeZero);
+    }
+
+    private void setupRemainingTimeBeforeTick(String remainingTime) {
+        when(babystepsTimerClock.getRemainingTimeCaption()).thenReturn(remainingTime);
+        when(babystepsTimerClock.didTimerCaptionChange(any(), any())).thenReturn(true);
     }
 
     @Test
